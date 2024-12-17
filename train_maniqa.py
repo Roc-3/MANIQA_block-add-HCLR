@@ -18,7 +18,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 def setup_seed(seed):
@@ -188,10 +188,10 @@ if __name__ == '__main__':
         # load & save checkpoint
         "model_name": "livec",
         "type_name": "LIVEC",
-        "ckpt_path": "./output_de/models/",               # directory for saving checkpoint
-        "log_path": "./output_de/log/",
+        "ckpt_path": "./output_saliency/models/",               # directory for saving checkpoint
+        "log_path": "./output_saliency/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output_de/tensorboard/"
+        "tensorboard_path": "./output_saliency/tensorboard/"
     })
     
     config.log_file = config.model_name + ".log"
