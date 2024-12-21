@@ -1,0 +1,164 @@
+[20241221 08:36:05 INFO    ] {'dataset_name': 'livec', 'livec_path': '../all_dataset/LIVEC/Images/', 'livec_label': './data/livec/livec_label.txt', 'batch_size': 16, 'learning_rate': 1e-05, 'weight_decay': 1e-05, 'n_epoch': 300, 'val_freq': 1, 'T_max': 50, 'eta_min': 0, 'num_avg_val': 1, 'num_workers': 8, 'split_seed': 20, 'train_keep_ratio': 1.0, 'val_keep_ratio': 1.0, 'crop_size': 224, 'prob_aug': 0.7, 'patch_size': 8, 'img_size': 224, 'embed_dim': 768, 'dim_mlp': 768, 'num_heads': [4, 4], 'window_size': 4, 'depths': [2, 2], 'num_outputs': 1, 'num_tab': 2, 'scale': 0.8, 'model_name': 'livec', 'type_name': 'LIVEC', 'ckpt_path': './output_way2/models/LIVEC/livec', 'log_path': './output_way2/log/LIVEC', 'log_file': 'livec.log', 'tensorboard_path': './output_way2/tensorboard/LIVEC/livec'}
+[20241221 08:36:06 INFO    ] number of train scenes: 935
+[20241221 08:36:06 INFO    ] number of val scenes: 234
+[20241221 08:36:08 INFO    ] #Params : 164.818602 [M]
+[20241221 08:36:12 INFO    ] Running training epoch 1
+[20241221 08:37:13 INFO    ] train epoch:1 / loss:0.05464 / SRCC:0.4388 / PLCC:0.3765
+[20241221 08:37:13 INFO    ] Starting eval...
+[20241221 08:37:13 INFO    ] Running testing in epoch 1
+[20241221 08:37:20 INFO    ] Epoch:1 ===== loss:0.02094 ===== SRCC:0.828 ===== PLCC:0.852
+[20241221 08:37:20 INFO    ] Eval done...
+[20241221 08:37:20 INFO    ] ======================================================================================
+[20241221 08:37:20 INFO    ] ============================== best main score is 1.679952901373924 =================================
+[20241221 08:37:20 INFO    ] ======================================================================================
+[20241221 08:37:21 INFO    ] Saving weights and model of epoch1, SRCC:0.8279596412556055, PLCC:0.8519932601183184
+[20241221 08:37:21 INFO    ] Epoch 1 done. Time: 1.1min
+[20241221 08:37:21 INFO    ] Running training epoch 2
+[20241221 08:38:20 INFO    ] train epoch:2 / loss:0.01378 / SRCC:0.822 / PLCC:0.8557
+[20241221 08:38:20 INFO    ] Starting eval...
+[20241221 08:38:20 INFO    ] Running testing in epoch 2
+[20241221 08:38:27 INFO    ] Epoch:2 ===== loss:0.01977 ===== SRCC:0.8662 ===== PLCC:0.8717
+[20241221 08:38:27 INFO    ] Eval done...
+[20241221 08:38:27 INFO    ] ======================================================================================
+[20241221 08:38:27 INFO    ] ============================== best main score is 1.7379180022022518 =================================
+[20241221 08:38:27 INFO    ] ======================================================================================
+[20241221 08:38:27 INFO    ] Saving weights and model of epoch2, SRCC:0.8662182361733932, PLCC:0.8716997660288587
+[20241221 08:38:27 INFO    ] Epoch 2 done. Time: 1.1min
+[20241221 08:38:27 INFO    ] Running training epoch 3
+[20241221 08:39:27 INFO    ] train epoch:3 / loss:0.008593 / SRCC:0.8915 / PLCC:0.9132
+[20241221 08:39:27 INFO    ] Starting eval...
+[20241221 08:39:27 INFO    ] Running testing in epoch 3
+[20241221 08:39:34 INFO    ] Epoch:3 ===== loss:0.01196 ===== SRCC:0.8922 ===== PLCC:0.9055
+[20241221 08:39:34 INFO    ] Eval done...
+[20241221 08:39:34 INFO    ] ======================================================================================
+[20241221 08:39:34 INFO    ] ============================== best main score is 1.7977105879664386 =================================
+[20241221 08:39:34 INFO    ] ======================================================================================
+[20241221 08:39:34 INFO    ] Saving weights and model of epoch3, SRCC:0.8922133247918003, PLCC:0.9054972631746383
+[20241221 08:39:34 INFO    ] Epoch 3 done. Time: 1.1min
+[20241221 08:39:34 INFO    ] Running training epoch 4
+[20241221 08:40:34 INFO    ] train epoch:4 / loss:0.007529 / SRCC:0.9097 / PLCC:0.9239
+[20241221 08:40:34 INFO    ] Starting eval...
+[20241221 08:40:34 INFO    ] Running testing in epoch 4
+[20241221 08:40:40 INFO    ] Epoch:4 ===== loss:0.01733 ===== SRCC:0.8956 ===== PLCC:0.9086
+[20241221 08:40:40 INFO    ] Eval done...
+[20241221 08:40:40 INFO    ] ======================================================================================
+[20241221 08:40:40 INFO    ] ============================== best main score is 1.8041961018012493 =================================
+[20241221 08:40:40 INFO    ] ======================================================================================
+[20241221 08:40:41 INFO    ] Saving weights and model of epoch4, SRCC:0.8955989750160155, PLCC:0.908597126785234
+[20241221 08:40:41 INFO    ] Epoch 4 done. Time: 1.1min
+[20241221 08:40:41 INFO    ] Running training epoch 5
+[20241221 08:41:41 INFO    ] train epoch:5 / loss:0.005123 / SRCC:0.9368 / PLCC:0.9504
+[20241221 08:41:41 INFO    ] Starting eval...
+[20241221 08:41:41 INFO    ] Running testing in epoch 5
+[20241221 08:41:47 INFO    ] Epoch:5 ===== loss:0.01261 ===== SRCC:0.8982 ===== PLCC:0.9091
+[20241221 08:41:47 INFO    ] Eval done...
+[20241221 08:41:47 INFO    ] ======================================================================================
+[20241221 08:41:47 INFO    ] ============================== best main score is 1.8072732100720243 =================================
+[20241221 08:41:47 INFO    ] ======================================================================================
+[20241221 08:41:48 INFO    ] Saving weights and model of epoch5, SRCC:0.8981528934443734, PLCC:0.9091203166276509
+[20241221 08:41:48 INFO    ] Epoch 5 done. Time: 1.1min
+[20241221 08:41:48 INFO    ] Running training epoch 6
+[20241221 08:42:48 INFO    ] train epoch:6 / loss:0.004967 / SRCC:0.9374 / PLCC:0.9505
+[20241221 08:42:48 INFO    ] Starting eval...
+[20241221 08:42:48 INFO    ] Running testing in epoch 6
+[20241221 08:42:55 INFO    ] Epoch:6 ===== loss:0.01107 ===== SRCC:0.9047 ===== PLCC:0.9136
+[20241221 08:42:55 INFO    ] Eval done...
+[20241221 08:42:55 INFO    ] ======================================================================================
+[20241221 08:42:55 INFO    ] ============================== best main score is 1.8183158534094717 =================================
+[20241221 08:42:55 INFO    ] ======================================================================================
+[20241221 08:42:55 INFO    ] Saving weights and model of epoch6, SRCC:0.9047405509288918, PLCC:0.9135753024805799
+[20241221 08:42:55 INFO    ] Epoch 6 done. Time: 1.1min
+[20241221 08:42:55 INFO    ] Running training epoch 7
+[20241221 08:43:55 INFO    ] train epoch:7 / loss:0.004829 / SRCC:0.9425 / PLCC:0.9525
+[20241221 08:43:55 INFO    ] Starting eval...
+[20241221 08:43:55 INFO    ] Running testing in epoch 7
+[20241221 08:44:02 INFO    ] Epoch:7 ===== loss:0.03227 ===== SRCC:0.903 ===== PLCC:0.8931
+[20241221 08:44:02 INFO    ] Eval done...
+[20241221 08:44:02 INFO    ] Epoch 7 done. Time: 1.1min
+[20241221 08:44:02 INFO    ] Running training epoch 8
+[20241221 08:45:01 INFO    ] train epoch:8 / loss:0.004379 / SRCC:0.9492 / PLCC:0.9568
+[20241221 08:45:01 INFO    ] Starting eval...
+[20241221 08:45:01 INFO    ] Running testing in epoch 8
+[20241221 08:45:08 INFO    ] Epoch:8 ===== loss:0.0119 ===== SRCC:0.8941 ===== PLCC:0.9052
+[20241221 08:45:08 INFO    ] Eval done...
+[20241221 08:45:08 INFO    ] Epoch 8 done. Time: 1.1min
+[20241221 08:45:08 INFO    ] Running training epoch 9
+[20241221 08:46:07 INFO    ] train epoch:9 / loss:0.004644 / SRCC:0.9388 / PLCC:0.954
+[20241221 08:46:07 INFO    ] Starting eval...
+[20241221 08:46:07 INFO    ] Running testing in epoch 9
+[20241221 08:46:14 INFO    ] Epoch:9 ===== loss:0.01349 ===== SRCC:0.9098 ===== PLCC:0.9152
+[20241221 08:46:14 INFO    ] Eval done...
+[20241221 08:46:14 INFO    ] ======================================================================================
+[20241221 08:46:14 INFO    ] ============================== best main score is 1.825058122925618 =================================
+[20241221 08:46:14 INFO    ] ======================================================================================
+[20241221 08:46:15 INFO    ] Saving weights and model of epoch9, SRCC:0.9098206278026907, PLCC:0.9152374951229274
+[20241221 08:46:15 INFO    ] Epoch 9 done. Time: 1.1min
+[20241221 08:46:15 INFO    ] Running training epoch 10
+[20241221 08:47:14 INFO    ] train epoch:10 / loss:0.003074 / SRCC:0.961 / PLCC:0.9701
+[20241221 08:47:14 INFO    ] Starting eval...
+[20241221 08:47:14 INFO    ] Running testing in epoch 10
+[20241221 08:47:21 INFO    ] Epoch:10 ===== loss:0.0106 ===== SRCC:0.9094 ===== PLCC:0.9206
+[20241221 08:47:21 INFO    ] Eval done...
+[20241221 08:47:21 INFO    ] ======================================================================================
+[20241221 08:47:21 INFO    ] ============================== best main score is 1.8300152086793235 =================================
+[20241221 08:47:21 INFO    ] ======================================================================================
+[20241221 08:47:22 INFO    ] Saving weights and model of epoch10, SRCC:0.9093860773008756, PLCC:0.920629131378448
+[20241221 08:47:22 INFO    ] Epoch 10 done. Time: 1.1min
+[20241221 08:47:22 INFO    ] Running training epoch 11
+[20241221 08:48:22 INFO    ] train epoch:11 / loss:0.003377 / SRCC:0.954 / PLCC:0.9667
+[20241221 08:48:22 INFO    ] Starting eval...
+[20241221 08:48:22 INFO    ] Running testing in epoch 11
+[20241221 08:48:28 INFO    ] Epoch:11 ===== loss:0.01026 ===== SRCC:0.9098 ===== PLCC:0.9204
+[20241221 08:48:28 INFO    ] Eval done...
+[20241221 08:48:28 INFO    ] ======================================================================================
+[20241221 08:48:28 INFO    ] ============================== best main score is 1.8301524012723958 =================================
+[20241221 08:48:28 INFO    ] ======================================================================================
+[20241221 08:48:29 INFO    ] Saving weights and model of epoch11, SRCC:0.9097715139867608, PLCC:0.9203808872856349
+[20241221 08:48:29 INFO    ] Epoch 11 done. Time: 1.1min
+[20241221 08:48:29 INFO    ] Running training epoch 12
+[20241221 08:49:29 INFO    ] train epoch:12 / loss:0.002304 / SRCC:0.9688 / PLCC:0.9775
+[20241221 08:49:29 INFO    ] Starting eval...
+[20241221 08:49:29 INFO    ] Running testing in epoch 12
+[20241221 08:49:35 INFO    ] Epoch:12 ===== loss:0.01051 ===== SRCC:0.9142 ===== PLCC:0.9239
+[20241221 08:49:35 INFO    ] Eval done...
+[20241221 08:49:35 INFO    ] ======================================================================================
+[20241221 08:49:35 INFO    ] ============================== best main score is 1.83813390462506 =================================
+[20241221 08:49:35 INFO    ] ======================================================================================
+[20241221 08:49:36 INFO    ] Saving weights and model of epoch12, SRCC:0.9142451420029897, PLCC:0.9238887626220703
+[20241221 08:49:36 INFO    ] Epoch 12 done. Time: 1.1min
+[20241221 08:49:36 INFO    ] Running training epoch 13
+[20241221 08:50:36 INFO    ] train epoch:13 / loss:0.002789 / SRCC:0.9643 / PLCC:0.9733
+[20241221 08:50:36 INFO    ] Starting eval...
+[20241221 08:50:36 INFO    ] Running testing in epoch 13
+[20241221 08:50:42 INFO    ] Epoch:13 ===== loss:0.01042 ===== SRCC:0.9086 ===== PLCC:0.9198
+[20241221 08:50:42 INFO    ] Eval done...
+[20241221 08:50:42 INFO    ] Epoch 13 done. Time: 1.1min
+[20241221 08:50:42 INFO    ] Running training epoch 14
+[20241221 08:51:42 INFO    ] train epoch:14 / loss:0.002104 / SRCC:0.971 / PLCC:0.9794
+[20241221 08:51:42 INFO    ] Starting eval...
+[20241221 08:51:42 INFO    ] Running testing in epoch 14
+[20241221 08:51:49 INFO    ] Epoch:14 ===== loss:0.011 ===== SRCC:0.9124 ===== PLCC:0.9217
+[20241221 08:51:49 INFO    ] Eval done...
+[20241221 08:51:49 INFO    ] Epoch 14 done. Time: 1.1min
+[20241221 08:51:49 INFO    ] Running training epoch 15
+[20241221 08:52:48 INFO    ] train epoch:15 / loss:0.001842 / SRCC:0.977 / PLCC:0.9822
+[20241221 08:52:48 INFO    ] Starting eval...
+[20241221 08:52:48 INFO    ] Running testing in epoch 15
+[20241221 08:52:54 INFO    ] Epoch:15 ===== loss:0.01161 ===== SRCC:0.9119 ===== PLCC:0.9201
+[20241221 08:52:54 INFO    ] Eval done...
+[20241221 08:52:54 INFO    ] Epoch 15 done. Time: 1.1min
+[20241221 08:52:54 INFO    ] Running training epoch 16
+[20241221 08:53:54 INFO    ] train epoch:16 / loss:0.002546 / SRCC:0.9688 / PLCC:0.9751
+[20241221 08:53:54 INFO    ] Starting eval...
+[20241221 08:53:54 INFO    ] Running testing in epoch 16
+[20241221 08:54:01 INFO    ] Epoch:16 ===== loss:0.01156 ===== SRCC:0.9092 ===== PLCC:0.9173
+[20241221 08:54:01 INFO    ] Eval done...
+[20241221 08:54:01 INFO    ] Epoch 16 done. Time: 1.1min
+[20241221 08:54:01 INFO    ] Running training epoch 17
+[20241221 08:55:00 INFO    ] train epoch:17 / loss:0.00168 / SRCC:0.979 / PLCC:0.9835
+[20241221 08:55:00 INFO    ] Starting eval...
+[20241221 08:55:00 INFO    ] Running testing in epoch 17
+[20241221 08:55:07 INFO    ] Epoch:17 ===== loss:0.01009 ===== SRCC:0.9103 ===== PLCC:0.9202
+[20241221 08:55:07 INFO    ] Eval done...
+[20241221 08:55:07 INFO    ] Epoch 17 done. Time: 1.1min
+[20241221 08:55:07 INFO    ] Running training epoch 18

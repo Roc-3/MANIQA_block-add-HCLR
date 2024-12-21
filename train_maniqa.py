@@ -8,7 +8,7 @@ import random
 
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from models.maniqa import MANIQA
+from models.maniqa_way1 import MANIQA
 from config import Config
 from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
 from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec
@@ -18,7 +18,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 
 def setup_seed(seed):
@@ -54,11 +54,11 @@ def train_epoch(epoch, net, criterion, optimizer, scheduler, train_loader):
     
     for data in tqdm(train_loader):
         x_d = data['d_img_org'].cuda()
-        x_texture = data['d_img_texture'].cuda()
+        x_t = data['d_img_texture'].cuda()
         labels = data['score']
 
         labels = torch.squeeze(labels.type(torch.FloatTensor)).cuda()  
-        pred_d = net(x_d, x_texture)
+        pred_d = net(x_d, x_t)
 
         optimizer.zero_grad()
         loss = criterion(torch.squeeze(pred_d), labels)
@@ -96,11 +96,11 @@ def eval_epoch(config, epoch, net, criterion, test_loader):
             pred = 0
             for i in range(config.num_avg_val):
                 x_d = data['d_img_org'].cuda()
-                x_texture = data['d_img_texture'].cuda()
+                x_t = data['d_img_texture'].cuda()
                 labels = data['score']
                 labels = torch.squeeze(labels.type(torch.FloatTensor)).cuda()
                 x_d = five_point_crop(i, d_img=x_d, config=config)
-                pred += net(x_d, x_texture)
+                pred += net(x_d, x_t)
 
             pred /= config.num_avg_val
             # compute loss
@@ -188,10 +188,11 @@ if __name__ == '__main__':
         # load & save checkpoint
         "model_name": "livec",
         "type_name": "LIVEC",
-        "ckpt_path": "./output_saliency/models/",               # directory for saving checkpoint
-        "log_path": "./output_saliency/log/",
+        "ckpt_path": "./output_way1/models/",               # directory for saving checkpoint
+        "log_path": "./output_way1/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output_saliency/tensorboard/"
+        "tensorboard_path": "./output_way1/tensorboard/"
+
     })
     
     config.log_file = config.model_name + ".log"
@@ -263,7 +264,7 @@ if __name__ == '__main__':
         txt_file_name=label_train_path,
         list_name=train_name,
         transform=transforms.Compose([
-            RandCrop(patch_size=config.crop_size), 
+            # RandCrop(patch_size=config.crop_size),
             RandHorizontalFlip(prob_aug=config.prob_aug),
         ]),
         normalize=Normalize(0.5, 0.5),  # vit
@@ -273,9 +274,10 @@ if __name__ == '__main__':
         dis_path=dis_val_path,
         txt_file_name=label_val_path,
         list_name=val_name,
-        transform=transforms.Compose([
-            RandCrop(patch_size=config.crop_size), 
-        ]),
+        # transform=transforms.Compose([
+        #     RandCrop(patch_size=config.crop_size), 
+        # ]),
+        transform = None,
         normalize=Normalize(0.5, 0.5),  # vit
         keep_ratio=config.val_keep_ratio
     )

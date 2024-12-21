@@ -43,31 +43,45 @@ class LIVEC(torch.utils.data.Dataset):
         d_img_name = d_img_name.encode('utf-8').decode('utf-8-sig')
         d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
     
-        if(d_img.shape[0] > d_img.shape[1]):
-            print('there is a image with height > width named: ', d_img_name)
         d_img_org = cv2.resize(d_img, (224, 224), interpolation=cv2.INTER_CUBIC)
         d_img_org = cv2.cvtColor(d_img_org, cv2.COLOR_BGR2RGB)
-        # before normalization and transpose, convert to gray image
-        d_img_gray = cv2.cvtColor(d_img_org, cv2.COLOR_RGB2GRAY)# (224, 224, 3)
         d_img_org = np.array(d_img_org).astype('float32') / 255 
-        d_img_org = np.transpose(d_img_org, (2, 0, 1))
-    
-        # texture
+        d_img_org = np.transpose(d_img_org, (2, 0, 1)) # chw
+        
+        d_img_gray = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
+        d_img_gray = cv2.cvtColor(d_img_gray, cv2.COLOR_BGR2GRAY)
         _, d_img_texture = self.structure_texture_decomposition(d_img_gray, sigma=2.0)
         d_img_texture = d_img_texture.astype('float32') / 255 
-        d_img_texture = np.expand_dims(d_img_texture, axis=0) 
-        d_img_texture = np.repeat(d_img_texture, 3, axis=0)  # (3, 224, 224)
-    
+        d_img_texture = np.expand_dims(d_img_texture, axis=0)  
+        d_img_texture = np.repeat(d_img_texture, 3, axis=0) 
+
         if self.transform:  # random crop, flip
             d_img_org = self.transform(d_img_org)
             d_img_texture = self.transform(d_img_texture)
+        
+        # # 可视化部分
+        # fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+        # axes[0].imshow(cv2.cvtColor(d_img, cv2.COLOR_BGR2RGB))  # 原始读取图像
+        # axes[0].set_title("Original Image")
+        # axes[0].axis("off")
+
+        # axes[1].imshow(np.transpose(d_img_org, (1, 2, 0)))  # 转回 HWC 格式
+        # axes[1].set_title("Normalized Image")
+        # axes[1].axis("off")
+
+        # axes[2].imshow(np.transpose(d_img_texture, (1, 2, 0)), cmap='gray')
+        # axes[2].set_title("Normalized Texture Feature")
+        # axes[2].axis("off")
+
+        # plt.tight_layout()
+        # save_name = f"{d_img_name.split('.')[0]}_visualization.png"  # 以原始图像名称保存
+        # plt.savefig(save_name)
+        # plt.close()        
+
         if self.normalize: # vit normalization
             d_img_org = self.normalize(d_img_org)
-        # 将 d_img_texture 转换为 torch.Tensor
-        d_img_texture = torch.tensor(d_img_texture, dtype=torch.float32)
-        # ResNet normalization for d_img_texture
-        normalize_resnet = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-        d_img_texture = normalize_resnet(d_img_texture)
+            # d_img_texture = self.normalize(d_img_texture) # 纹理图不需要进行归一化
     
         score = self.data_dict['score_list'][idx]
         score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)

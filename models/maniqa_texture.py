@@ -1,3 +1,7 @@
+"""
+加入texture分支结合wsp特征
+以及各种基于MANIQA和各种注意力的组合
+"""
 import torch
 import torch.nn as nn
 import timm
@@ -184,11 +188,12 @@ class MANIQA(nn.Module):
         x_vit1 = rearrange(x_vit, 'b (h w) c -> b c h w', h=self.input_size, w=self.input_size)
         # 方法3_2: dckg+res+res
         ######################################################################
-        x_res1 = self.dyd_0(x)
-        x_res1 = self.resblock1(x)
+        # x_res1 = self.dyd_0(x)
+        # x_res1 = self.resblock1(x)
         # 方法3_1: res+res+dckg
         ######################################################################
-        # x_res1 = self.dyd_0(x_res1)
+        x_res1 = self.resblock1(x)
+        x_res1 = self.dyd_0(x_res1)
 
         x = torch.cat((x_vit1, x_res1), dim=1) 
         x = self.catconv1(x) # torch.Size([12, 768, 28, 28])
@@ -210,11 +215,12 @@ class MANIQA(nn.Module):
         x_vit2 = rearrange(x_vit, 'b (h w) c -> b c h w', h=self.input_size, w=self.input_size)
         # 方法3_2: dckg+res+res
         ######################################################################
-        x_res2 = self.dyd(x)
-        x_res2 = self.resblock2(x)
+        # x_res2 = self.dyd(x)
+        # x_res2 = self.resblock2(x)
         # 方法3_1: res+res+dckg
         ######################################################################
-        # x_res2 = self.dyd(x_res2)
+        x_res2 = self.resblock2(x)
+        x_res2 = self.dyd(x_res2)
 
         x = torch.cat((x_vit2, x_res2), dim=1)
         x = self.catconv2(x) # torch.Size([2, 384, 28, 28])
@@ -256,6 +262,7 @@ class MANIQA(nn.Module):
             score = torch.cat((score, _s.unsqueeze(0)), 0)
         return score
 
+# texture 使用预训练resnet轻量特征提取
 # import torch
 # import torch.nn as nn
 # import timm
