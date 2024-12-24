@@ -1,4 +1,3 @@
-# 添加resnet
 import os
 import torch
 import numpy as np
@@ -7,6 +6,10 @@ import torch.nn.functional as F
 
 import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
+
+from all_code.TranSalNet.TranSalNet_Res import TranSalNet
+
+
 class LIVEC(torch.utils.data.Dataset):
     def __init__(self, dis_path, txt_file_name, list_name, transform, normalize, keep_ratio):
         super(LIVEC, self).__init__()
@@ -43,45 +46,31 @@ class LIVEC(torch.utils.data.Dataset):
         d_img_name = d_img_name.encode('utf-8').decode('utf-8-sig')
         d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
     
+        if(d_img.shape[0] > d_img.shape[1]):
+            print('there is a image with height > width named: ', d_img_name)
         d_img_org = cv2.resize(d_img, (224, 224), interpolation=cv2.INTER_CUBIC)
         d_img_org = cv2.cvtColor(d_img_org, cv2.COLOR_BGR2RGB)
+        # before normalization and transpose, convert to gray image
+        d_img_gray = cv2.cvtColor(d_img_org, cv2.COLOR_RGB2GRAY)# (224, 224, 3)
         d_img_org = np.array(d_img_org).astype('float32') / 255 
-        d_img_org = np.transpose(d_img_org, (2, 0, 1)) # chw
-        
-        d_img_gray = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
-        d_img_gray = cv2.cvtColor(d_img_gray, cv2.COLOR_BGR2GRAY)
+        d_img_org = np.transpose(d_img_org, (2, 0, 1))
+    
+        # texture
         _, d_img_texture = self.structure_texture_decomposition(d_img_gray, sigma=2.0)
         d_img_texture = d_img_texture.astype('float32') / 255 
-        d_img_texture = np.expand_dims(d_img_texture, axis=0)  
-        d_img_texture = np.repeat(d_img_texture, 3, axis=0) 
-
+        d_img_texture = np.expand_dims(d_img_texture, axis=0) 
+        d_img_texture = np.repeat(d_img_texture, 3, axis=0)  # (3, 224, 224)
+    
         if self.transform:  # random crop, flip
             d_img_org = self.transform(d_img_org)
             d_img_texture = self.transform(d_img_texture)
-        
-        # # 可视化部分
-        # fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-        # axes[0].imshow(cv2.cvtColor(d_img, cv2.COLOR_BGR2RGB))  # 原始读取图像
-        # axes[0].set_title("Original Image")
-        # axes[0].axis("off")
-
-        # axes[1].imshow(np.transpose(d_img_org, (1, 2, 0)))  # 转回 HWC 格式
-        # axes[1].set_title("Normalized Image")
-        # axes[1].axis("off")
-
-        # axes[2].imshow(np.transpose(d_img_texture, (1, 2, 0)), cmap='gray')
-        # axes[2].set_title("Normalized Texture Feature")
-        # axes[2].axis("off")
-
-        # plt.tight_layout()
-        # save_name = f"{d_img_name.split('.')[0]}_visualization.png"  # 以原始图像名称保存
-        # plt.savefig(save_name)
-        # plt.close()        
-
         if self.normalize: # vit normalization
             d_img_org = self.normalize(d_img_org)
-            # d_img_texture = self.normalize(d_img_texture) # 纹理图不需要进行归一化
+        # 将 d_img_texture 转换为 torch.Tensor
+        d_img_texture = torch.tensor(d_img_texture, dtype=torch.float32)
+        # # ResNet normalization for d_img_texture
+        # normalize_resnet = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        # d_img_texture = normalize_resnet(d_img_texture)
     
         score = self.data_dict['score_list'][idx]
         score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)
@@ -117,79 +106,6 @@ class LIVEC(torch.utils.data.Dataset):
         
         return structure_image, texture_image
     
-    def visualize_and_save(self, d_img_org, d_img_texture, idx):
-        # 将图像从 Tensor 转换为 NumPy 数组以进行可视化
-        d_img_org = d_img_org.numpy().transpose((1, 2, 0))
-        d_img_texture = d_img_texture.numpy()[0]  # 只取第一个颜色通道
-
-        # 可视化原图和纹理图像
-        plt.figure(figsize=(10, 5))
-
-        plt.subplot(1, 2, 1)
-        plt.title('Transformed Original Image')
-        plt.imshow(d_img_org)
-
-        plt.subplot(1, 2, 2)
-        plt.title('Transformed Texture Image')
-        plt.imshow(d_img_texture, cmap='gray')
-
-        # 保存图像
-        save_path = f"./transformed_images/sample_{idx}.png"
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        plt.savefig(save_path)
-        plt.close()
-
-    # def __getitem__(self, idx):
-    #     d_img_name = self.data_dict['d_img_list'][idx]
-    #     d_img_name = d_img_name.encode('utf-8').decode('utf-8-sig')
-    #     d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
-    
-    #     if(d_img.shape[0] > d_img.shape[1]):
-    #         print('there is a image with height > width named: ', d_img_name)
-    #     d_img_org = cv2.resize(d_img, (224, 224), interpolation=cv2.INTER_CUBIC)
-    #     d_img_org = cv2.cvtColor(d_img_org, cv2.COLOR_BGR2RGB)
-    #     # before normalization and transpose, convert to gray image
-    #     d_img_gray = cv2.cvtColor(d_img_org, cv2.COLOR_RGB2GRAY)# (224, 224, 3)
-    #     # cv2.imwrite('d_img_org.png', d_img_org)
-    #     d_img_org = np.array(d_img_org).astype('float32') / 255 
-    #     d_img_org = np.transpose(d_img_org, (2, 0, 1))
-    
-    #     # texture
-    #     _, d_img_texture = self.structure_texture_decomposition(d_img_gray, sigma=2.0)
-    #     # cv2.imwrite('texture_image.png', d_img_texture)
-    #     d_img_texture = d_img_texture.astype('float32') / 255 
-    #     d_img_texture = np.expand_dims(d_img_texture, axis=0) 
-    #     d_img_texture = np.repeat(d_img_texture, 3, axis=0) # (3, 224, 224)
-
-    #     if self.transform: # random crop, flip
-    #         d_img_org = self.transform(d_img_org)
-    #         d_img_texture = self.transform(d_img_texture)
-    #     if self.normalize: # vit normalization
-    #         d_img_org = self.normalize(d_img_org)
-    #         # d_img_texture = self.normalize(d_img_texture)
-    #         normalize_resnet = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    #         d_img_texture = normalize_resnet(d_img_texture)
-
-    #     score = self.data_dict['score_list'][idx]
-    #     score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)
-
-    #     sample = {
-    #         'd_img_org': d_img_org,
-    #         'd_img_texture': torch.tensor(d_img_texture, dtype=torch.float32),
-    #         'score': score
-    #     }
-    #     # print('sample d_img_org:', sample['d_img_org'].shape) # (3, 224, 224)
-    #     # print('sample d_img_texture:', sample['d_img_texture'].shape) # (3, 224, 224)
-
-    #     return sample
-
-# import os
-# import torch
-# import numpy as np
-# import cv2
-# import torch.nn.functional as F
-
-# from PIL import Image
 
 # class LIVEC(torch.utils.data.Dataset):
 #     def __init__(self, dis_path, txt_file_name, list_name, transform, normalize, keep_ratio):
@@ -213,7 +129,7 @@ class LIVEC(torch.utils.data.Dataset):
 #         score_data = self.normalization(score_data)
 #         score_data = list(score_data.astype('float').reshape(-1, 1))
 
-#         self.data_dict = {'d_img_list': dis_files_data, 'd_img_texture': d_img_texture, 'score_list': score_data}
+#         self.data_dict = {'d_img_list': dis_files_data, 'score_list': score_data}
 
 #     def normalization(self, data):
 #         range = np.max(data) - np.min(data)
@@ -227,40 +143,44 @@ class LIVEC(torch.utils.data.Dataset):
 #         d_img_name = d_img_name.encode('utf-8').decode('utf-8-sig')
 #         d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
     
-#         if(d_img.shape[0] > d_img.shape[1]):
-#             print('there is a image with height > width named: ', d_img_name)
 #         d_img_org = cv2.resize(d_img, (224, 224), interpolation=cv2.INTER_CUBIC)
 #         d_img_org = cv2.cvtColor(d_img_org, cv2.COLOR_BGR2RGB)
-#         # before normalization and transpose, convert to gray image
-#         d_img_gray = cv2.cvtColor(d_img_org, cv2.COLOR_RGB2GRAY)
-#         d_img_gray = (d_img_gray - np.min(d_img_gray)) / (np.max(d_img_gray) - np.min(d_img_gray) + 1e-8) # (224, 224)
-#         d_img_org = np.array(d_img_org).astype('float32') / 255 # (224, 224, 3)
-#         d_img_org = np.transpose(d_img_org, (2, 0, 1))
-    
-#         # texture
+#         d_img_org = np.array(d_img_org).astype('float32') / 255 
+#         d_img_org = np.transpose(d_img_org, (2, 0, 1)) # chw
+        
+#         d_img_gray = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
+#         d_img_gray = cv2.cvtColor(d_img_gray, cv2.COLOR_BGR2GRAY)
 #         _, d_img_texture = self.structure_texture_decomposition(d_img_gray, sigma=2.0)
-#         d_img_texture = d_img_texture.astype('float32')
-#         d_img_texture = (d_img_texture - np.min(d_img_texture)) / (np.max(d_img_texture) - np.min(d_img_texture) + 1e-8)  
-#         d_img_texture = np.expand_dims(d_img_texture, axis=0) 
-#         d_img_texture = np.repeat(d_img_texture, 3, axis=0) # (3, 224, 224)
+#         d_img_texture = d_img_texture.astype('float32') / 255 
+#         d_img_texture = np.expand_dims(d_img_texture, axis=0)  
+#         d_img_texture = np.repeat(d_img_texture, 3, axis=0) 
 
-#         if self.transform: # random crop, flip
+#         d_img_sal = self.preprocess_img(os.path.join(self.dis_path, d_img_name), 288, 384, 3)  # padding and resizing input image into 384x288
+#         d_img_sal = np.array(d_img_sal) / 255.  # 将 numpy 数组归一化
+#         d_img_sal = np.transpose(d_img_sal, (2, 0, 1))  # chw
+
+#         if self.transform:  # random crop, flip
 #             d_img_org = self.transform(d_img_org)
 #             d_img_texture = self.transform(d_img_texture)
+#             d_img_sal = self.transform(d_img_sal)
+        
 #         if self.normalize: # vit normalization
 #             d_img_org = self.normalize(d_img_org)
-
+#             # d_img_texture = self.normalize(d_img_texture) # 纹理图不需要进行归一化
+#             d_img_sal = self.normalize(d_img_sal)
+    
 #         score = self.data_dict['score_list'][idx]
 #         score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)
-
+    
 #         sample = {
 #             'd_img_org': d_img_org,
-#             'd_img_texture': d_img_texture,
+#             # 'd_imgs_texture': d_img_texture,
+#             'd_img_sal': d_img_sal,
 #             'score': score
 #         }
-#         # print('sample d_img_org:', sample['d_img_org'].shape) # (3, 224, 224)
-#         # print('sample d_img_texture:', sample['d_img_texture'].shape) # (3, 224, 224)
-
+#         # print('sample d_img_org:', sample['d_img_org'].shape)  # (3, 224, 224)
+#         # print('sample d_img_texture:', sample['d_img_texture'].shape)  # (3, 224, 224)
+    
 #         return sample
     
 #     def gaussian_filter(self, image, sigma):
@@ -283,3 +203,34 @@ class LIVEC(torch.utils.data.Dataset):
 #         texture_image = image - structure_image
         
 #         return structure_image, texture_image
+    
+#     # saliency map preprocess
+#     def preprocess_img(self, img_dir, shape_r=288, shape_c=384, channels=3): #保持纵横比，指定288x384大小，居中填充
+#         if channels == 1:
+#             img = cv2.imread(img_dir, 0)
+#         elif channels == 3:
+#             img = cv2.imread(img_dir)
+
+#         img_padded = np.ones((shape_r, shape_c, channels), dtype=np.uint8)
+#         if channels == 1:
+#             img_padded = np.zeros((shape_r, shape_c), dtype=np.uint8)
+#         original_shape = img.shape
+#         rows_rate = original_shape[0] / shape_r
+#         cols_rate = original_shape[1] / shape_c
+#         if rows_rate > cols_rate:
+#             new_cols = (original_shape[1] * shape_r) // original_shape[0]
+#             img = cv2.resize(img, (new_cols, shape_r))
+#             if new_cols > shape_c:
+#                 new_cols = shape_c
+#             img_padded[:,
+#             ((img_padded.shape[1] - new_cols) // 2):((img_padded.shape[1] - new_cols) // 2 + new_cols)] = img
+#         else:
+#             new_rows = (original_shape[0] * shape_c) // original_shape[1]
+#             img = cv2.resize(img, (shape_c, new_rows))
+
+#             if new_rows > shape_r:
+#                 new_rows = shape_r
+#             img_padded[((img_padded.shape[0] - new_rows) // 2):((img_padded.shape[0] - new_rows) // 2 + new_rows),
+#             :] = img
+
+#         return img_padded

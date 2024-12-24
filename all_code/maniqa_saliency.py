@@ -1,6 +1,5 @@
 """
-加入texture作为query的自连接
-保留maniqa框架
+在输入vit前使用saliency和rgb进行输入图像重组融合
 """
 import torch
 import torch.nn as nn
@@ -11,9 +10,15 @@ from timm.models.vision_transformer import Block
 from torch import nn
 from einops import rearrange
 from models.resnet import ResBlockGroup
+from models.hclr import HCLR
+from models.hclr import Attention
 from models.newDyD import DynamicDWConv
 import torch.nn.functional as F
 
+import torch
+import numpy as np
+import cv2
+from all_code.TranSalNet.TranSalNet_Res import TranSalNet
 class TABlock(nn.Module):
     def __init__(self, dim, drop=0.1):
         super().__init__()
@@ -23,7 +28,7 @@ class TABlock(nn.Module):
         self.norm_fact = dim ** -0.5
         self.softmax = nn.Softmax(dim=-1)
         self.proj_drop = nn.Dropout(drop)
-   
+
     def forward(self, x):
         _x = x
         B, C, N = x.shape
@@ -37,46 +42,6 @@ class TABlock(nn.Module):
         x = self.proj_drop(x)
         x = x + _x
         return x
-
-class TEABlock(nn.Module): # 保留原MANIQA TABlock自连接使用texture作为query
-    def __init__(self, dim, drop=0.1):
-        super().__init__()
-        self.c_q = nn.Linear(dim, dim)
-        self.c_k = nn.Linear(dim, dim)
-        self.c_v = nn.Linear(dim, dim)
-        self.norm_fact = dim ** -0.5
-        self.softmax = nn.Softmax(dim=-1)
-        self.proj_drop = nn.Dropout(drop)
-
-    def forward(self, texture_features, image_features):
-        _x = image_features # torch.Size([20, 3072, 784])
-        B, C, N = image_features.shape
-        q = self.c_q(texture_features) # 纹理作为query torch.Size([20, 768, 784])
-        k = self.c_k(image_features)  #torch.Size([20, 3072, 784])
-        v = self.c_v(image_features)
-
-        attn = (q @ k.transpose(-2, -1)) * self.norm_fact
-        attn = self.softmax(attn)
-        x = attn @ v.transpose(1, 2).reshape(B, C, N)
-        x = self.proj_drop(x)
-        x = x + _x # 保留自连接
-        return x
-    
-class TA(nn.Module): # texture attention
-    def __init__(self, channels):
-        super(TA, self).__init__()
-        self.texture_attention = nn.Sequential(
-            nn.Conv2d(3, channels, kernel_size=(3, 3), padding=1),
-            nn.BatchNorm2d(channels),
-            nn.Conv2d(channels, channels, kernel_size=(1, 1)),
-            nn.BatchNorm2d(channels),
-            nn.Sigmoid()
-        )
-        self.pool = nn.AdaptiveAvgPool2d((28, 28))
-    def forward(self, texture_image):
-        x_ta = self.pool(texture_image) # torch.Size([28, 3, 28, 28])
-        x_ta = self.texture_attention(x_ta)
-        return x_ta
 
 class SaveOutput:
     def __init__(self):
@@ -111,7 +76,7 @@ class MANIQA(nn.Module):
         ######################################################################
         self.tablock1 = nn.ModuleList()
         for i in range(num_tab):
-            tab = TEABlock(self.input_size ** 2)
+            tab = TABlock(self.input_size ** 2)
             self.tablock1.append(tab)
 
         self.conv1 = nn.Conv2d(embed_dim * 4, embed_dim, 1, 1, 0)
@@ -157,11 +122,19 @@ class MANIQA(nn.Module):
         self.dyd_0= DynamicDWConv(embed_dim , 3, 1, embed_dim)
         self.dyd= DynamicDWConv(embed_dim // 2, 3, 1, embed_dim // 2)
 
-        # texture
+        # saliency
         ######################################################################
-        self.ta = TA(3072)
-        self.t_conv1 = nn.Conv2d(3072, 3072, 1, 1, 0)
-        self.t_conv2 = nn.Conv2d(3072, 3072, 1, 1, 0)
+        self.t = nn.Parameter(torch.tensor(0.5, requires_grad=True))
+        self.sal_model = TranSalNet()
+        self.sal_model.load_state_dict(torch.load(r'all_code/TranSalNet/pretrained_models/TranSalNet_Res.pth'))
+
+        for param in self.sal_model.parameters():
+            param.requires_grad = False
+        self.sal_model.eval()
+
+        # for param in self.sal_model.parameters():
+        #     param.requires_grad = True
+        # self.sal_model.train()
 
         # fc
         ######################################################################
@@ -187,26 +160,46 @@ class MANIQA(nn.Module):
         x9 = save_output.outputs[9][:, 1:]
         x = torch.cat((x6, x7, x8, x9), dim=2)
         return x
-    
-    def forward(self, x, x_texture):
-        # texture attention
+
+
+    def forward(self, x, x_saliency):
+        x_saliency = x_saliency.type(torch.FloatTensor).cuda()
+        x_sal = self.sal_model(x_saliency) # torch.Size([5, 1, 288, 384])
+        
+        restored_saliency = []
+        for i in range(x_sal.shape[0]):  # 遍历批次中的每个图像
+            pred = x_sal[i, 0, :, :].cpu().detach().numpy()  # 取出单个显著性图并转换为 numpy 数组
+            restored_sal = self.postprocess_img(pred, x[i])  # 恢复大小
+            restored_sal = np.expand_dims(restored_sal, axis=0)  # 添加一个通道维度
+            restored_sal = np.repeat(restored_sal, 3, axis=0)  # 复制到 3 个通道
+            restored_saliency.append(restored_sal)
+        x_saliency = torch.tensor(np.array(restored_saliency), dtype=torch.float32).to(x.device)
+        
+        # saliency way1 vit输入进行融合
         ######################################################################
-        x_ta = self.ta(x_texture)
-        x_texture1 = self.t_conv1(x_ta) # torch.Size([1, 768, 28, 28])
-        x_texture2 = self.t_conv2(x_ta) # torch.Size([1, 384, 28, 28])
+        # x = self.t * x_saliency + (1 - self.t) * x
+        # print('t:', self.t)
+
+        # salient way2 vit输出进行融合加入sigmoid
+        ######################################################################
+        _x_sal = self.vit(x_saliency)
+        x_sal = self.extract_feature(self.save_output) # torch.Size([28, 784, 3072])
+        self.save_output.outputs.clear()
 
         _x = self.vit(x)
         x = self.extract_feature(self.save_output) # torch.Size([28, 784, 3072])
         self.save_output.outputs.clear()
 
+        # salient way2 vit输出进行融合加入sigmoid
+        ######################################################################
+        alpha = torch.sigmoid(self.t)
+        x = alpha * x + (1 - alpha) * x_sal
+        print('t:', self.t)
+
         # stage 1
         x = rearrange(x, 'b (h w) c -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture1 = rearrange(x_texture1, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture2 = rearrange(x_texture2, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # for tab in self.tablock1:
-        #     x = tab(x)
-        x = self.tablock1[0](x_texture1, x)  # First TEABlock with x_texture1
-        x = self.tablock1[1](x_texture2, x)  # Second TEABlock with x_texture2
+        for tab in self.tablock1:
+            x = tab(x)
         x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
         x = self.conv1(x)
         x_vit = rearrange(x, 'b c h w -> b (h w) c', h=self.input_size, w=self.input_size)
@@ -236,7 +229,7 @@ class MANIQA(nn.Module):
 
         x = torch.cat((x_vit2, x_res2), dim=1)
         x = self.catconv2(x) # torch.Size([2, 384, 28, 28])
-    
+        
         # fc
         x = rearrange(x, 'b c h w -> b (h w) c', h=self.input_size, w=self.input_size)
         score = torch.tensor([]).cuda()
@@ -246,3 +239,23 @@ class MANIQA(nn.Module):
             _s = torch.sum(f * w) / torch.sum(w)
             score = torch.cat((score, _s.unsqueeze(0)), 0)
         return score
+ 
+    def postprocess_img(self, pred, org):
+        pred = np.array(pred)
+        shape_r = org.shape[1]  # 获取原图像的高度
+        shape_c = org.shape[2]  # 获取原图像的宽度
+        predictions_shape = pred.shape
+
+        rows_rate = shape_r / predictions_shape[0]
+        cols_rate = shape_c / predictions_shape[1]
+
+        if rows_rate > cols_rate:
+            new_cols = int(predictions_shape[1] * shape_r / predictions_shape[0])
+            pred = cv2.resize(pred, (new_cols, shape_r))
+            img = pred[:, (new_cols - shape_c) // 2 : (new_cols - shape_c) // 2 + shape_c]
+        else:
+            new_rows = int(predictions_shape[0] * shape_c / predictions_shape[1])
+            pred = cv2.resize(pred, (shape_c, new_rows))
+            img = pred[(new_rows - shape_r) // 2 : (new_rows - shape_r) // 2 + shape_r, :]
+
+        return img

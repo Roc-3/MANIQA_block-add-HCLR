@@ -8,7 +8,7 @@ import random
 
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from models.maniqa_way1 import MANIQA
+from models.maniqa_tea import MANIQA
 from config import Config
 from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
 from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec
@@ -18,7 +18,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 
 
 def setup_seed(seed):
@@ -55,6 +55,7 @@ def train_epoch(epoch, net, criterion, optimizer, scheduler, train_loader):
     for data in tqdm(train_loader):
         x_d = data['d_img_org'].cuda()
         x_t = data['d_img_texture'].cuda()
+        # x_s = data['d_img_sal'].cuda()
         labels = data['score']
 
         labels = torch.squeeze(labels.type(torch.FloatTensor)).cuda()  
@@ -97,6 +98,7 @@ def eval_epoch(config, epoch, net, criterion, test_loader):
             for i in range(config.num_avg_val):
                 x_d = data['d_img_org'].cuda()
                 x_t = data['d_img_texture'].cuda()
+                # x_s = data['d_img_sal'].cuda()
                 labels = data['score']
                 labels = torch.squeeze(labels.type(torch.FloatTensor)).cuda()
                 x_d = five_point_crop(i, d_img=x_d, config=config)
@@ -188,10 +190,10 @@ if __name__ == '__main__':
         # load & save checkpoint
         "model_name": "livec",
         "type_name": "LIVEC",
-        "ckpt_path": "./output_way1/models/",               # directory for saving checkpoint
-        "log_path": "./output_way1/log/",
+        "ckpt_path": "./output_tea/models/",               # directory for saving checkpoint
+        "log_path": "./output_tea/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output_way1/tensorboard/"
+        "tensorboard_path": "./output_tea/"
 
     })
     

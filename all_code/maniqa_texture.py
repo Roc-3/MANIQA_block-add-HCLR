@@ -40,7 +40,46 @@ class TABlock(nn.Module):
         x = x + _x
         return x
 
+class TEABlock(nn.Module):
+    def __init__(self, dim, drop=0.1):
+        super().__init__()
+        self.c_q = nn.Linear(dim, dim)
+        self.c_k = nn.Linear(dim, dim)
+        self.c_v = nn.Linear(dim, dim)
+        self.norm_fact = dim ** -0.5
+        self.softmax = nn.Softmax(dim=-1)
+        self.proj_drop = nn.Dropout(drop)
 
+    def forward(self, texture_features, image_features):
+        _x = image_features
+        B, C, N = image_features.shape
+        q = self.c_q(texture_features) # 纹理作为query
+        k = self.c_k(image_features) 
+        v = self.c_v(image_features)
+
+        attn = (q @ k.transpose(-2, -1)) * self.norm_fact
+        attn = self.softmax(attn)
+        x = attn @ v.transpose(1, 2).reshape(B, C, N)
+        x = self.proj_drop(x)
+        # x = x + _x # 删除自连接
+        return x
+
+class TA(nn.Module): # texture attention
+    def __init__(self, channels):
+        super(TA, self).__init__()
+        self.texture_attention = nn.Sequential(
+            nn.Conv2d(3, channels, kernel_size=(3, 3), padding=1),
+            nn.BatchNorm2d(channels),
+            nn.Conv2d(channels, channels, kernel_size=(1, 1)),
+            nn.BatchNorm2d(channels),
+            nn.Sigmoid()
+        )
+        self.pool = nn.AdaptiveAvgPool2d((28, 28))
+    def forward(self, texture_image):
+        x_ta = self.pool(texture_image) # torch.Size([28, 3, 28, 28])
+        x_ta = self.texture_attention(x_ta)
+        return x_ta
+    
 class SaveOutput:
     def __init__(self):
         self.outputs = []
