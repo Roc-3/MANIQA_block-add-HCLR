@@ -8,7 +8,7 @@ import random
 
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from models.maniqa_tea import MANIQA
+from models.maniqa import MANIQA
 from config import Config
 from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
 from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec
@@ -18,7 +18,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 def setup_seed(seed):
@@ -190,10 +190,10 @@ if __name__ == '__main__':
         # load & save checkpoint
         "model_name": "livec",
         "type_name": "LIVEC",
-        "ckpt_path": "./output_tea/models/",               # directory for saving checkpoint
-        "log_path": "./output_tea/log/",
+        "ckpt_path": "./output_addg/models/",               # directory for saving checkpoint
+        "log_path": "./output_addg/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output_tea/"
+        "tensorboard_path": "./output_addg/"
 
     })
     
