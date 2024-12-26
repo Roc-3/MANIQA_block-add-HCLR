@@ -111,7 +111,7 @@ class MANIQA(nn.Module):
         ######################################################################
         self.tablock1 = nn.ModuleList()
         for i in range(num_tab):
-            tab = TEABlock(self.input_size ** 2)
+            tab = TABlock(self.input_size ** 2)
             self.tablock1.append(tab)
 
         self.conv1 = nn.Conv2d(embed_dim * 4, embed_dim, 1, 1, 0)
@@ -160,8 +160,6 @@ class MANIQA(nn.Module):
         # texture
         ######################################################################
         self.ta = TA(3072)
-        self.t_conv1 = nn.Conv2d(3072, 3072, 1, 1, 0)
-        self.t_conv2 = nn.Conv2d(3072, 3072, 1, 1, 0)
         self.t_conv3 = nn.Conv2d(3072, 768, 1, 1, 0)
         self.t_conv4 = nn.Conv2d(3072, 768, 1, 1, 0)
 
@@ -194,10 +192,8 @@ class MANIQA(nn.Module):
         # texture attention
         ######################################################################
         x_ta = self.ta(x_texture)
-        x_texture1 = self.t_conv1(x_ta) # torch.Size([1, 768, 28, 28])
-        x_texture2 = self.t_conv2(x_ta) # torch.Size([1, 384, 28, 28])
         x_texture3 = self.t_conv3(x_ta) # torch.Size([1, 768, 28, 28])
-        x_texture4 = self.t_conv4(x_ta) # torch.Size([1, 384, 28, 28])
+        x_texture4 = self.t_conv4(x_ta) # torch.Size([1, 768, 28, 28])
 
         _x = self.vit(x)
         x = self.extract_feature(self.save_output) # torch.Size([28, 784, 3072])
@@ -205,12 +201,8 @@ class MANIQA(nn.Module):
 
         # stage 1
         x = rearrange(x, 'b (h w) c -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture1 = rearrange(x_texture1, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture2 = rearrange(x_texture2, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # for tab in self.tablock1:
-        #     x = tab(x)
-        x = self.tablock1[0](x_texture1, x)  # First TEABlock with x_texture1
-        x = self.tablock1[1](x_texture2, x)  # Second TEABlock with x_texture2
+        for tab in self.tablock1:
+            x = tab(x)
         x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
         x = self.conv1(x)
         x_vit = rearrange(x, 'b c h w -> b (h w) c', h=self.input_size, w=self.input_size)

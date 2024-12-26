@@ -55,11 +55,11 @@ def train_epoch(epoch, net, criterion, optimizer, scheduler, train_loader):
     for data in tqdm(train_loader):
         x_d = data['d_img_org'].cuda()
         x_t = data['d_img_texture'].cuda()
-        # x_s = data['d_img_sal'].cuda()
+        x_s = data['d_img_slic'].cuda()
         labels = data['score']
 
         labels = torch.squeeze(labels.type(torch.FloatTensor)).cuda()  
-        pred_d = net(x_d, x_t)
+        pred_d = net(x_d, x_t, x_s)
 
         optimizer.zero_grad()
         loss = criterion(torch.squeeze(pred_d), labels)
@@ -98,11 +98,11 @@ def eval_epoch(config, epoch, net, criterion, test_loader):
             for i in range(config.num_avg_val):
                 x_d = data['d_img_org'].cuda()
                 x_t = data['d_img_texture'].cuda()
-                # x_s = data['d_img_sal'].cuda()
+                x_s = data['d_img_slic'].cuda()
                 labels = data['score']
                 labels = torch.squeeze(labels.type(torch.FloatTensor)).cuda()
                 x_d = five_point_crop(i, d_img=x_d, config=config)
-                pred += net(x_d, x_t)
+                pred += net(x_d, x_t, x_s)
 
             pred /= config.num_avg_val
             # compute loss
@@ -158,7 +158,7 @@ if __name__ == '__main__':
         "livec_label": "./data/livec/livec_label.txt",
         
         # optimization
-        "batch_size": 16, 
+        "batch_size": 1, 
         "learning_rate": 1e-5,
         "weight_decay": 1e-5,
         "n_epoch": 300,
@@ -190,10 +190,10 @@ if __name__ == '__main__':
         # load & save checkpoint
         "model_name": "livec",
         "type_name": "LIVEC",
-        "ckpt_path": "./output_addg/models/",               # directory for saving checkpoint
-        "log_path": "./output_addg/log/",
+        "ckpt_path": "./output/models/",               # directory for saving checkpoint
+        "log_path": "./output/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output_addg/"
+        "tensorboard_path": "./output/"
 
     })
     
