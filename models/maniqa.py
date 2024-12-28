@@ -14,6 +14,8 @@ from models.resnet import ResBlockGroup
 from models.newDyD import DynamicDWConv
 import torch.nn.functional as F
 
+from models.simimatrix import SimilarityModule
+
 class TABlock(nn.Module):
     def __init__(self, dim, drop=0.1):
         super().__init__()
@@ -38,7 +40,7 @@ class TABlock(nn.Module):
         x = x + _x
         return x
 
-class TEABlock(nn.Module): # 保留原MANIQA TABlock自连接使用texture作为query
+class TEABlock(nn.Module): # 更改query
     def __init__(self, dim, drop=0.1):
         super().__init__()
         self.c_q = nn.Linear(dim, dim)
@@ -107,63 +109,58 @@ class MANIQA(nn.Module):
                 handle = layer.register_forward_hook(self.save_output)
                 hook_handles.append(handle)
 
-        # tab1
+        # slic
         ######################################################################
-        self.tablock1 = nn.ModuleList()
-        for i in range(num_tab):
-            tab = TEABlock(self.input_size ** 2)
-            self.tablock1.append(tab)
+        self.feature_channel = 256 
+        self.simi_matrix = SimilarityModule(self.feature_channel)
+        self.slic_conv = nn.Conv2d(1, 3072, 1, 1, 0)
+        
+        # texture
+        ######################################################################
+        self.ta = TA(3072)
+        self.t_conv = nn.Conv2d(3072, 3072, 1, 1, 0)
 
-        self.conv1 = nn.Conv2d(embed_dim * 4, embed_dim, 1, 1, 0)
-        # vit block1
+        # fusion attention block
         ######################################################################
+        self.teablock = nn.ModuleList()
+        self.teablock.append(TEABlock(self.input_size ** 2))
+        self.teablock.append(TEABlock(300 ** 2))
+      
+        self.fusionconv = nn.Conv2d(embed_dim * 4, embed_dim * 2, 1, 1, 0)
+
+        self.tablock1 = TABlock(embed_dim * 2)
+
+        # stage 1
+        ######################################################################
+        self.conv1 = nn.Conv2d(embed_dim * 4, embed_dim, 1, 1, 0)
+        # vitblock
         self.block1 = Block(
             dim=embed_dim,
             num_heads=num_heads[0],
             mlp_ratio=dim_mlp / embed_dim,
             drop=drop,
         )
-        # resblock1
-        ######################################################################
+        # res res dckg
         self.resblock1 = ResBlockGroup(embed_dim, num_blocks=2)
+        self.dyd1= DynamicDWConv(embed_dim , 3, 1, embed_dim)
+        # reduce dim
+        self.catconv1 = nn.Conv2d(embed_dim * 2, embed_dim, 1, 1, 0) # stage1
 
-        # tab2
+        # stage2
         ######################################################################
-        self.tablock2 = nn.ModuleList()
-        for i in range(num_tab):
-            tab = TEABlock(self.input_size ** 2)
-            self.tablock2.append(tab)
-
         self.conv2 = nn.Conv2d(embed_dim, embed_dim // 2, 1, 1, 0)
-        # vit block2
-        ######################################################################
+        # vitblock
         self.block2 = Block(
             dim=embed_dim // 2,
             num_heads=num_heads[1],
             mlp_ratio=dim_mlp / (embed_dim // 2),
             drop=drop,
         )     
-        # resblock2
-        ######################################################################
+        # res res dckg
         self.resblock2 = ResBlockGroup(embed_dim // 2, num_blocks=2)
-        
+        self.dyd2= DynamicDWConv(embed_dim // 2, 3, 1, embed_dim // 2)
         # reduce dim
-        ######################################################################
-        self.catconv1 = nn.Conv2d(embed_dim * 2, embed_dim, 1, 1, 0) # stage1
-        self.catconv2 = nn.Conv2d(embed_dim, embed_dim // 2, 1, 1, 0) # stage2
-
-        # output_dckg
-        self.dyd_conv = nn.Conv2d(3, embed_dim // 2, 3, 1, 1)
-        self.dyd_0= DynamicDWConv(embed_dim , 3, 1, embed_dim)
-        self.dyd= DynamicDWConv(embed_dim // 2, 3, 1, embed_dim // 2)
-
-        # texture
-        ######################################################################
-        self.ta = TA(3072)
-        self.t_conv1 = nn.Conv2d(3072, 3072, 1, 1, 0)
-        self.t_conv2 = nn.Conv2d(3072, 3072, 1, 1, 0)
-        self.t_conv3 = nn.Conv2d(3072, 768, 1, 1, 0)
-        self.t_conv4 = nn.Conv2d(3072, 768, 1, 1, 0)
+        self.catconv2 = nn.Conv2d(embed_dim, embed_dim // 2, 1, 1, 0)
 
         # fc
         ######################################################################
@@ -190,57 +187,72 @@ class MANIQA(nn.Module):
         x = torch.cat((x6, x7, x8, x9), dim=2)
         return x
     
-    def forward(self, x, x_texture):
-        # texture attention
+    def forward(self, x, x_texture, x_slic_pix):
+        # slic query
+        ######################################################################
+        print(x_slic_pix.shape)
+        x_slic = self.simi_matrix(x_slic_pix) # torch.Size([20, 1, image_n_nodes, image_n_nodes])
+        print(x_slic.shape)
+        x_slic = self.slic_conv(x_slic) # torch.Size([20, 3072, 300, 300])
+        x_slic = F.interpolate(x_slic, 
+                               size=(self.input_size, self.input_size), 
+                               mode='bilinear', align_corners=False) # torch.Size([20, 3072, 28, 28])
+        print(x_slic.shape)
+
+        # texture query
         ######################################################################
         x_ta = self.ta(x_texture)
-        x_texture1 = self.t_conv1(x_ta) # torch.Size([1, 768, 28, 28])
-        x_texture2 = self.t_conv2(x_ta) # torch.Size([1, 384, 28, 28])
-        x_texture3 = self.t_conv3(x_ta) # torch.Size([1, 768, 28, 28])
-        x_texture4 = self.t_conv4(x_ta) # torch.Size([1, 384, 28, 28])
+        x_texture = self.t_conv(x_ta) # torch.Size([1, 3072, 28, 28])
 
+        # vit features
+        ######################################################################
         _x = self.vit(x)
         x = self.extract_feature(self.save_output) # torch.Size([28, 784, 3072])
         self.save_output.outputs.clear()
 
-        # stage 1
+        ######################################################################
         x = rearrange(x, 'b (h w) c -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture1 = rearrange(x_texture1, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture2 = rearrange(x_texture2, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # for tab in self.tablock1:
-        #     x = tab(x)
-        x = self.tablock1[0](x_texture1, x)  # First TEABlock with x_texture1
-        x = self.tablock1[1](x_texture2, x)  # Second TEABlock with x_texture2
+        x_texture = rearrange(x_texture, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
+        x_slic = rearrange(x_slic, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
+        
+        # fusion attention block
+        ######################################################################
+        x_fusion1 = self.teablock[0](x_texture, x) 
+        # 相似度矩阵下采样和vit特征进行融合
+        x_fusion2 = self.teablock[1](x_slic, x)
+        print(x_fusion1.shape, x_fusion2.shape)
+        x = torch.cat((x_fusion1, x_fusion2), dim=1)
+
+        x = self.fusionconv(x)
+        x = self.tablock1(x)
+        ######################################################################
+        
+        # stage 1
+        ######################################################################
         x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
         x = self.conv1(x)
+
         x_vit = rearrange(x, 'b c h w -> b (h w) c', h=self.input_size, w=self.input_size)
         x_vit = self.block1(x_vit)
         x_vit1 = rearrange(x_vit, 'b (h w) c -> b c h w', h=self.input_size, w=self.input_size)
-        # 方法3_1: res+res+dckg
-        ######################################################################
+
         x_res1 = self.resblock1(x)
-        x_res1 = self.dyd_0(x_res1)
+        x_res1 = self.dyd1(x_res1)
 
         x = torch.cat((x_vit1, x_res1), dim=1) 
         x = self.catconv1(x) # torch.Size([12, 768, 28, 28])
   
         # stage2
+        ######################################################################
         x = rearrange(x, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture3 = rearrange(x_texture3, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        x_texture4 = rearrange(x_texture4, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # for tab in self.tablock2:
-        #     x = tab(x)
-        x = self.tablock2[0](x_texture3, x)  # First TEABlock with x_texture1
-        x = self.tablock2[1](x_texture4, x)  # Second TEABlock with x_texture2
-        x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
         x = self.conv2(x)
+
         x_vit = rearrange(x, 'b c h w -> b (h w) c', h=self.input_size, w=self.input_size)
         x_vit = self.block2(x_vit)
         x_vit2 = rearrange(x_vit, 'b (h w) c -> b c h w', h=self.input_size, w=self.input_size)
-        # 方法3_1: res+res+dckg
-        ######################################################################
+
         x_res2 = self.resblock2(x)
-        x_res2 = self.dyd(x_res2)
+        x_res2 = self.dyd2(x_res2)
 
         x = torch.cat((x_vit2, x_res2), dim=1)
         x = self.catconv2(x) # torch.Size([2, 384, 28, 28])
@@ -254,3 +266,10 @@ class MANIQA(nn.Module):
             _s = torch.sum(f * w) / torch.sum(w)
             score = torch.cat((score, _s.unsqueeze(0)), 0)
         return score
+
+        # x_slicpix = rearrange(x_slic_pix, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
+
+        # # 相似度矩阵和自注意力相似度矩阵之间进行融合
+        # x_fusion2 = self.teablock[1](x_slic, x_slic_pix)
+        # x_fusion2 = F.interpolate(x_fusion2, size=(28, 28), mode='bilinear', align_corners=False)
+        #

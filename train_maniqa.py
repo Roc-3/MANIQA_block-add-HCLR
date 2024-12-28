@@ -18,7 +18,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 
 def setup_seed(seed):
@@ -158,7 +158,7 @@ if __name__ == '__main__':
         "livec_label": "./data/livec/livec_label.txt",
         
         # optimization
-        "batch_size": 1, 
+        "batch_size": 2, 
         "learning_rate": 1e-5,
         "weight_decay": 1e-5,
         "n_epoch": 300,

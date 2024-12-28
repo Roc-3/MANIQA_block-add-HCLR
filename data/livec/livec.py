@@ -36,7 +36,7 @@ class LIVEC(torch.utils.data.Dataset):
 
         # slic setting
         self.slic_args = {
-            'image_n_nodes': 300,
+            'image_n_nodes': 200,
             'patch_n_nodes': 300,
             'region_size': 28,
             'ruler': 10.0,
@@ -96,8 +96,7 @@ class LIVEC(torch.utils.data.Dataset):
         d_img_slic = d_img_slic.transpose(1, 2, 0)  # Convert to (H, W, C) for SLIC
 
         slic_class = SLIC(img=d_img_slic, args=self.slic_args)
-        d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path')
-        print('d_img_slic:', d_img_slic.shape)  # (300, 300, 3)
+        d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path') # (image_n_nodes, image_n_nodes, 3)
 
         ############################################
 
