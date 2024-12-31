@@ -32,6 +32,21 @@ class SLIC:
         self.ruler = args['ruler']
         self.iterate = args['iterate']
 
+    def visualize_segments(self, slic, selected_superpixels, save_path='slic_vis.png'):
+        vis_img = self.img.copy()
+        mask = slic.getLabelContourMask()
+        vis_img[mask == 255] = [255, 0, 0]  # 将所有超像素边缘标记为红色
+
+        for sp_id in selected_superpixels:
+            loc = np.where(self.label == sp_id)
+            selected_indices = np.linspace(0, len(loc[0]) - 1, self.patch_n_nodes, dtype=int)
+            vis_img[loc[0][selected_indices], loc[1][selected_indices]] = [0, 255, 0]  # 将选取的像素点标记为绿色
+
+        # 保存可视化结果
+        vis_img = cv2.cvtColor(vis_img, cv2.COLOR_BGR2RGB)
+        vis_img = vis_img / 255.0
+        plt.imsave(save_path, vis_img)
+
     def slic_function(self, save_path='', visualize_path='slic_save'):
         if save_path and os.path.exists(save_path):
             slic_res = np.load(save_path, allow_pickle=True).item()
@@ -84,19 +99,8 @@ class SLIC:
         superpixel_tensor = np.stack([superpixel_data[sp_id] for sp_id in superpixel_data], axis=0)
 
         # # visualize
-        # vis_img = self.img.copy()
-        # mask = slic.getLabelContourMask()
-        # vis_img[mask == 1] = [0, 0, 255]  # 将所有超像素边缘标记为红色
-
-        # for sp_id in selected_superpixels:
-        #     loc = np.where(self.label == sp_id)
-        #     selected_indices = np.linspace(0, len(loc[0]) - 1, self.patch_n_nodes, dtype=int)
-        #     vis_img[loc[0][selected_indices], loc[1][selected_indices]] = [0, 0, 255]  # 将选取的像素点标记为红色
-
-        # # 保存可视化结果
-        # vis_img = cv2.cvtColor(vis_img, cv2.COLOR_BGR2RGB)
-        # vis_img = vis_img / 255.0  # 将图像归一化到 0 到 1 的范围
-        # plt.imsave('slic_vis.png', vis_img)
+        # if slic is not None:
+        #     self.visualize_segments(slic, selected_superpixels, save_path='slic_vis.png')
         # ############################
 
         return superpixel_tensor

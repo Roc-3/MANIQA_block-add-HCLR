@@ -59,7 +59,7 @@ class TEABlock(nn.Module):
         x = self.proj_drop(x)
         x = x + _x # 保留自连接
         return x
-
+    
 class TA(nn.Module): # texture attention
     def __init__(self, channels):
         super(TA, self).__init__()
@@ -140,12 +140,19 @@ class MANIQA(nn.Module):
         self.dyd1= DynamicDWConv(embed_dim , 3, 1, embed_dim)
         # reduce dim
         self.catconv1 = nn.Conv2d(embed_dim * 2, embed_dim, 1, 1, 0) # stage1
+        
         # tablock
+        ######################################################################
+        self.conv_t = nn.Conv2d(3072, embed_dim, 1, 1, 0) # texture
+        self.conv_s = nn.Conv2d(3072, embed_dim, 1, 1, 0) # slic
+
         # self.tablock = TABlock(self.input_size ** 2)
         self.tablock = nn.ModuleList()
         for i in range(num_tab):
-            tab = TABlock(self.input_size ** 2)
+            tab = TEABlock(self.input_size ** 2)
             self.tablock.append(tab)
+
+        self.tab_fusion = nn.Conv2d(embed_dim * 3, embed_dim, 1, 1, 0)
 
         # stage2
         ######################################################################
@@ -243,11 +250,29 @@ class MANIQA(nn.Module):
         x = self.catconv1(x) # torch.Size([12, 768, 28, 28])
         
         ######################################################################
+        x_texture = rearrange(x_texture, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
+        x_slic = rearrange(x_slic, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
+        
+        x_texture = self.conv_t(x_texture)
+        x_slic = self.conv_s(x_slic)
+
+        x_texture = rearrange(x_texture, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
+        x_slic = rearrange(x_slic, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
         x = rearrange(x, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # x = self.tablock(x)
-        for tab in self.tablock:
-            x = tab(x)        
+
+        x_t = self.tablock[0](x_texture, x)
+        x_s = self.tablock[1](x_slic, x)
+
+        x_t = rearrange(x_t, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
+        x_s = rearrange(x_s, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
         x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
+        
+        x = torch.cat((x, x_t, x_s), dim=1)
+        x = self.tab_fusion(x)
+
+        # x = self.tablock(x)
+        # for tab in self.tablock:
+        #     x = tab(x)  
         ######################################################################
   
         # stage2

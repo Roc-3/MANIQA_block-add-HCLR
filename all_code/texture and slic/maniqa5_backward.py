@@ -36,7 +36,7 @@ class TABlock(nn.Module):
         x = x + _x
         return x
 
-class TEABlock(nn.Module):
+class TEABlock(nn.Module): # 更改query
     def __init__(self, dim, drop=0.1):
         super().__init__()
         self.c_q = nn.Linear(dim, dim)
@@ -59,7 +59,7 @@ class TEABlock(nn.Module):
         x = self.proj_drop(x)
         x = x + _x # 保留自连接
         return x
-
+    
 class TA(nn.Module): # texture attention
     def __init__(self, channels):
         super(TA, self).__init__()
@@ -125,6 +125,8 @@ class MANIQA(nn.Module):
       
         self.fusionconv = nn.Conv2d(embed_dim * 4 * 2, embed_dim * 4, 1, 1, 0)
 
+        # self.tablock = TABlock(self.input_size ** 2)
+
         # stage 1
         ######################################################################
         self.conv1 = nn.Conv2d(embed_dim * 4, embed_dim, 1, 1, 0)
@@ -138,14 +140,17 @@ class MANIQA(nn.Module):
         # res res dckg
         self.resblock1 = ResBlockGroup(embed_dim, num_blocks=2)
         self.dyd1= DynamicDWConv(embed_dim , 3, 1, embed_dim)
-        # reduce dim
-        self.catconv1 = nn.Conv2d(embed_dim * 2, embed_dim, 1, 1, 0) # stage1
+        self.w1 = torch.nn.Parameter(torch.FloatTensor(1), requires_grad=True)
+        self.w2 = torch.nn.Parameter(torch.FloatTensor(1), requires_grad=True)
+        self.w1.data.fill_(0.5)
+        self.w2.data.fill_(0.5)
+        # # reduce dim
+        # self.catconv1 = nn.Conv2d(embed_dim * 2, embed_dim, 1, 1, 0) # stage1
         # tablock
-        # self.tablock = TABlock(self.input_size ** 2)
-        self.tablock = nn.ModuleList()
+        self.tabblock_stage1 = nn.ModuleList()
         for i in range(num_tab):
             tab = TABlock(self.input_size ** 2)
-            self.tablock.append(tab)
+            self.tabblock_stage1.append(tab)
 
         # stage2
         ######################################################################
@@ -160,8 +165,14 @@ class MANIQA(nn.Module):
         # res res dckg
         self.resblock2 = ResBlockGroup(embed_dim // 2, num_blocks=2)
         self.dyd2= DynamicDWConv(embed_dim // 2, 3, 1, embed_dim // 2)
-        # reduce dim
-        self.catconv2 = nn.Conv2d(embed_dim, embed_dim // 2, 1, 1, 0)
+        self.w3 = torch.nn.Parameter(torch.FloatTensor(1), requires_grad=True)
+        self.w4 = torch.nn.Parameter(torch.FloatTensor(1), requires_grad=True)
+        self.w3.data.fill_(0.5)
+        self.w4.data.fill_(0.5)   
+        # # reduce dim
+        # self.catconv2 = nn.Conv2d(embed_dim, embed_dim // 2, 1, 1, 0)
+        # # tablock
+        # self.tabblock_stage2 = TABlock(self.input_size ** 2)
 
         # fc
         ######################################################################
@@ -239,14 +250,14 @@ class MANIQA(nn.Module):
         x_res1 = self.resblock1(x)
         x_res1 = self.dyd1(x_res1)
 
-        x = torch.cat((x_vit1, x_res1), dim=1) 
-        x = self.catconv1(x) # torch.Size([12, 768, 28, 28])
+        x = self.w1 * x_vit1 + self.w2 * x_res1
+        # x = torch.cat((x_vit1, x_res1), dim=1) 
+        # x = self.catconv1(x) # torch.Size([12, 768, 28, 28])
         
-        ######################################################################
         x = rearrange(x, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # x = self.tablock(x)
-        for tab in self.tablock:
-            x = tab(x)        
+        # x = self.tabblock_stage1(x)
+        for tab in self.tabblock_stage1:
+            x = tab(x)
         x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
         ######################################################################
   
@@ -261,14 +272,16 @@ class MANIQA(nn.Module):
         x_res2 = self.resblock2(x)
         x_res2 = self.dyd2(x_res2)
 
-        x = torch.cat((x_vit2, x_res2), dim=1)
-        x = self.catconv2(x) # torch.Size([2, 384, 28, 28])
+        x = self.w3 * x_vit2 + self.w4 * x_res2
+        # x = torch.cat((x_vit2, x_res2), dim=1)
+        # x = self.catconv2(x) # torch.Size([2, 384, 28, 28])
 
-        # 删除第二个阶段的tab
         # x = rearrange(x, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # x = self.tablock_stage2(x)
+        # x = self.tabblock_stage2(x)
         # x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
-    
+        print('===w1 w2 w3 w4===', self.w1, self.w2, self.w3, self.w4)
+
+
         # fc
         x = rearrange(x, 'b c h w -> b (h w) c', h=self.input_size, w=self.input_size)
         score = torch.tensor([]).cuda()

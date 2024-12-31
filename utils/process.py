@@ -198,7 +198,7 @@ class Normalize(object):
 class RandHorizontalFlip(object):
     def __init__(self, prob_aug):
         self.prob_aug = prob_aug
-
+    
     def __call__(self, d_img):
         # d_img = sample['d_img_org']
         # score = sample['score']
@@ -207,6 +207,7 @@ class RandHorizontalFlip(object):
         prob_lr = np.random.choice([1, 0], p=p_aug.ravel())
 
         if prob_lr > 0.5:
+            # print('flip')
             d_img = np.fliplr(d_img).copy()
         
         # sample = {
@@ -215,7 +216,6 @@ class RandHorizontalFlip(object):
         # }
         # return sample
         return d_img
-
 
 class RandRotation(object):
     def __init__(self, prob_aug=0.5):

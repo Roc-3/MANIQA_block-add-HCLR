@@ -8,7 +8,6 @@ import random
 
 from torchvision import transforms
 from torch.utils.data import DataLoader
-from models.maniqa import MANIQA
 from config import Config
 from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
 from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec
@@ -17,8 +16,8 @@ from scipy.stats import spearmanr, pearsonr
 from torch.utils.tensorboard import SummaryWriter 
 from tqdm import tqdm
 
-
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+from models.maniqa import MANIQA
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 def setup_seed(seed):
@@ -158,10 +157,10 @@ if __name__ == '__main__':
         "livec_label": "./data/livec/livec_label.txt",
         
         # optimization
-        "batch_size": 2, 
+        "batch_size": 6, 
         "learning_rate": 1e-5,
         "weight_decay": 1e-5,
-        "n_epoch": 300,
+        "n_epoch": 150,
         "val_freq": 1,
         "T_max": 50,
         "eta_min": 0,
