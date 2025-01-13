@@ -10,14 +10,14 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 from config import Config
 from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
-from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec
+from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec, split_dataset_tid2013, split_dataset_spaq
 from utils.process import RandRotation, RandHorizontalFlip
 from scipy.stats import spearmanr, pearsonr
 from torch.utils.tensorboard import SummaryWriter 
 from tqdm import tqdm
 
 from models.maniqa import MANIQA
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2'
 
 
 def setup_seed(seed):
@@ -136,31 +136,33 @@ if __name__ == '__main__':
     # config file
     config = Config({
         # dataset path
-        "dataset_name": "livec",
+        "dataset_name": "livec", # kadid10k, koniq10k, livec, tid2013, spaq
 
-        # # PIPAL
-        # "train_dis_path": "/mnt/IQA_dataset/PIPAL22/Train_dis/",
-        # "val_dis_path": "/mnt/IQA_dataset/PIPAL22/Val_dis/",
-        # "pipal22_train_label": "./data/PIPAL22/pipal22_train.txt",
-        # "pipal22_val_txt_label": "./data/PIPAL22/pipal22_val.txt",
-
-        # # KADID-10K
-        # "kadid10k_path": "/mnt/IQA_dataset/kadid10k/images/",
-        # "kadid10k_label": "./data/kadid10k/kadid10k_label.txt",
-
-        # # KONIQ-10K
-        # "koniq10k_path": "/mnt/IQA_dataset/1024x768/",
-        # "koniq10k_label": "./data/koniq10k/koniq10k_label.txt",
+        # KONIQ-10K
+        "koniq10k_path": "../all_dataset/KonIQ-10K/1024x768",
+        "koniq10k_label": "./data/koniq10k/koniq10k_label.txt",
 
         # LIVEC
         "livec_path": "../all_dataset/LIVEC/Images/",
         "livec_label": "./data/livec/livec_label.txt",
+
+        # SPAQ
+        "spaq_path": "../all_dataset/SPAQ/TestImage/",
+        "spaq_label": "./data/spaq/spaq_label.txt",
+
+        # tid2013
+        "tid2013_path": "../all_dataset/tid2013/distorted_images/",
+        "tid2013_label": "data/tid2013/tid2013_label.txt",
+       
+        # KADID-10K
+        "kadid10k_path": "../all_dataset/KADID-10K/images/",
+        "kadid10k_label": "./data/kadid10k/kadid10k_label.txt",
         
         # optimization
-        "batch_size": 6, 
+        "batch_size":16, 
         "learning_rate": 1e-5,
         "weight_decay": 1e-5,
-        "n_epoch": 150,
+        "n_epoch": 300,
         "val_freq": 1,
         "T_max": 50,
         "eta_min": 0,
@@ -187,23 +189,18 @@ if __name__ == '__main__':
         "scale": 0.8,
         
         # load & save checkpoint
-        "model_name": "livec",
-        "type_name": "LIVEC",
-        "ckpt_path": "./output/models/",               # directory for saving checkpoint
-        "log_path": "./output/log/",
+        "ckpt_path": "./output_livec/models/",               # directory for saving checkpoint
+        "log_path": "./output_livec/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output/"
-
+        "tensorboard_path": "./output_livec/"
     })
     
-    config.log_file = config.model_name + ".log"
-    config.tensorboard_path = os.path.join(config.tensorboard_path, config.type_name)
-    config.tensorboard_path = os.path.join(config.tensorboard_path, config.model_name)
+    config.log_file = config.dataset_name + ".log"
+    config.tensorboard_path = os.path.join(config.tensorboard_path, config.dataset_name)
 
-    config.ckpt_path = os.path.join(config.ckpt_path, config.type_name)
-    config.ckpt_path = os.path.join(config.ckpt_path, config.model_name)
+    config.ckpt_path = os.path.join(config.ckpt_path, config.dataset_name)
 
-    config.log_path = os.path.join(config.log_path, config.type_name)
+    config.log_path = os.path.join(config.log_path, config.dataset_name)
 
     if not os.path.exists(config.ckpt_path):
         os.makedirs(config.ckpt_path)
@@ -256,6 +253,28 @@ if __name__ == '__main__':
         label_train_path = config.livec_label
         label_val_path = config.livec_label
         Dataset = LIVEC
+    elif config.dataset_name == 'spaq':
+        from data.spaq.spaq import SPAQ
+        train_name, val_name = split_dataset_spaq(
+            txt_file_name=config.spaq_label,
+            split_seed=config.split_seed
+        )
+        dis_train_path = config.spaq_path
+        dis_val_path = config.spaq_path
+        label_train_path = config.spaq_label
+        label_val_path = config.spaq_label
+        Dataset = SPAQ
+    elif config.dataset_name == 'tid2013':
+        from data.tid2013.tid2013 import TID2013
+        train_name, val_name = split_dataset_tid2013(
+            txt_file_name=config.tid2013_label,
+            split_seed=config.split_seed
+        )
+        dis_train_path = config.tid2013_path
+        dis_val_path = config.tid2013_path
+        label_train_path = config.tid2013_label
+        label_val_path = config.tid2013_label
+        Dataset = TID2013
     else:
         pass
     
