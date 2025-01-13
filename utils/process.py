@@ -149,6 +149,23 @@ def split_dataset_livec(txt_file_name, split_seed=20):
     val_name = object_data[int(l * 0.8):]
     return train_name, val_name
 
+def split_dataset_spaq(txt_file_name, split_seed=20):
+    np.random.seed(split_seed)
+    object_data = []
+    with open(txt_file_name, 'r') as listFile:
+        for line in listFile:
+            dis, score= line.split()
+            if dis not in object_data:
+                object_data.append(dis)
+    np.random.shuffle(object_data)
+    np.random.seed(20)
+
+    l = len(object_data)
+    train_name = object_data[:int(l * 0.8)]
+    val_name = object_data[int(l * 0.8):]
+    return train_name, val_name
+
+
 class RandCrop(object):
     def __init__(self, patch_size):
         self.patch_size = patch_size
@@ -207,7 +224,6 @@ class RandHorizontalFlip(object):
         prob_lr = np.random.choice([1, 0], p=p_aug.ravel())
 
         if prob_lr > 0.5:
-            # print('flip')
             d_img = np.fliplr(d_img).copy()
         
         # sample = {
@@ -241,7 +257,6 @@ class RandRotation(object):
             'aug_count': self.aug_count
         }
         return sample
-
 
 class ToTensor(object):
     def __init__(self):

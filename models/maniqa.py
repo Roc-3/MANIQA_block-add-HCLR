@@ -46,10 +46,10 @@ class TEABlock(nn.Module):
         self.softmax = nn.Softmax(dim=-1)
         self.proj_drop = nn.Dropout(drop)
 
-    def forward(self, texture_features, image_features):
+    def forward(self, query_features, image_features):
         _x = image_features # torch.Size([20, 3072, 784])
         B, C, N = image_features.shape
-        q = self.c_q(texture_features) # 纹理作为query torch.Size([20, 768, 784])
+        q = self.c_q(query_features) # 纹理作为query torch.Size([20, 768, 784])
         k = self.c_k(image_features)  #torch.Size([20, 3072, 784])
         v = self.c_v(image_features)
 
@@ -63,6 +63,7 @@ class TEABlock(nn.Module):
 class TA(nn.Module): # texture attention
     def __init__(self, channels):
         super(TA, self).__init__()
+        self.pool = nn.AdaptiveAvgPool2d((28, 28))
         self.texture_attention = nn.Sequential(
             nn.Conv2d(3, channels, kernel_size=(3, 3), padding=1),
             nn.BatchNorm2d(channels),
@@ -70,7 +71,6 @@ class TA(nn.Module): # texture attention
             nn.BatchNorm2d(channels),
             nn.Sigmoid()
         )
-        self.pool = nn.AdaptiveAvgPool2d((28, 28))
     def forward(self, texture_image):
         x_ta = self.pool(texture_image) # torch.Size([28, 3, 28, 28])
         x_ta = self.texture_attention(x_ta)
@@ -140,12 +140,10 @@ class MANIQA(nn.Module):
         self.dyd1= DynamicDWConv(embed_dim , 3, 1, embed_dim)
         # reduce dim
         self.catconv1 = nn.Conv2d(embed_dim * 2, embed_dim, 1, 1, 0) # stage1
+        
         # tablock
-        # self.tablock = TABlock(self.input_size ** 2)
-        self.tablock = nn.ModuleList()
-        for i in range(num_tab):
-            tab = TABlock(self.input_size ** 2)
-            self.tablock.append(tab)
+        ######################################################################
+        self.tablock = TABlock(self.input_size ** 2)
 
         # stage2
         ######################################################################
@@ -224,7 +222,6 @@ class MANIQA(nn.Module):
         x = self.fusionconv(x)
         x = rearrange(x, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
 
-        # x = self.tablock(x)
         ######################################################################
         
         # stage 1
@@ -244,9 +241,9 @@ class MANIQA(nn.Module):
         
         ######################################################################
         x = rearrange(x, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # x = self.tablock(x)
-        for tab in self.tablock:
-            x = tab(x)        
+        x = self.tablock(x)
+        # for tab in self.tablock:
+        #     x = tab(x)        
         x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
         ######################################################################
   
@@ -264,11 +261,6 @@ class MANIQA(nn.Module):
         x = torch.cat((x_vit2, x_res2), dim=1)
         x = self.catconv2(x) # torch.Size([2, 384, 28, 28])
 
-        # 删除第二个阶段的tab
-        # x = rearrange(x, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-        # x = self.tablock_stage2(x)
-        # x = rearrange(x, 'b c (h w) -> b c h w', h=self.input_size, w=self.input_size)
-    
         # fc
         x = rearrange(x, 'b c h w -> b (h w) c', h=self.input_size, w=self.input_size)
         score = torch.tensor([]).cuda()
@@ -278,10 +270,3 @@ class MANIQA(nn.Module):
             _s = torch.sum(f * w) / torch.sum(w)
             score = torch.cat((score, _s.unsqueeze(0)), 0)
         return score
-
-        # x_slicpix = rearrange(x_slic_pix, 'b c h w -> b c (h w)', h=self.input_size, w=self.input_size)
-
-        # # 相似度矩阵和自注意力相似度矩阵之间进行融合
-        # x_fusion2 = self.teablock[1](x_slic, x_slic_pix)
-        # x_fusion2 = F.interpolate(x_fusion2, size=(28, 28), mode='bilinear', align_corners=False)
-        #

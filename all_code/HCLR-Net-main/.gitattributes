@@ -1,2 +1,0 @@
-checkpoint1.ckpt filter=lfs diff=lfs merge=lfs -text
-checkpoint2.ckpt filter=lfs diff=lfs merge=lfs -text
