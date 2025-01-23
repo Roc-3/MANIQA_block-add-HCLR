@@ -16,8 +16,8 @@ from scipy.stats import spearmanr, pearsonr
 from torch.utils.tensorboard import SummaryWriter 
 from tqdm import tqdm
 
-from models.maniqa import MANIQA
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+from models.maniqa_saliency import MANIQA
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 
 def setup_seed(seed):
@@ -159,7 +159,7 @@ if __name__ == '__main__':
         "kadid10k_label": "./data/kadid10k/kadid10k_label.txt",
         
         # optimization
-        "batch_size":16, 
+        "batch_size":8, 
         "learning_rate": 1e-5,
         "weight_decay": 1e-5,
         "n_epoch": 300,
