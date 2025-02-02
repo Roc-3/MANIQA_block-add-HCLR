@@ -4,8 +4,6 @@ import numpy as np
 import cv2
 from utils.slic.slic_func import SLIC
 
-from utils.process import RandCrop
-
 class Kadid10k(torch.utils.data.Dataset):
     def __init__(self, dis_path, txt_file_name, list_name, transform, normalize, keep_ratio):
         super(Kadid10k, self).__init__()
@@ -78,6 +76,7 @@ class Kadid10k(torch.utils.data.Dataset):
         d_img_texture = np.expand_dims(d_img_texture, axis=0)
         d_img_texture = np.repeat(d_img_texture, 3, axis=0)# (3, 500, 500)
         d_img_texture = np.transpose(d_img_texture, (1, 2, 0))# (500, 500, 3)
+        d_img_texture = cv2.resize(d_img_texture, (224, 224), interpolation=cv2.INTER_CUBIC)# (224, 224, 3)        
         d_img_texture = torch.tensor(d_img_texture, dtype=torch.float32)
         d_img_texture = np.transpose(d_img_texture, (2, 0, 1)) # (3, 500, 500)
         # visualize_and_save(d_img_vit, d_img_texture, d_img_name)        
@@ -88,7 +87,6 @@ class Kadid10k(torch.utils.data.Dataset):
         # slic superpixel
         ############################################
         save_dir = 'slic_kadid10k'
-        os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, f'{os.path.splitext(d_img_name)[0]}_seg.npy')
 
         slic_class = SLIC(img=d_img_slic, args=self.slic_args)

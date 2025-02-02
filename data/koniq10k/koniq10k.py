@@ -30,9 +30,9 @@ class Koniq10k(torch.utils.data.Dataset):
         
         # slic setting
         self.slic_args = {
-            'image_n_nodes': 80, # changed
-            'patch_n_nodes': 1300, # changed
-            'region_size': 70, # chaged
+            'image_n_nodes': 140,
+            'patch_n_nodes': 600,
+            'region_size': 40,
             'ruler': 10.0,
             'iterate': 10
         }
@@ -73,13 +73,12 @@ class Koniq10k(torch.utils.data.Dataset):
         # visualize_and_save(d_img_vit, d_img_texture, d_img_name)        
         
         # slic img
-        # d_img_slic = np.array([]).astype('uint8') # 设置为空
-
+        d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
         d_img_slic = np.array(d_img).astype('uint8') # hwc
         # slic superpixel
         ############################################
         save_dir = 'slic_koniq10k'
-        os.makedirs(save_dir, exist_ok=True)
+        # os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, f'{os.path.splitext(d_img_name)[0]}_seg.npy')
 
         slic_class = SLIC(img=d_img_slic, args=self.slic_args)
