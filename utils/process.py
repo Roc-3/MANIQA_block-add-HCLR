@@ -225,13 +225,13 @@ class RandHorizontalFlip(object):
 
         if prob_lr > 0.5:
             d_img = np.fliplr(d_img).copy()
-        
+            return d_img, True
         # sample = {
         #     'd_img_org': d_img,
         #     'score': score
         # }
         # return sample
-        return d_img
+        return d_img, False
 
 class RandRotation(object):
     def __init__(self, prob_aug=0.5):

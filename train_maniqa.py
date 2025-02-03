@@ -16,7 +16,7 @@ from scipy.stats import spearmanr, pearsonr
 from torch.utils.tensorboard import SummaryWriter 
 from tqdm import tqdm
 
-from models.maniqa import MANIQA
+from models.maniqa_lnsn import MANIQA
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 

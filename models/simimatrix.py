@@ -6,7 +6,7 @@ import torch.nn.functional as F
 class SimilarityModule(nn.Module):
     def __init__(self, feature_channels):
         super(SimilarityModule, self).__init__()
-        self.pixel_conv = nn.Conv2d(3, feature_channels, kernel_size=1)
+        self.pixel_conv = nn.Conv2d(5, feature_channels, kernel_size=1)
 
         # Reduce Conv layer to combine avg and std features
         self.reduce_conv = nn.Conv2d(feature_channels * 2, feature_channels, kernel_size=1)
