@@ -15,6 +15,36 @@ def sort_file(file_path):
         for i in ret:
             f.write(i + '\n')
 
+def align_file_with_reference(file_path, reference_file, output_file='./output.txt'):
+    # 读取参考文件中的文件名顺序
+    reference_order = []
+    with open(reference_file, "r", encoding="utf-8-sig") as f:
+        for line in f:
+            img_name = line.strip().split(' ')[0]  # 只提取文件名
+            reference_order.append(img_name)
+
+    # 读取 file_path 中的预测结果
+    pred_dict = {}
+    with open(file_path, "r", encoding="utf-8-sig") as f:
+        for line in f:
+            parts = line.strip().split(' ')
+            if len(parts) == 2:
+                pred_dict[parts[0].strip()] = parts[1].strip()  # {文件名: 预测分数}
+
+    aligned_results = []
+    for img_name in reference_order:
+        if img_name in pred_dict:
+            aligned_results.append(f"{img_name} {pred_dict[img_name]}")
+        else:
+            print(f"Warning: {img_name} 在预测文件 {file_path} 中找不到！")
+
+    # 写入对齐后的输出文件
+    with open(output_file, "w", encoding="utf-8-sig") as f:
+        for line in aligned_results:
+            f.write(line + "\n")
+
+    print(f"对齐完成，已保存到 {output_file}")
+
 
 def five_point_crop(idx, d_img, config):
     new_h = config.crop_size

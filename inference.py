@@ -6,14 +6,15 @@ import random
 from torchvision import transforms
 from torch.utils.data import DataLoader
 from config import Config
-from utils.inference_process import ToTensor, Normalize, five_point_crop, sort_file
+from utils.inference_process import align_file_with_reference
 from data.livec.livec_test import LIVEC
 from tqdm import tqdm
 
 from models.maniqa import MANIQA
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+from scipy.stats import spearmanr, pearsonr
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 def setup_seed(seed):
     random.seed(seed)
@@ -25,6 +26,46 @@ def setup_seed(seed):
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
 
+def read_scores_from_file(file_path):
+    """ 读取评分文件，返回字典 {image_name: score} """
+    scores_dict = {}
+    with open(file_path, 'r') as f:
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) == 2:
+                image_name, score = parts
+                scores_dict[image_name] = float(score)
+    return scores_dict
+
+def normalize_scores(score_dict):
+    """ 归一化分数到 [0, 1] """
+    scores = np.array(list(score_dict.values()))
+    min_val, max_val = np.min(scores), np.max(scores)
+    norm_scores = (scores - min_val) / (max_val - min_val)
+    return {k: v for k, v in zip(score_dict.keys(), norm_scores)}
+
+def compute_correlation(gt_file, pred_file):
+    """ 计算 SRCC 和 PLCC """
+    # 读取真实分数和预测分数
+    gt_scores = read_scores_from_file(gt_file)
+    pred_scores = read_scores_from_file(pred_file)
+
+    # 归一化真实分数
+    gt_scores = normalize_scores(gt_scores)
+
+    # 对齐数据（确保两者的图片顺序一致）
+    common_keys = list(set(gt_scores.keys()) & set(pred_scores.keys()))
+    common_keys.sort()  # 排序以确保对齐
+
+    gt_values = np.array([gt_scores[k] for k in common_keys])
+    pred_values = np.array([pred_scores[k] for k in common_keys])
+
+    # 计算 SRCC 和 PLCC
+    srcc, _ = spearmanr(gt_values, pred_values)
+    plcc, _ = pearsonr(gt_values, pred_values)
+
+    print(f"SRCC: {srcc:.4f}, PLCC: {plcc:.4f}")
+    return srcc, plcc
 
 def eval_epoch(config, net, test_loader):
     with torch.no_grad():
@@ -47,7 +88,7 @@ def eval_epoch(config, net, test_loader):
                 name_list.extend(d_name)
                 pred_list.extend(pred)
             for i in range(len(name_list)):
-                f.write(name_list[i] + ',' + str(pred_list[i]) + '\n')
+                f.write(name_list[i] + ' ' + str(pred_list[i]) + '\n')
             print(len(name_list))
         f.close()
 
@@ -70,7 +111,7 @@ if __name__ == '__main__':
         "test_dis_path": "../all_dataset/LIVEC/Images/",
         
         # optimization
-        "batch_size": 12,
+        "batch_size": 1,
         "num_avg_val": 1,
         "crop_size": 224,
 
@@ -107,5 +148,9 @@ if __name__ == '__main__':
 
     losses, scores = [], []
     eval_epoch(config, net, test_loader)
-    sort_file(config.valid_path + '/output.txt')
     
+    # get srcc plcc
+    gt_file_path = "data/livec/livec_label.txt"
+    align_file_with_reference(config.valid_path + '/output.txt', gt_file_path)
+    pred_file_path = "output.txt"
+    compute_correlation(gt_file_path, pred_file_path)
