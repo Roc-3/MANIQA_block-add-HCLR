@@ -165,7 +165,6 @@ def split_dataset_spaq(txt_file_name, split_seed=20):
     val_name = object_data[int(l * 0.8):]
     return train_name, val_name
 
-
 class RandCrop(object):
     def __init__(self, patch_size):
         self.patch_size = patch_size
@@ -226,11 +225,7 @@ class RandHorizontalFlip(object):
         if prob_lr > 0.5:
             d_img = np.fliplr(d_img).copy()
             return d_img, True
-        # sample = {
-        #     'd_img_org': d_img,
-        #     'score': score
-        # }
-        # return sample
+
         return d_img, False
 
 class RandRotation(object):

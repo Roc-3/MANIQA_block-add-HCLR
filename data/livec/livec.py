@@ -2,7 +2,7 @@ import os
 import torch
 import numpy as np
 import cv2
-
+from utils.slic.slic_func import SLIC
 class LIVEC(torch.utils.data.Dataset):
     def __init__(self, dis_path, txt_file_name, list_name, transform, normalize, keep_ratio):
         super(LIVEC, self).__init__()
@@ -27,6 +27,15 @@ class LIVEC(torch.utils.data.Dataset):
 
         self.data_dict = {'d_img_list': dis_files_data, 'score_list': score_data}
 
+        # slic setting
+        self.slic_args = {
+            'image_n_nodes': 140,
+            'patch_n_nodes': 600,
+            'region_size': 40,
+            'ruler': 10.0,
+            'iterate': 10
+        }
+
     def normalization(self, data):
         range = np.max(data) - np.min(data)
         return (data - np.min(data)) / range
@@ -39,8 +48,27 @@ class LIVEC(torch.utils.data.Dataset):
         d_img_name = d_img_name.encode('utf-8').decode('utf-8-sig')
         d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
 
+        # slic img  
+        d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
+        d_img_slic = np.array(d_img_slic).astype('uint8') # hwc
+        # slic superpixel
+        ############################################
+        save_dir = 'slic_livec'
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, f'{os.path.splitext(d_img_name)[0]}_seg.npy')
+
+        slic_class = SLIC(img=d_img_slic, args=self.slic_args)
+        d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path') 
+        d_img_slic = d_img_slic.astype('float32') / 255 # (image_n_nodes, patch_n_nodes, 3)
+        ############################################
+
+        flipped = False
         if self.transform:  # random flip
             d_img, flipped = self.transform(d_img)
+
+        # # saved slic
+        # if flipped:
+        #     d_img_slic = cv2.flip(d_img_slic, 1)
 
         # vit img 
         d_img_vit = cv2.resize(d_img, (224, 224), interpolation=cv2.INTER_CUBIC)
@@ -61,11 +89,6 @@ class LIVEC(torch.utils.data.Dataset):
         d_img_texture = torch.tensor(d_img_texture, dtype=torch.float32)
         d_img_texture = np.transpose(d_img_texture, (2, 0, 1))
 
-        # superpixel img
-        d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
-        d_img_slic = np.array(d_img_slic).astype('uint8') # hwc
-        ############################################
-
         score = self.data_dict['score_list'][idx]
         score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)
     
@@ -75,7 +98,7 @@ class LIVEC(torch.utils.data.Dataset):
             'd_img_slic': d_img_slic,
             'score': score
         }
-    
+
         return sample
     
     def gaussian_filter(self, image, sigma):
@@ -150,23 +173,9 @@ class LIVEC(torch.utils.data.Dataset):
 #         d_img_name = self.data_dict['d_img_list'][idx]
 #         d_img_name = d_img_name.encode('utf-8').decode('utf-8-sig')
 #         d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
-
-#         # slic orginal img  
-#         d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
-#         d_img_slic = np.array(d_img_slic).astype('uint8') # hwc
-#         # slic superpixel
-#         ############################################
-#         save_dir = 'slic_livec'
-#         os.makedirs(save_dir, exist_ok=True)
-#         save_path = os.path.join(save_dir, f'{os.path.splitext(d_img_name)[0]}_seg.npy')
-
-#         slic_class = SLIC(img=d_img_slic, args=self.slic_args)
-#         d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path') 
-#         d_img_slic = d_img_slic.astype('float32') / 255 # (image_n_nodes, patch_n_nodes, 3)
-#         ############################################
-
-#         flipped = False  # 初始化flipped变量
+    
 #         if self.transform:  # random flip
+#             # d_img = self.transform(d_img)
 #             d_img, flipped = self.transform(d_img)
 
 #         # vit img 
@@ -187,10 +196,21 @@ class LIVEC(torch.utils.data.Dataset):
 #         d_img_texture = cv2.resize(d_img_texture, (224, 224), interpolation=cv2.INTER_CUBIC)# (224, 224, 3)
 #         d_img_texture = torch.tensor(d_img_texture, dtype=torch.float32)
 #         d_img_texture = np.transpose(d_img_texture, (2, 0, 1))
+#         # visualize_and_save(d_img_vit, d_img_texture, d_img_name)        
+        
+#         # slic img
+#         d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
+#         d_img_slic = np.array(d_img_slic).astype('uint8') # hwc
+#         # slic superpixel
+#         ############################################
+#         save_dir = 'slic_livec'
+#         os.makedirs(save_dir, exist_ok=True)
+#         save_path = os.path.join(save_dir, f'{os.path.splitext(d_img_name)[0]}_seg.npy')
 
-#         # 读取超像素分割结果之后进行随机翻转的同步
-#         if flipped:
-#             d_img_slic = cv2.flip(d_img_slic, 1)
+#         slic_class = SLIC(img=d_img_slic, args=self.slic_args)
+#         d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path') 
+#         d_img_slic = d_img_slic.astype('float32') / 255 # (image_n_nodes, patch_n_nodes, 3)
+#         ############################################
 
 #         score = self.data_dict['score_list'][idx]
 #         score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)

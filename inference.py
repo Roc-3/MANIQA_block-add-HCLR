@@ -7,11 +7,12 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 from config import Config
 from utils.inference_process import ToTensor, Normalize, five_point_crop, sort_file
-from data.pipal22_test import PIPAL22
+from data.livec.livec_test import LIVEC
 from tqdm import tqdm
 
+from models.maniqa import MANIQA
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 def setup_seed(seed):
@@ -35,8 +36,10 @@ def eval_epoch(config, net, test_loader):
                 pred = 0
                 for i in range(config.num_avg_val):
                     x_d = data['d_img_org'].cuda()
-                    x_d = five_point_crop(i, d_img=x_d, config=config)
-                    pred += net(x_d)
+                    x_t = data['d_img_texture'].cuda()
+                    x_s = data['d_img_slic'].cuda()
+                    # x_d = five_point_crop(i, d_img=x_d, config=config)
+                    pred += net(x_d, x_t, x_s)
 
                 pred /= config.num_avg_val
                 d_name = data['d_name']
@@ -63,21 +66,24 @@ if __name__ == '__main__':
     # config file
     config = Config({
         # dataset path
-        "db_name": "PIPAL",
-        "test_dis_path": "/mnt/data_16TB/ysd21/IQA/NTIRE2022_NR_Valid_Dis/",
+        "db_name": "tid2013",
+        "test_dis_path": "../all_dataset/LIVEC/Images/",
         
         # optimization
-        "batch_size": 10,
+        "batch_size": 12,
         "num_avg_val": 1,
         "crop_size": 224,
 
         # device
         "num_workers": 8,
 
+        # model
+        "embed_dim": 768,
+
         # load & save checkpoint
         "valid": "./output/valid",
         "valid_path": "./output/valid/inference_valid",
-        "model_path": "./output/models/model_maniqa/epoch1"
+        "model_path": "./all_save_dataset/output_tid2013/models/tid2013/epoch130.pt"
     })
 
     if not os.path.exists(config.valid):
@@ -87,10 +93,7 @@ if __name__ == '__main__':
         os.mkdir(config.valid_path)
     
     # data load
-    test_dataset = PIPAL22(
-        dis_path=config.test_dis_path,
-        transform=transforms.Compose([Normalize(0.5, 0.5), ToTensor()]),
-    )
+    test_dataset = LIVEC(dis_path=config.test_dis_path)
     test_loader = DataLoader(
         dataset=test_dataset,
         batch_size=config.batch_size,
@@ -98,7 +101,8 @@ if __name__ == '__main__':
         drop_last=True,
         shuffle=False
     )
-    net = torch.load(config.model_path)
+    net = MANIQA(embed_dim=config.embed_dim)
+    net.load_state_dict(torch.load(config.model_path))
     net = net.cuda()
 
     losses, scores = [], []

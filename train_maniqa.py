@@ -10,13 +10,13 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 from config import Config
 from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
-from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec, split_dataset_tid2013, split_dataset_spaq
+from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec, split_dataset_tid2013, split_dataset_spaq, split_dataset_csiq
 from utils.process import RandRotation, RandHorizontalFlip
 from scipy.stats import spearmanr, pearsonr
 from torch.utils.tensorboard import SummaryWriter 
 from tqdm import tqdm
 
-from models.maniqa_lnsn import MANIQA
+from models.maniqa import MANIQA
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
@@ -100,6 +100,7 @@ def eval_epoch(config, epoch, net, criterion, test_loader):
                 x_s = data['d_img_slic'].cuda()
                 labels = data['score']
                 labels = torch.squeeze(labels.type(torch.FloatTensor)).cuda()
+                print(x_d.shape)
                 x_d = five_point_crop(i, d_img=x_d, config=config)
                 pred += net(x_d, x_t, x_s)
 
@@ -136,7 +137,7 @@ if __name__ == '__main__':
     # config file
     config = Config({
         # dataset path
-        "dataset_name": "livec", # kadid10k, koniq10k, livec, tid2013, spaq
+        "dataset_name": "livec", # kadid10k, koniq10k, livec, tid2013, spaq, csiq
 
         # KONIQ-10K
         "koniq10k_path": "../all_dataset/KonIQ-10K/1024x768",
@@ -157,12 +158,16 @@ if __name__ == '__main__':
         # KADID-10K
         "kadid10k_path": "../all_dataset/KADID-10K/images/",
         "kadid10k_label": "./data/kadid10k/kadid10k_label.txt",
+
+        # CSIQ
+        "csiq_path": "../all_dataset/CSIQ/dist_imgs/",
+        "csiq_label": "./data/CSIQ/csiq_label.txt",
         
         # optimization
-        "batch_size":14, 
+        "batch_size":12, 
         "learning_rate": 1e-5,
         "weight_decay": 1e-5,
-        "n_epoch": 300,
+        "n_epoch": 200,
         "val_freq": 1,
         "T_max": 50,
         "eta_min": 0,
@@ -275,6 +280,17 @@ if __name__ == '__main__':
         label_train_path = config.tid2013_label
         label_val_path = config.tid2013_label
         Dataset = TID2013
+    elif config.dataset_name == 'csiq':
+        from data.CSIQ.csiq import CSIQ
+        train_name, val_name = split_dataset_csiq(
+            txt_file_name=config.csiq_label,
+            split_seed=config.split_seed
+        )
+        dis_train_path = config.csiq_path
+        dis_val_path = config.csiq_path
+        label_train_path = config.csiq_label
+        label_val_path = config.csiq_label
+        Dataset = CSIQ
     else:
         pass
     

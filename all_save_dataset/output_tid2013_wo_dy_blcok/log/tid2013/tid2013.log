@@ -1,0 +1,1456 @@
+[20250224 09:25:56 INFO    ] {'dataset_name': 'tid2013', 'koniq10k_path': '../all_dataset/KonIQ-10K/1024x768', 'koniq10k_label': './data/koniq10k/koniq10k_label.txt', 'livec_path': '../all_dataset/LIVEC/Images/', 'livec_label': './data/livec/livec_label.txt', 'spaq_path': '../all_dataset/SPAQ/TestImage/', 'spaq_label': './data/spaq/spaq_label.txt', 'tid2013_path': '../all_dataset/tid2013/distorted_images/', 'tid2013_label': 'data/tid2013/tid2013_label.txt', 'kadid10k_path': '../all_dataset/KADID-10K/images/', 'kadid10k_label': './data/kadid10k/kadid10k_label.txt', 'csiq_path': '../all_dataset/CSIQ/dist_imgs/', 'csiq_label': './data/CSIQ/csiq_label.txt', 'batch_size': 12, 'learning_rate': 1e-05, 'weight_decay': 1e-05, 'n_epoch': 200, 'val_freq': 1, 'T_max': 50, 'eta_min': 0, 'num_avg_val': 1, 'num_workers': 8, 'split_seed': 20, 'train_keep_ratio': 1.0, 'val_keep_ratio': 1.0, 'crop_size': 224, 'prob_aug': 0.7, 'patch_size': 8, 'img_size': 224, 'embed_dim': 768, 'dim_mlp': 768, 'num_heads': [4, 4], 'window_size': 4, 'depths': [2, 2], 'num_outputs': 1, 'num_tab': 2, 'scale': 0.8, 'ckpt_path': './output_tid2013_wo_dy_blcok/models/tid2013', 'log_path': './output_tid2013_wo_dy_blcok/log/tid2013', 'log_file': 'tid2013.log', 'tensorboard_path': './output_tid2013_wo_dy_blcok/tid2013'}
+[20250224 09:25:57 INFO    ] number of train scenes: 2400
+[20250224 09:25:57 INFO    ] number of val scenes: 600
+[20250224 09:26:00 INFO    ] #Params : 172.537214 [M]
+[20250224 09:26:04 INFO    ] Running training epoch 1
+[20250224 09:28:56 INFO    ] train epoch:1 / loss:0.0237 / SRCC:0.607 / PLCC:0.5974
+[20250224 09:28:56 INFO    ] Starting eval...
+[20250224 09:28:56 INFO    ] Running testing in epoch 1
+[20250224 09:29:13 INFO    ] Epoch:1 ===== loss:0.00826 ===== SRCC:0.8605 ===== PLCC:0.8806
+[20250224 09:29:13 INFO    ] Eval done...
+[20250224 09:29:13 INFO    ] ======================================================================================
+[20250224 09:29:13 INFO    ] ============================== best main score is 1.7411788333484617 =================================
+[20250224 09:29:13 INFO    ] ======================================================================================
+[20250224 09:29:14 INFO    ] Saving weights and model of epoch1, SRCC:0.8605449733656106, PLCC:0.880633859982851
+[20250224 09:29:14 INFO    ] Epoch 1 done. Time: 3.2min
+[20250224 09:29:14 INFO    ] Running training epoch 2
+[20250224 09:32:02 INFO    ] train epoch:2 / loss:0.008224 / SRCC:0.8323 / PLCC:0.8631
+[20250224 09:32:02 INFO    ] Starting eval...
+[20250224 09:32:02 INFO    ] Running testing in epoch 2
+[20250224 09:32:21 INFO    ] Epoch:2 ===== loss:0.009674 ===== SRCC:0.8595 ===== PLCC:0.8816
+[20250224 09:32:21 INFO    ] Eval done...
+[20250224 09:32:21 INFO    ] Epoch 2 done. Time: 3.1min
+[20250224 09:32:21 INFO    ] Running training epoch 3
+[20250224 09:35:10 INFO    ] train epoch:3 / loss:0.006102 / SRCC:0.8758 / PLCC:0.9004
+[20250224 09:35:10 INFO    ] Starting eval...
+[20250224 09:35:10 INFO    ] Running testing in epoch 3
+[20250224 09:35:28 INFO    ] Epoch:3 ===== loss:0.008202 ===== SRCC:0.8786 ===== PLCC:0.8941
+[20250224 09:35:28 INFO    ] Eval done...
+[20250224 09:35:28 INFO    ] ======================================================================================
+[20250224 09:35:28 INFO    ] ============================== best main score is 1.77269714345165 =================================
+[20250224 09:35:28 INFO    ] ======================================================================================
+[20250224 09:35:29 INFO    ] Saving weights and model of epoch3, SRCC:0.8785935291095859, PLCC:0.8941036143420642
+[20250224 09:35:29 INFO    ] Epoch 3 done. Time: 3.1min
+[20250224 09:35:29 INFO    ] Running training epoch 4
+[20250224 09:38:17 INFO    ] train epoch:4 / loss:0.004693 / SRCC:0.9047 / PLCC:0.9243
+[20250224 09:38:18 INFO    ] Starting eval...
+[20250224 09:38:18 INFO    ] Running testing in epoch 4
+[20250224 09:38:36 INFO    ] Epoch:4 ===== loss:0.008092 ===== SRCC:0.9103 ===== PLCC:0.9209
+[20250224 09:38:36 INFO    ] Eval done...
+[20250224 09:38:36 INFO    ] ======================================================================================
+[20250224 09:38:36 INFO    ] ============================== best main score is 1.8311619614385037 =================================
+[20250224 09:38:36 INFO    ] ======================================================================================
+[20250224 09:38:37 INFO    ] Saving weights and model of epoch4, SRCC:0.910258057707694, PLCC:0.9209039037308097
+[20250224 09:38:37 INFO    ] Epoch 4 done. Time: 3.1min
+[20250224 09:38:37 INFO    ] Running training epoch 5
+[20250224 09:41:25 INFO    ] train epoch:5 / loss:0.003759 / SRCC:0.924 / PLCC:0.9399
+[20250224 09:41:25 INFO    ] Starting eval...
+[20250224 09:41:25 INFO    ] Running testing in epoch 5
+[20250224 09:41:43 INFO    ] Epoch:5 ===== loss:0.009114 ===== SRCC:0.9038 ===== PLCC:0.919
+[20250224 09:41:43 INFO    ] Eval done...
+[20250224 09:41:43 INFO    ] Epoch 5 done. Time: 3.1min
+[20250224 09:41:43 INFO    ] Running training epoch 6
+[20250224 09:44:32 INFO    ] train epoch:6 / loss:0.003839 / SRCC:0.9215 / PLCC:0.9386
+[20250224 09:44:32 INFO    ] Starting eval...
+[20250224 09:44:32 INFO    ] Running testing in epoch 6
+[20250224 09:44:50 INFO    ] Epoch:6 ===== loss:0.007966 ===== SRCC:0.8798 ===== PLCC:0.8966
+[20250224 09:44:50 INFO    ] Eval done...
+[20250224 09:44:50 INFO    ] Epoch 6 done. Time: 3.1min
+[20250224 09:44:50 INFO    ] Running training epoch 7
+[20250224 09:47:39 INFO    ] train epoch:7 / loss:0.003488 / SRCC:0.9283 / PLCC:0.9443
+[20250224 09:47:39 INFO    ] Starting eval...
+[20250224 09:47:39 INFO    ] Running testing in epoch 7
+[20250224 09:47:57 INFO    ] Epoch:7 ===== loss:0.006802 ===== SRCC:0.8954 ===== PLCC:0.9082
+[20250224 09:47:57 INFO    ] Eval done...
+[20250224 09:47:57 INFO    ] Epoch 7 done. Time: 3.1min
+[20250224 09:47:57 INFO    ] Running training epoch 8
+[20250224 09:50:46 INFO    ] train epoch:8 / loss:0.003091 / SRCC:0.9386 / PLCC:0.9508
+[20250224 09:50:46 INFO    ] Starting eval...
+[20250224 09:50:46 INFO    ] Running testing in epoch 8
+[20250224 09:51:05 INFO    ] Epoch:8 ===== loss:0.005936 ===== SRCC:0.8942 ===== PLCC:0.9104
+[20250224 09:51:05 INFO    ] Eval done...
+[20250224 09:51:05 INFO    ] Epoch 8 done. Time: 3.1min
+[20250224 09:51:05 INFO    ] Running training epoch 9
+[20250224 09:53:54 INFO    ] train epoch:9 / loss:0.003238 / SRCC:0.9359 / PLCC:0.9484
+[20250224 09:53:54 INFO    ] Starting eval...
+[20250224 09:53:54 INFO    ] Running testing in epoch 9
+[20250224 09:54:12 INFO    ] Epoch:9 ===== loss:0.008343 ===== SRCC:0.8618 ===== PLCC:0.8826
+[20250224 09:54:12 INFO    ] Eval done...
+[20250224 09:54:12 INFO    ] Epoch 9 done. Time: 3.1min
+[20250224 09:54:12 INFO    ] Running training epoch 10
+[20250224 09:57:01 INFO    ] train epoch:10 / loss:0.003534 / SRCC:0.929 / PLCC:0.9436
+[20250224 09:57:01 INFO    ] Starting eval...
+[20250224 09:57:01 INFO    ] Running testing in epoch 10
+[20250224 09:57:19 INFO    ] Epoch:10 ===== loss:0.007721 ===== SRCC:0.91 ===== PLCC:0.9228
+[20250224 09:57:19 INFO    ] Eval done...
+[20250224 09:57:19 INFO    ] ======================================================================================
+[20250224 09:57:19 INFO    ] ============================== best main score is 1.8327821244364046 =================================
+[20250224 09:57:19 INFO    ] ======================================================================================
+[20250224 09:57:20 INFO    ] Saving weights and model of epoch10, SRCC:0.910031167419647, PLCC:0.9227509570167576
+[20250224 09:57:20 INFO    ] Epoch 10 done. Time: 3.1min
+[20250224 09:57:20 INFO    ] Running training epoch 11
+[20250224 10:00:08 INFO    ] train epoch:11 / loss:0.003441 / SRCC:0.9335 / PLCC:0.9451
+[20250224 10:00:08 INFO    ] Starting eval...
+[20250224 10:00:08 INFO    ] Running testing in epoch 11
+[20250224 10:00:26 INFO    ] Epoch:11 ===== loss:0.00628 ===== SRCC:0.8976 ===== PLCC:0.9087
+[20250224 10:00:26 INFO    ] Eval done...
+[20250224 10:00:26 INFO    ] Epoch 11 done. Time: 3.1min
+[20250224 10:00:26 INFO    ] Running training epoch 12
+[20250224 10:03:14 INFO    ] train epoch:12 / loss:0.002957 / SRCC:0.9399 / PLCC:0.953
+[20250224 10:03:14 INFO    ] Starting eval...
+[20250224 10:03:14 INFO    ] Running testing in epoch 12
+[20250224 10:03:32 INFO    ] Epoch:12 ===== loss:0.0056 ===== SRCC:0.9167 ===== PLCC:0.929
+[20250224 10:03:32 INFO    ] Eval done...
+[20250224 10:03:32 INFO    ] ======================================================================================
+[20250224 10:03:32 INFO    ] ============================== best main score is 1.845639719552278 =================================
+[20250224 10:03:32 INFO    ] ======================================================================================
+[20250224 10:03:33 INFO    ] Saving weights and model of epoch12, SRCC:0.9166586249556731, PLCC:0.928981094596605
+[20250224 10:03:33 INFO    ] Epoch 12 done. Time: 3.1min
+[20250224 10:03:33 INFO    ] Running training epoch 13
+[20250224 10:06:21 INFO    ] train epoch:13 / loss:0.002585 / SRCC:0.946 / PLCC:0.9591
+[20250224 10:06:21 INFO    ] Starting eval...
+[20250224 10:06:21 INFO    ] Running testing in epoch 13
+[20250224 10:06:39 INFO    ] Epoch:13 ===== loss:0.005763 ===== SRCC:0.9043 ===== PLCC:0.9143
+[20250224 10:06:39 INFO    ] Eval done...
+[20250224 10:06:39 INFO    ] Epoch 13 done. Time: 3.1min
+[20250224 10:06:39 INFO    ] Running training epoch 14
+[20250224 10:09:27 INFO    ] train epoch:14 / loss:0.002754 / SRCC:0.9443 / PLCC:0.9563
+[20250224 10:09:27 INFO    ] Starting eval...
+[20250224 10:09:27 INFO    ] Running testing in epoch 14
+[20250224 10:09:46 INFO    ] Epoch:14 ===== loss:0.004968 ===== SRCC:0.9244 ===== PLCC:0.9311
+[20250224 10:09:46 INFO    ] Eval done...
+[20250224 10:09:46 INFO    ] ======================================================================================
+[20250224 10:09:46 INFO    ] ============================== best main score is 1.8554872532338123 =================================
+[20250224 10:09:46 INFO    ] ======================================================================================
+[20250224 10:09:46 INFO    ] Saving weights and model of epoch14, SRCC:0.9244155339011007, PLCC:0.9310717193327116
+[20250224 10:09:46 INFO    ] Epoch 14 done. Time: 3.1min
+[20250224 10:09:46 INFO    ] Running training epoch 15
+[20250224 10:12:34 INFO    ] train epoch:15 / loss:0.002323 / SRCC:0.9517 / PLCC:0.9633
+[20250224 10:12:34 INFO    ] Starting eval...
+[20250224 10:12:34 INFO    ] Running testing in epoch 15
+[20250224 10:12:52 INFO    ] Epoch:15 ===== loss:0.005509 ===== SRCC:0.9107 ===== PLCC:0.9206
+[20250224 10:12:52 INFO    ] Eval done...
+[20250224 10:12:52 INFO    ] Epoch 15 done. Time: 3.1min
+[20250224 10:12:52 INFO    ] Running training epoch 16
+[20250224 10:15:40 INFO    ] train epoch:16 / loss:0.002094 / SRCC:0.9576 / PLCC:0.967
+[20250224 10:15:40 INFO    ] Starting eval...
+[20250224 10:15:40 INFO    ] Running testing in epoch 16
+[20250224 10:15:58 INFO    ] Epoch:16 ===== loss:0.005129 ===== SRCC:0.9201 ===== PLCC:0.929
+[20250224 10:15:58 INFO    ] Eval done...
+[20250224 10:15:58 INFO    ] Epoch 16 done. Time: 3.1min
+[20250224 10:15:58 INFO    ] Running training epoch 17
+[20250224 10:18:46 INFO    ] train epoch:17 / loss:0.002356 / SRCC:0.9534 / PLCC:0.9628
+[20250224 10:18:46 INFO    ] Starting eval...
+[20250224 10:18:46 INFO    ] Running testing in epoch 17
+[20250224 10:19:04 INFO    ] Epoch:17 ===== loss:0.009747 ===== SRCC:0.8954 ===== PLCC:0.9051
+[20250224 10:19:04 INFO    ] Eval done...
+[20250224 10:19:04 INFO    ] Epoch 17 done. Time: 3.1min
+[20250224 10:19:04 INFO    ] Running training epoch 18
+[20250224 10:21:52 INFO    ] train epoch:18 / loss:0.002193 / SRCC:0.9552 / PLCC:0.9654
+[20250224 10:21:52 INFO    ] Starting eval...
+[20250224 10:21:52 INFO    ] Running testing in epoch 18
+[20250224 10:22:11 INFO    ] Epoch:18 ===== loss:0.004751 ===== SRCC:0.9301 ===== PLCC:0.9335
+[20250224 10:22:11 INFO    ] Eval done...
+[20250224 10:22:11 INFO    ] ======================================================================================
+[20250224 10:22:11 INFO    ] ============================== best main score is 1.8635610480525893 =================================
+[20250224 10:22:11 INFO    ] ======================================================================================
+[20250224 10:22:12 INFO    ] Saving weights and model of epoch18, SRCC:0.9301031800860625, PLCC:0.9334578679665269
+[20250224 10:22:12 INFO    ] Epoch 18 done. Time: 3.1min
+[20250224 10:22:12 INFO    ] Running training epoch 19
+[20250224 10:25:00 INFO    ] train epoch:19 / loss:0.002526 / SRCC:0.9476 / PLCC:0.96
+[20250224 10:25:00 INFO    ] Starting eval...
+[20250224 10:25:00 INFO    ] Running testing in epoch 19
+[20250224 10:25:18 INFO    ] Epoch:19 ===== loss:0.005065 ===== SRCC:0.9173 ===== PLCC:0.9272
+[20250224 10:25:18 INFO    ] Eval done...
+[20250224 10:25:18 INFO    ] Epoch 19 done. Time: 3.1min
+[20250224 10:25:18 INFO    ] Running training epoch 20
+[20250224 10:28:06 INFO    ] train epoch:20 / loss:0.002484 / SRCC:0.9491 / PLCC:0.9607
+[20250224 10:28:06 INFO    ] Starting eval...
+[20250224 10:28:06 INFO    ] Running testing in epoch 20
+[20250224 10:28:24 INFO    ] Epoch:20 ===== loss:0.004486 ===== SRCC:0.9293 ===== PLCC:0.938
+[20250224 10:28:24 INFO    ] Eval done...
+[20250224 10:28:24 INFO    ] ======================================================================================
+[20250224 10:28:24 INFO    ] ============================== best main score is 1.8672511934897904 =================================
+[20250224 10:28:24 INFO    ] ======================================================================================
+[20250224 10:28:25 INFO    ] Saving weights and model of epoch20, SRCC:0.929259174881359, PLCC:0.9379920186084313
+[20250224 10:28:25 INFO    ] Epoch 20 done. Time: 3.1min
+[20250224 10:28:25 INFO    ] Running training epoch 21
+[20250224 10:31:13 INFO    ] train epoch:21 / loss:0.00216 / SRCC:0.9571 / PLCC:0.9659
+[20250224 10:31:13 INFO    ] Starting eval...
+[20250224 10:31:13 INFO    ] Running testing in epoch 21
+[20250224 10:31:31 INFO    ] Epoch:21 ===== loss:0.005799 ===== SRCC:0.9174 ===== PLCC:0.926
+[20250224 10:31:31 INFO    ] Eval done...
+[20250224 10:31:31 INFO    ] Epoch 21 done. Time: 3.1min
+[20250224 10:31:31 INFO    ] Running training epoch 22
+[20250224 10:34:19 INFO    ] train epoch:22 / loss:0.002002 / SRCC:0.9595 / PLCC:0.9684
+[20250224 10:34:19 INFO    ] Starting eval...
+[20250224 10:34:19 INFO    ] Running testing in epoch 22
+[20250224 10:34:37 INFO    ] Epoch:22 ===== loss:0.004894 ===== SRCC:0.9216 ===== PLCC:0.93
+[20250224 10:34:37 INFO    ] Eval done...
+[20250224 10:34:37 INFO    ] Epoch 22 done. Time: 3.1min
+[20250224 10:34:37 INFO    ] Running training epoch 23
+[20250224 10:37:25 INFO    ] train epoch:23 / loss:0.001987 / SRCC:0.9589 / PLCC:0.9687
+[20250224 10:37:25 INFO    ] Starting eval...
+[20250224 10:37:25 INFO    ] Running testing in epoch 23
+[20250224 10:37:43 INFO    ] Epoch:23 ===== loss:0.006607 ===== SRCC:0.9261 ===== PLCC:0.931
+[20250224 10:37:43 INFO    ] Eval done...
+[20250224 10:37:43 INFO    ] Epoch 23 done. Time: 3.1min
+[20250224 10:37:43 INFO    ] Running training epoch 24
+[20250224 10:40:31 INFO    ] train epoch:24 / loss:0.001772 / SRCC:0.9632 / PLCC:0.9721
+[20250224 10:40:31 INFO    ] Starting eval...
+[20250224 10:40:31 INFO    ] Running testing in epoch 24
+[20250224 10:40:49 INFO    ] Epoch:24 ===== loss:0.006153 ===== SRCC:0.9178 ===== PLCC:0.9272
+[20250224 10:40:49 INFO    ] Eval done...
+[20250224 10:40:49 INFO    ] Epoch 24 done. Time: 3.1min
+[20250224 10:40:49 INFO    ] Running training epoch 25
+[20250224 10:43:37 INFO    ] train epoch:25 / loss:0.001854 / SRCC:0.961 / PLCC:0.9708
+[20250224 10:43:37 INFO    ] Starting eval...
+[20250224 10:43:37 INFO    ] Running testing in epoch 25
+[20250224 10:43:55 INFO    ] Epoch:25 ===== loss:0.005348 ===== SRCC:0.9111 ===== PLCC:0.9255
+[20250224 10:43:55 INFO    ] Eval done...
+[20250224 10:43:55 INFO    ] Epoch 25 done. Time: 3.1min
+[20250224 10:43:55 INFO    ] Running training epoch 26
+[20250224 10:46:43 INFO    ] train epoch:26 / loss:0.001889 / SRCC:0.9614 / PLCC:0.9702
+[20250224 10:46:43 INFO    ] Starting eval...
+[20250224 10:46:43 INFO    ] Running testing in epoch 26
+[20250224 10:47:01 INFO    ] Epoch:26 ===== loss:0.004161 ===== SRCC:0.928 ===== PLCC:0.9381
+[20250224 10:47:01 INFO    ] Eval done...
+[20250224 10:47:01 INFO    ] Epoch 26 done. Time: 3.1min
+[20250224 10:47:01 INFO    ] Running training epoch 27
+[20250224 10:49:50 INFO    ] train epoch:27 / loss:0.001692 / SRCC:0.964 / PLCC:0.9734
+[20250224 10:49:50 INFO    ] Starting eval...
+[20250224 10:49:50 INFO    ] Running testing in epoch 27
+[20250224 10:50:08 INFO    ] Epoch:27 ===== loss:0.004525 ===== SRCC:0.9217 ===== PLCC:0.9328
+[20250224 10:50:08 INFO    ] Eval done...
+[20250224 10:50:08 INFO    ] Epoch 27 done. Time: 3.1min
+[20250224 10:50:08 INFO    ] Running training epoch 28
+[20250224 10:52:56 INFO    ] train epoch:28 / loss:0.001825 / SRCC:0.9626 / PLCC:0.9713
+[20250224 10:52:56 INFO    ] Starting eval...
+[20250224 10:52:56 INFO    ] Running testing in epoch 28
+[20250224 10:53:14 INFO    ] Epoch:28 ===== loss:0.005391 ===== SRCC:0.9271 ===== PLCC:0.9375
+[20250224 10:53:14 INFO    ] Eval done...
+[20250224 10:53:14 INFO    ] Epoch 28 done. Time: 3.1min
+[20250224 10:53:14 INFO    ] Running training epoch 29
+[20250224 10:56:02 INFO    ] train epoch:29 / loss:0.001799 / SRCC:0.9629 / PLCC:0.9717
+[20250224 10:56:02 INFO    ] Starting eval...
+[20250224 10:56:02 INFO    ] Running testing in epoch 29
+[20250224 10:56:20 INFO    ] Epoch:29 ===== loss:0.00451 ===== SRCC:0.9336 ===== PLCC:0.9352
+[20250224 10:56:20 INFO    ] Eval done...
+[20250224 10:56:20 INFO    ] ======================================================================================
+[20250224 10:56:20 INFO    ] ============================== best main score is 1.8687546537447757 =================================
+[20250224 10:56:20 INFO    ] ======================================================================================
+[20250224 10:56:21 INFO    ] Saving weights and model of epoch29, SRCC:0.9335775626225526, PLCC:0.935177091122223
+[20250224 10:56:21 INFO    ] Epoch 29 done. Time: 3.1min
+[20250224 10:56:21 INFO    ] Running training epoch 30
+[20250224 10:59:09 INFO    ] train epoch:30 / loss:0.002232 / SRCC:0.9528 / PLCC:0.9648
+[20250224 10:59:09 INFO    ] Starting eval...
+[20250224 10:59:09 INFO    ] Running testing in epoch 30
+[20250224 10:59:27 INFO    ] Epoch:30 ===== loss:0.006062 ===== SRCC:0.9131 ===== PLCC:0.9249
+[20250224 10:59:27 INFO    ] Eval done...
+[20250224 10:59:27 INFO    ] Epoch 30 done. Time: 3.1min
+[20250224 10:59:27 INFO    ] Running training epoch 31
+[20250224 11:02:15 INFO    ] train epoch:31 / loss:0.001674 / SRCC:0.9653 / PLCC:0.9737
+[20250224 11:02:15 INFO    ] Starting eval...
+[20250224 11:02:15 INFO    ] Running testing in epoch 31
+[20250224 11:02:33 INFO    ] Epoch:31 ===== loss:0.004425 ===== SRCC:0.929 ===== PLCC:0.9369
+[20250224 11:02:33 INFO    ] Eval done...
+[20250224 11:02:33 INFO    ] Epoch 31 done. Time: 3.1min
+[20250224 11:02:33 INFO    ] Running training epoch 32
+[20250224 11:05:21 INFO    ] train epoch:32 / loss:0.001588 / SRCC:0.9673 / PLCC:0.9751
+[20250224 11:05:21 INFO    ] Starting eval...
+[20250224 11:05:21 INFO    ] Running testing in epoch 32
+[20250224 11:05:39 INFO    ] Epoch:32 ===== loss:0.005894 ===== SRCC:0.917 ===== PLCC:0.9267
+[20250224 11:05:39 INFO    ] Eval done...
+[20250224 11:05:39 INFO    ] Epoch 32 done. Time: 3.1min
+[20250224 11:05:39 INFO    ] Running training epoch 33
+[20250224 11:08:28 INFO    ] train epoch:33 / loss:0.001891 / SRCC:0.9605 / PLCC:0.9702
+[20250224 11:08:28 INFO    ] Starting eval...
+[20250224 11:08:28 INFO    ] Running testing in epoch 33
+[20250224 11:08:46 INFO    ] Epoch:33 ===== loss:0.004756 ===== SRCC:0.9204 ===== PLCC:0.9302
+[20250224 11:08:46 INFO    ] Eval done...
+[20250224 11:08:46 INFO    ] Epoch 33 done. Time: 3.1min
+[20250224 11:08:46 INFO    ] Running training epoch 34
+[20250224 11:11:34 INFO    ] train epoch:34 / loss:0.001495 / SRCC:0.9696 / PLCC:0.9765
+[20250224 11:11:34 INFO    ] Starting eval...
+[20250224 11:11:34 INFO    ] Running testing in epoch 34
+[20250224 11:11:52 INFO    ] Epoch:34 ===== loss:0.005816 ===== SRCC:0.9242 ===== PLCC:0.931
+[20250224 11:11:52 INFO    ] Eval done...
+[20250224 11:11:52 INFO    ] Epoch 34 done. Time: 3.1min
+[20250224 11:11:52 INFO    ] Running training epoch 35
+[20250224 11:14:40 INFO    ] train epoch:35 / loss:0.001605 / SRCC:0.9657 / PLCC:0.9748
+[20250224 11:14:40 INFO    ] Starting eval...
+[20250224 11:14:40 INFO    ] Running testing in epoch 35
+[20250224 11:14:59 INFO    ] Epoch:35 ===== loss:0.004956 ===== SRCC:0.9284 ===== PLCC:0.9377
+[20250224 11:14:59 INFO    ] Eval done...
+[20250224 11:14:59 INFO    ] Epoch 35 done. Time: 3.1min
+[20250224 11:14:59 INFO    ] Running training epoch 36
+[20250224 11:17:47 INFO    ] train epoch:36 / loss:0.001469 / SRCC:0.9688 / PLCC:0.977
+[20250224 11:17:47 INFO    ] Starting eval...
+[20250224 11:17:47 INFO    ] Running testing in epoch 36
+[20250224 11:18:05 INFO    ] Epoch:36 ===== loss:0.004268 ===== SRCC:0.9434 ===== PLCC:0.9488
+[20250224 11:18:05 INFO    ] Eval done...
+[20250224 11:18:05 INFO    ] ======================================================================================
+[20250224 11:18:05 INFO    ] ============================== best main score is 1.8922237185817277 =================================
+[20250224 11:18:05 INFO    ] ======================================================================================
+[20250224 11:18:06 INFO    ] Saving weights and model of epoch36, SRCC:0.943423817785627, PLCC:0.9487999007961007
+[20250224 11:18:06 INFO    ] Epoch 36 done. Time: 3.1min
+[20250224 11:18:06 INFO    ] Running training epoch 37
+[20250224 11:20:54 INFO    ] train epoch:37 / loss:0.001843 / SRCC:0.9614 / PLCC:0.971
+[20250224 11:20:54 INFO    ] Starting eval...
+[20250224 11:20:54 INFO    ] Running testing in epoch 37
+[20250224 11:21:12 INFO    ] Epoch:37 ===== loss:0.005435 ===== SRCC:0.9298 ===== PLCC:0.9377
+[20250224 11:21:12 INFO    ] Eval done...
+[20250224 11:21:12 INFO    ] Epoch 37 done. Time: 3.1min
+[20250224 11:21:12 INFO    ] Running training epoch 38
+[20250224 11:24:00 INFO    ] train epoch:38 / loss:0.001828 / SRCC:0.9615 / PLCC:0.9713
+[20250224 11:24:00 INFO    ] Starting eval...
+[20250224 11:24:00 INFO    ] Running testing in epoch 38
+[20250224 11:24:18 INFO    ] Epoch:38 ===== loss:0.004566 ===== SRCC:0.9278 ===== PLCC:0.9366
+[20250224 11:24:18 INFO    ] Eval done...
+[20250224 11:24:18 INFO    ] Epoch 38 done. Time: 3.1min
+[20250224 11:24:18 INFO    ] Running training epoch 39
+[20250224 11:27:06 INFO    ] train epoch:39 / loss:0.001571 / SRCC:0.9678 / PLCC:0.9753
+[20250224 11:27:06 INFO    ] Starting eval...
+[20250224 11:27:06 INFO    ] Running testing in epoch 39
+[20250224 11:27:25 INFO    ] Epoch:39 ===== loss:0.004557 ===== SRCC:0.9324 ===== PLCC:0.9382
+[20250224 11:27:25 INFO    ] Eval done...
+[20250224 11:27:25 INFO    ] Epoch 39 done. Time: 3.1min
+[20250224 11:27:25 INFO    ] Running training epoch 40
+[20250224 11:30:13 INFO    ] train epoch:40 / loss:0.001694 / SRCC:0.9642 / PLCC:0.9734
+[20250224 11:30:13 INFO    ] Starting eval...
+[20250224 11:30:13 INFO    ] Running testing in epoch 40
+[20250224 11:30:31 INFO    ] Epoch:40 ===== loss:0.004291 ===== SRCC:0.9325 ===== PLCC:0.9398
+[20250224 11:30:31 INFO    ] Eval done...
+[20250224 11:30:31 INFO    ] Epoch 40 done. Time: 3.1min
+[20250224 11:30:31 INFO    ] Running training epoch 41
+[20250224 11:33:19 INFO    ] train epoch:41 / loss:0.002035 / SRCC:0.9564 / PLCC:0.9679
+[20250224 11:33:19 INFO    ] Starting eval...
+[20250224 11:33:19 INFO    ] Running testing in epoch 41
+[20250224 11:33:37 INFO    ] Epoch:41 ===== loss:0.004023 ===== SRCC:0.9333 ===== PLCC:0.9414
+[20250224 11:33:37 INFO    ] Eval done...
+[20250224 11:33:37 INFO    ] Epoch 41 done. Time: 3.1min
+[20250224 11:33:37 INFO    ] Running training epoch 42
+[20250224 11:36:25 INFO    ] train epoch:42 / loss:0.001546 / SRCC:0.9669 / PLCC:0.9758
+[20250224 11:36:25 INFO    ] Starting eval...
+[20250224 11:36:25 INFO    ] Running testing in epoch 42
+[20250224 11:36:44 INFO    ] Epoch:42 ===== loss:0.003941 ===== SRCC:0.9443 ===== PLCC:0.9453
+[20250224 11:36:44 INFO    ] Eval done...
+[20250224 11:36:44 INFO    ] Epoch 42 done. Time: 3.1min
+[20250224 11:36:44 INFO    ] Running training epoch 43
+[20250224 11:39:32 INFO    ] train epoch:43 / loss:0.001705 / SRCC:0.9637 / PLCC:0.9732
+[20250224 11:39:32 INFO    ] Starting eval...
+[20250224 11:39:32 INFO    ] Running testing in epoch 43
+[20250224 11:39:50 INFO    ] Epoch:43 ===== loss:0.005322 ===== SRCC:0.9166 ===== PLCC:0.9293
+[20250224 11:39:50 INFO    ] Eval done...
+[20250224 11:39:50 INFO    ] Epoch 43 done. Time: 3.1min
+[20250224 11:39:50 INFO    ] Running training epoch 44
+[20250224 11:42:39 INFO    ] train epoch:44 / loss:0.001462 / SRCC:0.9687 / PLCC:0.9771
+[20250224 11:42:39 INFO    ] Starting eval...
+[20250224 11:42:39 INFO    ] Running testing in epoch 44
+[20250224 11:42:57 INFO    ] Epoch:44 ===== loss:0.005766 ===== SRCC:0.9159 ===== PLCC:0.9305
+[20250224 11:42:57 INFO    ] Eval done...
+[20250224 11:42:57 INFO    ] Epoch 44 done. Time: 3.1min
+[20250224 11:42:57 INFO    ] Running training epoch 45
+[20250224 11:45:45 INFO    ] train epoch:45 / loss:0.001625 / SRCC:0.9663 / PLCC:0.9745
+[20250224 11:45:45 INFO    ] Starting eval...
+[20250224 11:45:45 INFO    ] Running testing in epoch 45
+[20250224 11:46:03 INFO    ] Epoch:45 ===== loss:0.005053 ===== SRCC:0.931 ===== PLCC:0.9398
+[20250224 11:46:03 INFO    ] Eval done...
+[20250224 11:46:03 INFO    ] Epoch 45 done. Time: 3.1min
+[20250224 11:46:03 INFO    ] Running training epoch 46
+[20250224 11:48:51 INFO    ] train epoch:46 / loss:0.001625 / SRCC:0.9658 / PLCC:0.9745
+[20250224 11:48:51 INFO    ] Starting eval...
+[20250224 11:48:51 INFO    ] Running testing in epoch 46
+[20250224 11:49:09 INFO    ] Epoch:46 ===== loss:0.004298 ===== SRCC:0.9437 ===== PLCC:0.9492
+[20250224 11:49:09 INFO    ] Eval done...
+[20250224 11:49:09 INFO    ] ======================================================================================
+[20250224 11:49:09 INFO    ] ============================== best main score is 1.8928827527699548 =================================
+[20250224 11:49:09 INFO    ] ======================================================================================
+[20250224 11:49:10 INFO    ] Saving weights and model of epoch46, SRCC:0.9436680137359479, PLCC:0.9492147390340069
+[20250224 11:49:10 INFO    ] Epoch 46 done. Time: 3.1min
+[20250224 11:49:10 INFO    ] Running training epoch 47
+[20250224 11:51:57 INFO    ] train epoch:47 / loss:0.001402 / SRCC:0.9704 / PLCC:0.978
+[20250224 11:51:57 INFO    ] Starting eval...
+[20250224 11:51:57 INFO    ] Running testing in epoch 47
+[20250224 11:52:15 INFO    ] Epoch:47 ===== loss:0.005527 ===== SRCC:0.9212 ===== PLCC:0.9316
+[20250224 11:52:15 INFO    ] Eval done...
+[20250224 11:52:15 INFO    ] Epoch 47 done. Time: 3.1min
+[20250224 11:52:15 INFO    ] Running training epoch 48
+[20250224 11:55:02 INFO    ] train epoch:48 / loss:0.001507 / SRCC:0.9679 / PLCC:0.9763
+[20250224 11:55:02 INFO    ] Starting eval...
+[20250224 11:55:02 INFO    ] Running testing in epoch 48
+[20250224 11:55:20 INFO    ] Epoch:48 ===== loss:0.004824 ===== SRCC:0.9411 ===== PLCC:0.9456
+[20250224 11:55:20 INFO    ] Eval done...
+[20250224 11:55:20 INFO    ] Epoch 48 done. Time: 3.1min
+[20250224 11:55:20 INFO    ] Running training epoch 49
+[20250224 11:58:08 INFO    ] train epoch:49 / loss:0.001408 / SRCC:0.9697 / PLCC:0.9779
+[20250224 11:58:08 INFO    ] Starting eval...
+[20250224 11:58:08 INFO    ] Running testing in epoch 49
+[20250224 11:58:26 INFO    ] Epoch:49 ===== loss:0.003458 ===== SRCC:0.9464 ===== PLCC:0.9519
+[20250224 11:58:26 INFO    ] Eval done...
+[20250224 11:58:26 INFO    ] ======================================================================================
+[20250224 11:58:26 INFO    ] ============================== best main score is 1.8982878913140568 =================================
+[20250224 11:58:26 INFO    ] ======================================================================================
+[20250224 11:58:27 INFO    ] Saving weights and model of epoch49, SRCC:0.9464156140128321, PLCC:0.9518722773012247
+[20250224 11:58:27 INFO    ] Epoch 49 done. Time: 3.1min
+[20250224 11:58:27 INFO    ] Running training epoch 50
+[20250224 12:01:15 INFO    ] train epoch:50 / loss:0.001316 / SRCC:0.9723 / PLCC:0.9794
+[20250224 12:01:15 INFO    ] Starting eval...
+[20250224 12:01:15 INFO    ] Running testing in epoch 50
+[20250224 12:01:33 INFO    ] Epoch:50 ===== loss:0.004607 ===== SRCC:0.9269 ===== PLCC:0.9328
+[20250224 12:01:33 INFO    ] Eval done...
+[20250224 12:01:33 INFO    ] Epoch 50 done. Time: 3.1min
+[20250224 12:01:33 INFO    ] Running training epoch 51
+[20250224 12:04:21 INFO    ] train epoch:51 / loss:0.001403 / SRCC:0.9704 / PLCC:0.978
+[20250224 12:04:21 INFO    ] Starting eval...
+[20250224 12:04:21 INFO    ] Running testing in epoch 51
+[20250224 12:04:39 INFO    ] Epoch:51 ===== loss:0.003829 ===== SRCC:0.9375 ===== PLCC:0.9438
+[20250224 12:04:39 INFO    ] Eval done...
+[20250224 12:04:39 INFO    ] Epoch 51 done. Time: 3.1min
+[20250224 12:04:39 INFO    ] Running training epoch 52
+[20250224 12:07:27 INFO    ] train epoch:52 / loss:0.001515 / SRCC:0.9675 / PLCC:0.9762
+[20250224 12:07:27 INFO    ] Starting eval...
+[20250224 12:07:27 INFO    ] Running testing in epoch 52
+[20250224 12:07:45 INFO    ] Epoch:52 ===== loss:0.005314 ===== SRCC:0.9254 ===== PLCC:0.9367
+[20250224 12:07:45 INFO    ] Eval done...
+[20250224 12:07:45 INFO    ] Epoch 52 done. Time: 3.1min
+[20250224 12:07:45 INFO    ] Running training epoch 53
+[20250224 12:10:33 INFO    ] train epoch:53 / loss:0.001456 / SRCC:0.9689 / PLCC:0.9772
+[20250224 12:10:33 INFO    ] Starting eval...
+[20250224 12:10:33 INFO    ] Running testing in epoch 53
+[20250224 12:10:51 INFO    ] Epoch:53 ===== loss:0.005901 ===== SRCC:0.9263 ===== PLCC:0.9368
+[20250224 12:10:51 INFO    ] Eval done...
+[20250224 12:10:51 INFO    ] Epoch 53 done. Time: 3.1min
+[20250224 12:10:51 INFO    ] Running training epoch 54
+[20250224 12:13:39 INFO    ] train epoch:54 / loss:0.001686 / SRCC:0.9642 / PLCC:0.9735
+[20250224 12:13:39 INFO    ] Starting eval...
+[20250224 12:13:39 INFO    ] Running testing in epoch 54
+[20250224 12:13:57 INFO    ] Epoch:54 ===== loss:0.004118 ===== SRCC:0.9417 ===== PLCC:0.9481
+[20250224 12:13:57 INFO    ] Eval done...
+[20250224 12:13:57 INFO    ] Epoch 54 done. Time: 3.1min
+[20250224 12:13:57 INFO    ] Running training epoch 55
+[20250224 12:16:46 INFO    ] train epoch:55 / loss:0.001378 / SRCC:0.9712 / PLCC:0.9784
+[20250224 12:16:46 INFO    ] Starting eval...
+[20250224 12:16:46 INFO    ] Running testing in epoch 55
+[20250224 12:17:04 INFO    ] Epoch:55 ===== loss:0.004035 ===== SRCC:0.9365 ===== PLCC:0.9427
+[20250224 12:17:04 INFO    ] Eval done...
+[20250224 12:17:04 INFO    ] Epoch 55 done. Time: 3.1min
+[20250224 12:17:04 INFO    ] Running training epoch 56
+[20250224 12:19:52 INFO    ] train epoch:56 / loss:0.001431 / SRCC:0.9697 / PLCC:0.9776
+[20250224 12:19:52 INFO    ] Starting eval...
+[20250224 12:19:52 INFO    ] Running testing in epoch 56
+[20250224 12:20:10 INFO    ] Epoch:56 ===== loss:0.005289 ===== SRCC:0.9344 ===== PLCC:0.9407
+[20250224 12:20:10 INFO    ] Eval done...
+[20250224 12:20:10 INFO    ] Epoch 56 done. Time: 3.1min
+[20250224 12:20:10 INFO    ] Running training epoch 57
+[20250224 12:22:58 INFO    ] train epoch:57 / loss:0.00137 / SRCC:0.9707 / PLCC:0.9785
+[20250224 12:22:58 INFO    ] Starting eval...
+[20250224 12:22:58 INFO    ] Running testing in epoch 57
+[20250224 12:23:16 INFO    ] Epoch:57 ===== loss:0.004798 ===== SRCC:0.9295 ===== PLCC:0.9364
+[20250224 12:23:16 INFO    ] Eval done...
+[20250224 12:23:16 INFO    ] Epoch 57 done. Time: 3.1min
+[20250224 12:23:16 INFO    ] Running training epoch 58
+[20250224 12:26:04 INFO    ] train epoch:58 / loss:0.001289 / SRCC:0.9731 / PLCC:0.9798
+[20250224 12:26:04 INFO    ] Starting eval...
+[20250224 12:26:04 INFO    ] Running testing in epoch 58
+[20250224 12:26:22 INFO    ] Epoch:58 ===== loss:0.003886 ===== SRCC:0.9409 ===== PLCC:0.9429
+[20250224 12:26:22 INFO    ] Eval done...
+[20250224 12:26:22 INFO    ] Epoch 58 done. Time: 3.1min
+[20250224 12:26:22 INFO    ] Running training epoch 59
+[20250224 12:29:10 INFO    ] train epoch:59 / loss:0.001563 / SRCC:0.9669 / PLCC:0.9754
+[20250224 12:29:10 INFO    ] Starting eval...
+[20250224 12:29:10 INFO    ] Running testing in epoch 59
+[20250224 12:29:28 INFO    ] Epoch:59 ===== loss:0.005417 ===== SRCC:0.9269 ===== PLCC:0.9363
+[20250224 12:29:28 INFO    ] Eval done...
+[20250224 12:29:28 INFO    ] Epoch 59 done. Time: 3.1min
+[20250224 12:29:28 INFO    ] Running training epoch 60
+[20250224 12:32:16 INFO    ] train epoch:60 / loss:0.001403 / SRCC:0.9707 / PLCC:0.978
+[20250224 12:32:16 INFO    ] Starting eval...
+[20250224 12:32:16 INFO    ] Running testing in epoch 60
+[20250224 12:32:34 INFO    ] Epoch:60 ===== loss:0.006036 ===== SRCC:0.9177 ===== PLCC:0.9267
+[20250224 12:32:34 INFO    ] Eval done...
+[20250224 12:32:34 INFO    ] Epoch 60 done. Time: 3.1min
+[20250224 12:32:34 INFO    ] Running training epoch 61
+[20250224 12:35:22 INFO    ] train epoch:61 / loss:0.001491 / SRCC:0.9687 / PLCC:0.9766
+[20250224 12:35:22 INFO    ] Starting eval...
+[20250224 12:35:22 INFO    ] Running testing in epoch 61
+[20250224 12:35:40 INFO    ] Epoch:61 ===== loss:0.004195 ===== SRCC:0.9331 ===== PLCC:0.9383
+[20250224 12:35:40 INFO    ] Eval done...
+[20250224 12:35:40 INFO    ] Epoch 61 done. Time: 3.1min
+[20250224 12:35:40 INFO    ] Running training epoch 62
+[20250224 12:38:28 INFO    ] train epoch:62 / loss:0.001465 / SRCC:0.9686 / PLCC:0.977
+[20250224 12:38:28 INFO    ] Starting eval...
+[20250224 12:38:28 INFO    ] Running testing in epoch 62
+[20250224 12:38:46 INFO    ] Epoch:62 ===== loss:0.004409 ===== SRCC:0.927 ===== PLCC:0.9343
+[20250224 12:38:46 INFO    ] Eval done...
+[20250224 12:38:46 INFO    ] Epoch 62 done. Time: 3.1min
+[20250224 12:38:46 INFO    ] Running training epoch 63
+[20250224 12:41:33 INFO    ] train epoch:63 / loss:0.001367 / SRCC:0.9716 / PLCC:0.9786
+[20250224 12:41:33 INFO    ] Starting eval...
+[20250224 12:41:33 INFO    ] Running testing in epoch 63
+[20250224 12:41:51 INFO    ] Epoch:63 ===== loss:0.004081 ===== SRCC:0.9465 ===== PLCC:0.9498
+[20250224 12:41:51 INFO    ] Eval done...
+[20250224 12:41:51 INFO    ] Epoch 63 done. Time: 3.1min
+[20250224 12:41:51 INFO    ] Running training epoch 64
+[20250224 12:44:38 INFO    ] train epoch:64 / loss:0.001465 / SRCC:0.9702 / PLCC:0.977
+[20250224 12:44:38 INFO    ] Starting eval...
+[20250224 12:44:38 INFO    ] Running testing in epoch 64
+[20250224 12:44:57 INFO    ] Epoch:64 ===== loss:0.004296 ===== SRCC:0.9268 ===== PLCC:0.9366
+[20250224 12:44:57 INFO    ] Eval done...
+[20250224 12:44:57 INFO    ] Epoch 64 done. Time: 3.1min
+[20250224 12:44:57 INFO    ] Running training epoch 65
+[20250224 12:47:44 INFO    ] train epoch:65 / loss:0.001384 / SRCC:0.9715 / PLCC:0.9783
+[20250224 12:47:44 INFO    ] Starting eval...
+[20250224 12:47:44 INFO    ] Running testing in epoch 65
+[20250224 12:48:02 INFO    ] Epoch:65 ===== loss:0.003837 ===== SRCC:0.9363 ===== PLCC:0.9436
+[20250224 12:48:02 INFO    ] Eval done...
+[20250224 12:48:02 INFO    ] Epoch 65 done. Time: 3.1min
+[20250224 12:48:02 INFO    ] Running training epoch 66
+[20250224 12:50:50 INFO    ] train epoch:66 / loss:0.001192 / SRCC:0.9745 / PLCC:0.9813
+[20250224 12:50:50 INFO    ] Starting eval...
+[20250224 12:50:50 INFO    ] Running testing in epoch 66
+[20250224 12:51:08 INFO    ] Epoch:66 ===== loss:0.003978 ===== SRCC:0.9345 ===== PLCC:0.943
+[20250224 12:51:08 INFO    ] Eval done...
+[20250224 12:51:08 INFO    ] Epoch 66 done. Time: 3.1min
+[20250224 12:51:08 INFO    ] Running training epoch 67
+[20250224 12:53:56 INFO    ] train epoch:67 / loss:0.001405 / SRCC:0.9705 / PLCC:0.978
+[20250224 12:53:56 INFO    ] Starting eval...
+[20250224 12:53:56 INFO    ] Running testing in epoch 67
+[20250224 12:54:14 INFO    ] Epoch:67 ===== loss:0.003416 ===== SRCC:0.9476 ===== PLCC:0.9519
+[20250224 12:54:14 INFO    ] Eval done...
+[20250224 12:54:14 INFO    ] ======================================================================================
+[20250224 12:54:14 INFO    ] ============================== best main score is 1.899454264442063 =================================
+[20250224 12:54:14 INFO    ] ======================================================================================
+[20250224 12:54:15 INFO    ] Saving weights and model of epoch67, SRCC:0.9475809823103877, PLCC:0.9518732821316751
+[20250224 12:54:15 INFO    ] Epoch 67 done. Time: 3.1min
+[20250224 12:54:15 INFO    ] Running training epoch 68
+[20250224 12:57:02 INFO    ] train epoch:68 / loss:0.001193 / SRCC:0.9748 / PLCC:0.9813
+[20250224 12:57:02 INFO    ] Starting eval...
+[20250224 12:57:02 INFO    ] Running testing in epoch 68
+[20250224 12:57:20 INFO    ] Epoch:68 ===== loss:0.003664 ===== SRCC:0.94 ===== PLCC:0.9475
+[20250224 12:57:20 INFO    ] Eval done...
+[20250224 12:57:20 INFO    ] Epoch 68 done. Time: 3.1min
+[20250224 12:57:20 INFO    ] Running training epoch 69
+[20250224 13:00:09 INFO    ] train epoch:69 / loss:0.001273 / SRCC:0.9726 / PLCC:0.9801
+[20250224 13:00:09 INFO    ] Starting eval...
+[20250224 13:00:09 INFO    ] Running testing in epoch 69
+[20250224 13:00:27 INFO    ] Epoch:69 ===== loss:0.004264 ===== SRCC:0.9365 ===== PLCC:0.9445
+[20250224 13:00:27 INFO    ] Eval done...
+[20250224 13:00:27 INFO    ] Epoch 69 done. Time: 3.1min
+[20250224 13:00:27 INFO    ] Running training epoch 70
+[20250224 13:03:15 INFO    ] train epoch:70 / loss:0.001435 / SRCC:0.9687 / PLCC:0.9775
+[20250224 13:03:15 INFO    ] Starting eval...
+[20250224 13:03:15 INFO    ] Running testing in epoch 70
+[20250224 13:03:33 INFO    ] Epoch:70 ===== loss:0.003996 ===== SRCC:0.9344 ===== PLCC:0.9422
+[20250224 13:03:33 INFO    ] Eval done...
+[20250224 13:03:33 INFO    ] Epoch 70 done. Time: 3.1min
+[20250224 13:03:33 INFO    ] Running training epoch 71
+[20250224 13:06:21 INFO    ] train epoch:71 / loss:0.001222 / SRCC:0.9738 / PLCC:0.9809
+[20250224 13:06:21 INFO    ] Starting eval...
+[20250224 13:06:21 INFO    ] Running testing in epoch 71
+[20250224 13:06:39 INFO    ] Epoch:71 ===== loss:0.005292 ===== SRCC:0.9441 ===== PLCC:0.9481
+[20250224 13:06:39 INFO    ] Eval done...
+[20250224 13:06:39 INFO    ] Epoch 71 done. Time: 3.1min
+[20250224 13:06:39 INFO    ] Running training epoch 72
+[20250224 13:09:26 INFO    ] train epoch:72 / loss:0.001532 / SRCC:0.9671 / PLCC:0.9759
+[20250224 13:09:26 INFO    ] Starting eval...
+[20250224 13:09:26 INFO    ] Running testing in epoch 72
+[20250224 13:09:44 INFO    ] Epoch:72 ===== loss:0.004245 ===== SRCC:0.933 ===== PLCC:0.9399
+[20250224 13:09:44 INFO    ] Eval done...
+[20250224 13:09:44 INFO    ] Epoch 72 done. Time: 3.1min
+[20250224 13:09:44 INFO    ] Running training epoch 73
+[20250224 13:12:32 INFO    ] train epoch:73 / loss:0.001295 / SRCC:0.9728 / PLCC:0.9797
+[20250224 13:12:32 INFO    ] Starting eval...
+[20250224 13:12:32 INFO    ] Running testing in epoch 73
+[20250224 13:12:50 INFO    ] Epoch:73 ===== loss:0.005898 ===== SRCC:0.9247 ===== PLCC:0.9313
+[20250224 13:12:50 INFO    ] Eval done...
+[20250224 13:12:50 INFO    ] Epoch 73 done. Time: 3.1min
+[20250224 13:12:50 INFO    ] Running training epoch 74
+[20250224 13:15:38 INFO    ] train epoch:74 / loss:0.001091 / SRCC:0.977 / PLCC:0.9829
+[20250224 13:15:38 INFO    ] Starting eval...
+[20250224 13:15:38 INFO    ] Running testing in epoch 74
+[20250224 13:15:56 INFO    ] Epoch:74 ===== loss:0.005141 ===== SRCC:0.9237 ===== PLCC:0.9331
+[20250224 13:15:56 INFO    ] Eval done...
+[20250224 13:15:56 INFO    ] Epoch 74 done. Time: 3.1min
+[20250224 13:15:56 INFO    ] Running training epoch 75
+[20250224 13:18:44 INFO    ] train epoch:75 / loss:0.001004 / SRCC:0.9783 / PLCC:0.9843
+[20250224 13:18:44 INFO    ] Starting eval...
+[20250224 13:18:44 INFO    ] Running testing in epoch 75
+[20250224 13:19:02 INFO    ] Epoch:75 ===== loss:0.004824 ===== SRCC:0.9308 ===== PLCC:0.937
+[20250224 13:19:02 INFO    ] Eval done...
+[20250224 13:19:02 INFO    ] Epoch 75 done. Time: 3.1min
+[20250224 13:19:02 INFO    ] Running training epoch 76
+[20250224 13:21:50 INFO    ] train epoch:76 / loss:0.001087 / SRCC:0.9769 / PLCC:0.983
+[20250224 13:21:50 INFO    ] Starting eval...
+[20250224 13:21:50 INFO    ] Running testing in epoch 76
+[20250224 13:22:08 INFO    ] Epoch:76 ===== loss:0.00547 ===== SRCC:0.9224 ===== PLCC:0.9325
+[20250224 13:22:08 INFO    ] Eval done...
+[20250224 13:22:08 INFO    ] Epoch 76 done. Time: 3.1min
+[20250224 13:22:08 INFO    ] Running training epoch 77
+[20250224 13:24:56 INFO    ] train epoch:77 / loss:0.001392 / SRCC:0.971 / PLCC:0.9782
+[20250224 13:24:56 INFO    ] Starting eval...
+[20250224 13:24:56 INFO    ] Running testing in epoch 77
+[20250224 13:25:15 INFO    ] Epoch:77 ===== loss:0.004882 ===== SRCC:0.9321 ===== PLCC:0.9381
+[20250224 13:25:15 INFO    ] Eval done...
+[20250224 13:25:15 INFO    ] Epoch 77 done. Time: 3.1min
+[20250224 13:25:15 INFO    ] Running training epoch 78
+[20250224 13:28:03 INFO    ] train epoch:78 / loss:0.001334 / SRCC:0.9721 / PLCC:0.9791
+[20250224 13:28:03 INFO    ] Starting eval...
+[20250224 13:28:03 INFO    ] Running testing in epoch 78
+[20250224 13:28:21 INFO    ] Epoch:78 ===== loss:0.004777 ===== SRCC:0.931 ===== PLCC:0.9365
+[20250224 13:28:21 INFO    ] Eval done...
+[20250224 13:28:21 INFO    ] Epoch 78 done. Time: 3.1min
+[20250224 13:28:21 INFO    ] Running training epoch 79
+[20250224 13:31:10 INFO    ] train epoch:79 / loss:0.001244 / SRCC:0.9752 / PLCC:0.9805
+[20250224 13:31:10 INFO    ] Starting eval...
+[20250224 13:31:10 INFO    ] Running testing in epoch 79
+[20250224 13:31:28 INFO    ] Epoch:79 ===== loss:0.005633 ===== SRCC:0.9223 ===== PLCC:0.9317
+[20250224 13:31:28 INFO    ] Eval done...
+[20250224 13:31:28 INFO    ] Epoch 79 done. Time: 3.1min
+[20250224 13:31:28 INFO    ] Running training epoch 80
+[20250224 13:34:16 INFO    ] train epoch:80 / loss:0.001131 / SRCC:0.9769 / PLCC:0.9823
+[20250224 13:34:16 INFO    ] Starting eval...
+[20250224 13:34:16 INFO    ] Running testing in epoch 80
+[20250224 13:34:34 INFO    ] Epoch:80 ===== loss:0.004731 ===== SRCC:0.9313 ===== PLCC:0.9388
+[20250224 13:34:34 INFO    ] Eval done...
+[20250224 13:34:34 INFO    ] Epoch 80 done. Time: 3.1min
+[20250224 13:34:34 INFO    ] Running training epoch 81
+[20250224 13:37:22 INFO    ] train epoch:81 / loss:0.001526 / SRCC:0.9688 / PLCC:0.9761
+[20250224 13:37:22 INFO    ] Starting eval...
+[20250224 13:37:22 INFO    ] Running testing in epoch 81
+[20250224 13:37:40 INFO    ] Epoch:81 ===== loss:0.004403 ===== SRCC:0.9285 ===== PLCC:0.9376
+[20250224 13:37:40 INFO    ] Eval done...
+[20250224 13:37:40 INFO    ] Epoch 81 done. Time: 3.1min
+[20250224 13:37:40 INFO    ] Running training epoch 82
+[20250224 13:40:28 INFO    ] train epoch:82 / loss:0.001204 / SRCC:0.9745 / PLCC:0.9812
+[20250224 13:40:28 INFO    ] Starting eval...
+[20250224 13:40:28 INFO    ] Running testing in epoch 82
+[20250224 13:40:46 INFO    ] Epoch:82 ===== loss:0.004321 ===== SRCC:0.9339 ===== PLCC:0.9398
+[20250224 13:40:46 INFO    ] Eval done...
+[20250224 13:40:46 INFO    ] Epoch 82 done. Time: 3.1min
+[20250224 13:40:46 INFO    ] Running training epoch 83
+[20250224 13:43:33 INFO    ] train epoch:83 / loss:0.00121 / SRCC:0.9738 / PLCC:0.9811
+[20250224 13:43:33 INFO    ] Starting eval...
+[20250224 13:43:33 INFO    ] Running testing in epoch 83
+[20250224 13:43:51 INFO    ] Epoch:83 ===== loss:0.003932 ===== SRCC:0.9367 ===== PLCC:0.9438
+[20250224 13:43:51 INFO    ] Eval done...
+[20250224 13:43:51 INFO    ] Epoch 83 done. Time: 3.1min
+[20250224 13:43:51 INFO    ] Running training epoch 84
+[20250224 13:46:39 INFO    ] train epoch:84 / loss:0.00123 / SRCC:0.9736 / PLCC:0.9807
+[20250224 13:46:39 INFO    ] Starting eval...
+[20250224 13:46:39 INFO    ] Running testing in epoch 84
+[20250224 13:46:57 INFO    ] Epoch:84 ===== loss:0.003992 ===== SRCC:0.9362 ===== PLCC:0.943
+[20250224 13:46:57 INFO    ] Eval done...
+[20250224 13:46:57 INFO    ] Epoch 84 done. Time: 3.1min
+[20250224 13:46:57 INFO    ] Running training epoch 85
+[20250224 13:49:44 INFO    ] train epoch:85 / loss:0.00111 / SRCC:0.9767 / PLCC:0.9826
+[20250224 13:49:44 INFO    ] Starting eval...
+[20250224 13:49:44 INFO    ] Running testing in epoch 85
+[20250224 13:50:02 INFO    ] Epoch:85 ===== loss:0.004127 ===== SRCC:0.9349 ===== PLCC:0.9424
+[20250224 13:50:02 INFO    ] Eval done...
+[20250224 13:50:02 INFO    ] Epoch 85 done. Time: 3.1min
+[20250224 13:50:02 INFO    ] Running training epoch 86
+[20250224 13:52:50 INFO    ] train epoch:86 / loss:0.001411 / SRCC:0.9698 / PLCC:0.9779
+[20250224 13:52:50 INFO    ] Starting eval...
+[20250224 13:52:50 INFO    ] Running testing in epoch 86
+[20250224 13:53:08 INFO    ] Epoch:86 ===== loss:0.005313 ===== SRCC:0.917 ===== PLCC:0.9316
+[20250224 13:53:08 INFO    ] Eval done...
+[20250224 13:53:08 INFO    ] Epoch 86 done. Time: 3.1min
+[20250224 13:53:08 INFO    ] Running training epoch 87
+[20250224 13:55:56 INFO    ] train epoch:87 / loss:0.001293 / SRCC:0.9717 / PLCC:0.9798
+[20250224 13:55:56 INFO    ] Starting eval...
+[20250224 13:55:56 INFO    ] Running testing in epoch 87
+[20250224 13:56:14 INFO    ] Epoch:87 ===== loss:0.004515 ===== SRCC:0.9378 ===== PLCC:0.9438
+[20250224 13:56:14 INFO    ] Eval done...
+[20250224 13:56:14 INFO    ] Epoch 87 done. Time: 3.1min
+[20250224 13:56:14 INFO    ] Running training epoch 88
+[20250224 13:59:01 INFO    ] train epoch:88 / loss:0.001189 / SRCC:0.9742 / PLCC:0.9814
+[20250224 13:59:01 INFO    ] Starting eval...
+[20250224 13:59:01 INFO    ] Running testing in epoch 88
+[20250224 13:59:20 INFO    ] Epoch:88 ===== loss:0.004618 ===== SRCC:0.9237 ===== PLCC:0.9341
+[20250224 13:59:20 INFO    ] Eval done...
+[20250224 13:59:20 INFO    ] Epoch 88 done. Time: 3.1min
+[20250224 13:59:20 INFO    ] Running training epoch 89
+[20250224 14:02:07 INFO    ] train epoch:89 / loss:0.001156 / SRCC:0.9746 / PLCC:0.9819
+[20250224 14:02:07 INFO    ] Starting eval...
+[20250224 14:02:07 INFO    ] Running testing in epoch 89
+[20250224 14:02:25 INFO    ] Epoch:89 ===== loss:0.004858 ===== SRCC:0.9242 ===== PLCC:0.9348
+[20250224 14:02:25 INFO    ] Eval done...
+[20250224 14:02:25 INFO    ] Epoch 89 done. Time: 3.1min
+[20250224 14:02:25 INFO    ] Running training epoch 90
+[20250224 14:05:13 INFO    ] train epoch:90 / loss:0.001077 / SRCC:0.9768 / PLCC:0.9832
+[20250224 14:05:13 INFO    ] Starting eval...
+[20250224 14:05:13 INFO    ] Running testing in epoch 90
+[20250224 14:05:31 INFO    ] Epoch:90 ===== loss:0.006171 ===== SRCC:0.9215 ===== PLCC:0.9321
+[20250224 14:05:31 INFO    ] Eval done...
+[20250224 14:05:31 INFO    ] Epoch 90 done. Time: 3.1min
+[20250224 14:05:31 INFO    ] Running training epoch 91
+[20250224 14:08:19 INFO    ] train epoch:91 / loss:0.001371 / SRCC:0.9708 / PLCC:0.9785
+[20250224 14:08:19 INFO    ] Starting eval...
+[20250224 14:08:19 INFO    ] Running testing in epoch 91
+[20250224 14:08:37 INFO    ] Epoch:91 ===== loss:0.005233 ===== SRCC:0.919 ===== PLCC:0.9297
+[20250224 14:08:37 INFO    ] Eval done...
+[20250224 14:08:37 INFO    ] Epoch 91 done. Time: 3.1min
+[20250224 14:08:37 INFO    ] Running training epoch 92
+[20250224 14:11:25 INFO    ] train epoch:92 / loss:0.00126 / SRCC:0.973 / PLCC:0.9803
+[20250224 14:11:25 INFO    ] Starting eval...
+[20250224 14:11:25 INFO    ] Running testing in epoch 92
+[20250224 14:11:43 INFO    ] Epoch:92 ===== loss:0.004566 ===== SRCC:0.932 ===== PLCC:0.9368
+[20250224 14:11:43 INFO    ] Eval done...
+[20250224 14:11:43 INFO    ] Epoch 92 done. Time: 3.1min
+[20250224 14:11:43 INFO    ] Running training epoch 93
+[20250224 14:14:31 INFO    ] train epoch:93 / loss:0.001186 / SRCC:0.9747 / PLCC:0.9814
+[20250224 14:14:31 INFO    ] Starting eval...
+[20250224 14:14:31 INFO    ] Running testing in epoch 93
+[20250224 14:14:49 INFO    ] Epoch:93 ===== loss:0.004023 ===== SRCC:0.9423 ===== PLCC:0.9472
+[20250224 14:14:49 INFO    ] Eval done...
+[20250224 14:14:49 INFO    ] Epoch 93 done. Time: 3.1min
+[20250224 14:14:49 INFO    ] Running training epoch 94
+[20250224 14:17:36 INFO    ] train epoch:94 / loss:0.001153 / SRCC:0.9756 / PLCC:0.982
+[20250224 14:17:36 INFO    ] Starting eval...
+[20250224 14:17:36 INFO    ] Running testing in epoch 94
+[20250224 14:17:54 INFO    ] Epoch:94 ===== loss:0.005154 ===== SRCC:0.9258 ===== PLCC:0.9339
+[20250224 14:17:54 INFO    ] Eval done...
+[20250224 14:17:54 INFO    ] Epoch 94 done. Time: 3.1min
+[20250224 14:17:54 INFO    ] Running training epoch 95
+[20250224 14:20:42 INFO    ] train epoch:95 / loss:0.001109 / SRCC:0.9772 / PLCC:0.9826
+[20250224 14:20:42 INFO    ] Starting eval...
+[20250224 14:20:42 INFO    ] Running testing in epoch 95
+[20250224 14:21:00 INFO    ] Epoch:95 ===== loss:0.004745 ===== SRCC:0.9363 ===== PLCC:0.9403
+[20250224 14:21:00 INFO    ] Eval done...
+[20250224 14:21:00 INFO    ] Epoch 95 done. Time: 3.1min
+[20250224 14:21:00 INFO    ] Running training epoch 96
+[20250224 14:23:47 INFO    ] train epoch:96 / loss:0.001303 / SRCC:0.9716 / PLCC:0.9796
+[20250224 14:23:47 INFO    ] Starting eval...
+[20250224 14:23:47 INFO    ] Running testing in epoch 96
+[20250224 14:24:05 INFO    ] Epoch:96 ===== loss:0.004424 ===== SRCC:0.9245 ===== PLCC:0.9351
+[20250224 14:24:05 INFO    ] Eval done...
+[20250224 14:24:05 INFO    ] Epoch 96 done. Time: 3.1min
+[20250224 14:24:05 INFO    ] Running training epoch 97
+[20250224 14:26:53 INFO    ] train epoch:97 / loss:0.0012 / SRCC:0.9746 / PLCC:0.9812
+[20250224 14:26:53 INFO    ] Starting eval...
+[20250224 14:26:53 INFO    ] Running testing in epoch 97
+[20250224 14:27:11 INFO    ] Epoch:97 ===== loss:0.005548 ===== SRCC:0.9267 ===== PLCC:0.9353
+[20250224 14:27:11 INFO    ] Eval done...
+[20250224 14:27:11 INFO    ] Epoch 97 done. Time: 3.1min
+[20250224 14:27:11 INFO    ] Running training epoch 98
+[20250224 14:29:59 INFO    ] train epoch:98 / loss:0.001069 / SRCC:0.9773 / PLCC:0.9833
+[20250224 14:29:59 INFO    ] Starting eval...
+[20250224 14:29:59 INFO    ] Running testing in epoch 98
+[20250224 14:30:17 INFO    ] Epoch:98 ===== loss:0.004077 ===== SRCC:0.9392 ===== PLCC:0.9439
+[20250224 14:30:17 INFO    ] Eval done...
+[20250224 14:30:17 INFO    ] Epoch 98 done. Time: 3.1min
+[20250224 14:30:17 INFO    ] Running training epoch 99
+[20250224 14:33:05 INFO    ] train epoch:99 / loss:0.00117 / SRCC:0.9755 / PLCC:0.9817
+[20250224 14:33:05 INFO    ] Starting eval...
+[20250224 14:33:05 INFO    ] Running testing in epoch 99
+[20250224 14:33:23 INFO    ] Epoch:99 ===== loss:0.003792 ===== SRCC:0.9375 ===== PLCC:0.9445
+[20250224 14:33:23 INFO    ] Eval done...
+[20250224 14:33:23 INFO    ] Epoch 99 done. Time: 3.1min
+[20250224 14:33:23 INFO    ] Running training epoch 100
+[20250224 14:36:12 INFO    ] train epoch:100 / loss:0.001193 / SRCC:0.9751 / PLCC:0.9813
+[20250224 14:36:12 INFO    ] Starting eval...
+[20250224 14:36:12 INFO    ] Running testing in epoch 100
+[20250224 14:36:30 INFO    ] Epoch:100 ===== loss:0.00432 ===== SRCC:0.929 ===== PLCC:0.9382
+[20250224 14:36:30 INFO    ] Eval done...
+[20250224 14:36:30 INFO    ] Epoch 100 done. Time: 3.1min
+[20250224 14:36:30 INFO    ] Running training epoch 101
+[20250224 14:39:18 INFO    ] train epoch:101 / loss:0.001075 / SRCC:0.9765 / PLCC:0.9832
+[20250224 14:39:18 INFO    ] Starting eval...
+[20250224 14:39:18 INFO    ] Running testing in epoch 101
+[20250224 14:39:36 INFO    ] Epoch:101 ===== loss:0.005447 ===== SRCC:0.9298 ===== PLCC:0.9391
+[20250224 14:39:36 INFO    ] Eval done...
+[20250224 14:39:36 INFO    ] Epoch 101 done. Time: 3.1min
+[20250224 14:39:36 INFO    ] Running training epoch 102
+[20250224 14:42:23 INFO    ] train epoch:102 / loss:0.001045 / SRCC:0.9766 / PLCC:0.9837
+[20250224 14:42:23 INFO    ] Starting eval...
+[20250224 14:42:23 INFO    ] Running testing in epoch 102
+[20250224 14:42:41 INFO    ] Epoch:102 ===== loss:0.005362 ===== SRCC:0.9311 ===== PLCC:0.9385
+[20250224 14:42:41 INFO    ] Eval done...
+[20250224 14:42:41 INFO    ] Epoch 102 done. Time: 3.1min
+[20250224 14:42:41 INFO    ] Running training epoch 103
+[20250224 14:45:28 INFO    ] train epoch:103 / loss:0.001131 / SRCC:0.9764 / PLCC:0.9823
+[20250224 14:45:28 INFO    ] Starting eval...
+[20250224 14:45:28 INFO    ] Running testing in epoch 103
+[20250224 14:45:46 INFO    ] Epoch:103 ===== loss:0.004 ===== SRCC:0.9359 ===== PLCC:0.9446
+[20250224 14:45:46 INFO    ] Eval done...
+[20250224 14:45:46 INFO    ] Epoch 103 done. Time: 3.1min
+[20250224 14:45:46 INFO    ] Running training epoch 104
+[20250224 14:48:34 INFO    ] train epoch:104 / loss:0.001021 / SRCC:0.9786 / PLCC:0.984
+[20250224 14:48:34 INFO    ] Starting eval...
+[20250224 14:48:34 INFO    ] Running testing in epoch 104
+[20250224 14:48:52 INFO    ] Epoch:104 ===== loss:0.0049 ===== SRCC:0.9336 ===== PLCC:0.9412
+[20250224 14:48:52 INFO    ] Eval done...
+[20250224 14:48:52 INFO    ] Epoch 104 done. Time: 3.1min
+[20250224 14:48:52 INFO    ] Running training epoch 105
+[20250224 14:51:40 INFO    ] train epoch:105 / loss:0.001114 / SRCC:0.9763 / PLCC:0.9826
+[20250224 14:51:40 INFO    ] Starting eval...
+[20250224 14:51:40 INFO    ] Running testing in epoch 105
+[20250224 14:51:58 INFO    ] Epoch:105 ===== loss:0.005794 ===== SRCC:0.9242 ===== PLCC:0.9352
+[20250224 14:51:58 INFO    ] Eval done...
+[20250224 14:51:58 INFO    ] Epoch 105 done. Time: 3.1min
+[20250224 14:51:58 INFO    ] Running training epoch 106
+[20250224 14:54:45 INFO    ] train epoch:106 / loss:0.001044 / SRCC:0.978 / PLCC:0.9837
+[20250224 14:54:45 INFO    ] Starting eval...
+[20250224 14:54:45 INFO    ] Running testing in epoch 106
+[20250224 14:55:03 INFO    ] Epoch:106 ===== loss:0.004449 ===== SRCC:0.926 ===== PLCC:0.936
+[20250224 14:55:03 INFO    ] Eval done...
+[20250224 14:55:04 INFO    ] Epoch 106 done. Time: 3.1min
+[20250224 14:55:04 INFO    ] Running training epoch 107
+[20250224 14:57:51 INFO    ] train epoch:107 / loss:0.001038 / SRCC:0.9787 / PLCC:0.9838
+[20250224 14:57:51 INFO    ] Starting eval...
+[20250224 14:57:51 INFO    ] Running testing in epoch 107
+[20250224 14:58:09 INFO    ] Epoch:107 ===== loss:0.00444 ===== SRCC:0.9392 ===== PLCC:0.943
+[20250224 14:58:09 INFO    ] Eval done...
+[20250224 14:58:09 INFO    ] Epoch 107 done. Time: 3.1min
+[20250224 14:58:09 INFO    ] Running training epoch 108
+[20250224 15:00:56 INFO    ] train epoch:108 / loss:0.001167 / SRCC:0.9749 / PLCC:0.9817
+[20250224 15:00:56 INFO    ] Starting eval...
+[20250224 15:00:56 INFO    ] Running testing in epoch 108
+[20250224 15:01:14 INFO    ] Epoch:108 ===== loss:0.004996 ===== SRCC:0.9218 ===== PLCC:0.9328
+[20250224 15:01:14 INFO    ] Eval done...
+[20250224 15:01:14 INFO    ] Epoch 108 done. Time: 3.1min
+[20250224 15:01:14 INFO    ] Running training epoch 109
+[20250224 15:04:02 INFO    ] train epoch:109 / loss:0.0009974 / SRCC:0.979 / PLCC:0.9844
+[20250224 15:04:02 INFO    ] Starting eval...
+[20250224 15:04:02 INFO    ] Running testing in epoch 109
+[20250224 15:04:20 INFO    ] Epoch:109 ===== loss:0.004459 ===== SRCC:0.9321 ===== PLCC:0.9405
+[20250224 15:04:20 INFO    ] Eval done...
+[20250224 15:04:20 INFO    ] Epoch 109 done. Time: 3.1min
+[20250224 15:04:20 INFO    ] Running training epoch 110
+[20250224 15:07:07 INFO    ] train epoch:110 / loss:0.001179 / SRCC:0.9754 / PLCC:0.9815
+[20250224 15:07:07 INFO    ] Starting eval...
+[20250224 15:07:07 INFO    ] Running testing in epoch 110
+[20250224 15:07:25 INFO    ] Epoch:110 ===== loss:0.004398 ===== SRCC:0.9314 ===== PLCC:0.9389
+[20250224 15:07:25 INFO    ] Eval done...
+[20250224 15:07:25 INFO    ] Epoch 110 done. Time: 3.1min
+[20250224 15:07:25 INFO    ] Running training epoch 111
+[20250224 15:10:13 INFO    ] train epoch:111 / loss:0.001197 / SRCC:0.9755 / PLCC:0.9813
+[20250224 15:10:13 INFO    ] Starting eval...
+[20250224 15:10:13 INFO    ] Running testing in epoch 111
+[20250224 15:10:31 INFO    ] Epoch:111 ===== loss:0.00396 ===== SRCC:0.9347 ===== PLCC:0.942
+[20250224 15:10:31 INFO    ] Eval done...
+[20250224 15:10:31 INFO    ] Epoch 111 done. Time: 3.1min
+[20250224 15:10:31 INFO    ] Running training epoch 112
+[20250224 15:13:19 INFO    ] train epoch:112 / loss:0.001186 / SRCC:0.9745 / PLCC:0.9814
+[20250224 15:13:19 INFO    ] Starting eval...
+[20250224 15:13:19 INFO    ] Running testing in epoch 112
+[20250224 15:13:37 INFO    ] Epoch:112 ===== loss:0.004425 ===== SRCC:0.9334 ===== PLCC:0.9404
+[20250224 15:13:37 INFO    ] Eval done...
+[20250224 15:13:37 INFO    ] Epoch 112 done. Time: 3.1min
+[20250224 15:13:37 INFO    ] Running training epoch 113
+[20250224 15:16:25 INFO    ] train epoch:113 / loss:0.001299 / SRCC:0.9733 / PLCC:0.9796
+[20250224 15:16:25 INFO    ] Starting eval...
+[20250224 15:16:25 INFO    ] Running testing in epoch 113
+[20250224 15:16:43 INFO    ] Epoch:113 ===== loss:0.004236 ===== SRCC:0.9334 ===== PLCC:0.9413
+[20250224 15:16:43 INFO    ] Eval done...
+[20250224 15:16:43 INFO    ] Epoch 113 done. Time: 3.1min
+[20250224 15:16:43 INFO    ] Running training epoch 114
+[20250224 15:19:31 INFO    ] train epoch:114 / loss:0.001329 / SRCC:0.972 / PLCC:0.9792
+[20250224 15:19:31 INFO    ] Starting eval...
+[20250224 15:19:31 INFO    ] Running testing in epoch 114
+[20250224 15:19:49 INFO    ] Epoch:114 ===== loss:0.004761 ===== SRCC:0.9241 ===== PLCC:0.9355
+[20250224 15:19:49 INFO    ] Eval done...
+[20250224 15:19:49 INFO    ] Epoch 114 done. Time: 3.1min
+[20250224 15:19:49 INFO    ] Running training epoch 115
+[20250224 15:22:36 INFO    ] train epoch:115 / loss:0.001119 / SRCC:0.9761 / PLCC:0.9825
+[20250224 15:22:36 INFO    ] Starting eval...
+[20250224 15:22:36 INFO    ] Running testing in epoch 115
+[20250224 15:22:54 INFO    ] Epoch:115 ===== loss:0.00417 ===== SRCC:0.9357 ===== PLCC:0.9402
+[20250224 15:22:54 INFO    ] Eval done...
+[20250224 15:22:54 INFO    ] Epoch 115 done. Time: 3.1min
+[20250224 15:22:54 INFO    ] Running training epoch 116
+[20250224 15:25:42 INFO    ] train epoch:116 / loss:0.0009405 / SRCC:0.9795 / PLCC:0.9853
+[20250224 15:25:42 INFO    ] Starting eval...
+[20250224 15:25:42 INFO    ] Running testing in epoch 116
+[20250224 15:26:00 INFO    ] Epoch:116 ===== loss:0.004285 ===== SRCC:0.9337 ===== PLCC:0.9421
+[20250224 15:26:00 INFO    ] Eval done...
+[20250224 15:26:00 INFO    ] Epoch 116 done. Time: 3.1min
+[20250224 15:26:00 INFO    ] Running training epoch 117
+[20250224 15:28:48 INFO    ] train epoch:117 / loss:0.001231 / SRCC:0.9748 / PLCC:0.9807
+[20250224 15:28:48 INFO    ] Starting eval...
+[20250224 15:28:48 INFO    ] Running testing in epoch 117
+[20250224 15:29:06 INFO    ] Epoch:117 ===== loss:0.004047 ===== SRCC:0.9348 ===== PLCC:0.942
+[20250224 15:29:06 INFO    ] Eval done...
+[20250224 15:29:06 INFO    ] Epoch 117 done. Time: 3.1min
+[20250224 15:29:06 INFO    ] Running training epoch 118
+[20250224 15:31:53 INFO    ] train epoch:118 / loss:0.001262 / SRCC:0.9737 / PLCC:0.9802
+[20250224 15:31:53 INFO    ] Starting eval...
+[20250224 15:31:53 INFO    ] Running testing in epoch 118
+[20250224 15:32:12 INFO    ] Epoch:118 ===== loss:0.004655 ===== SRCC:0.9316 ===== PLCC:0.9415
+[20250224 15:32:12 INFO    ] Eval done...
+[20250224 15:32:12 INFO    ] Epoch 118 done. Time: 3.1min
+[20250224 15:32:12 INFO    ] Running training epoch 119
+[20250224 15:35:00 INFO    ] train epoch:119 / loss:0.001183 / SRCC:0.9742 / PLCC:0.9815
+[20250224 15:35:00 INFO    ] Starting eval...
+[20250224 15:35:00 INFO    ] Running testing in epoch 119
+[20250224 15:35:17 INFO    ] Epoch:119 ===== loss:0.004134 ===== SRCC:0.9378 ===== PLCC:0.9416
+[20250224 15:35:17 INFO    ] Eval done...
+[20250224 15:35:17 INFO    ] Epoch 119 done. Time: 3.1min
+[20250224 15:35:17 INFO    ] Running training epoch 120
+[20250224 15:38:05 INFO    ] train epoch:120 / loss:0.001174 / SRCC:0.9744 / PLCC:0.9816
+[20250224 15:38:05 INFO    ] Starting eval...
+[20250224 15:38:05 INFO    ] Running testing in epoch 120
+[20250224 15:38:24 INFO    ] Epoch:120 ===== loss:0.005537 ===== SRCC:0.9307 ===== PLCC:0.939
+[20250224 15:38:24 INFO    ] Eval done...
+[20250224 15:38:24 INFO    ] Epoch 120 done. Time: 3.1min
+[20250224 15:38:24 INFO    ] Running training epoch 121
+[20250224 15:41:11 INFO    ] train epoch:121 / loss:0.001293 / SRCC:0.9727 / PLCC:0.9797
+[20250224 15:41:11 INFO    ] Starting eval...
+[20250224 15:41:11 INFO    ] Running testing in epoch 121
+[20250224 15:41:29 INFO    ] Epoch:121 ===== loss:0.004609 ===== SRCC:0.9284 ===== PLCC:0.9366
+[20250224 15:41:29 INFO    ] Eval done...
+[20250224 15:41:29 INFO    ] Epoch 121 done. Time: 3.1min
+[20250224 15:41:29 INFO    ] Running training epoch 122
+[20250224 15:44:17 INFO    ] train epoch:122 / loss:0.001145 / SRCC:0.9764 / PLCC:0.9821
+[20250224 15:44:17 INFO    ] Starting eval...
+[20250224 15:44:17 INFO    ] Running testing in epoch 122
+[20250224 15:44:36 INFO    ] Epoch:122 ===== loss:0.005343 ===== SRCC:0.9064 ===== PLCC:0.9204
+[20250224 15:44:36 INFO    ] Eval done...
+[20250224 15:44:36 INFO    ] Epoch 122 done. Time: 3.1min
+[20250224 15:44:36 INFO    ] Running training epoch 123
+[20250224 15:47:24 INFO    ] train epoch:123 / loss:0.001037 / SRCC:0.9782 / PLCC:0.9838
+[20250224 15:47:24 INFO    ] Starting eval...
+[20250224 15:47:24 INFO    ] Running testing in epoch 123
+[20250224 15:47:42 INFO    ] Epoch:123 ===== loss:0.004137 ===== SRCC:0.9378 ===== PLCC:0.9464
+[20250224 15:47:42 INFO    ] Eval done...
+[20250224 15:47:42 INFO    ] Epoch 123 done. Time: 3.1min
+[20250224 15:47:42 INFO    ] Running training epoch 124
+[20250224 15:50:30 INFO    ] train epoch:124 / loss:0.001039 / SRCC:0.9777 / PLCC:0.9838
+[20250224 15:50:30 INFO    ] Starting eval...
+[20250224 15:50:30 INFO    ] Running testing in epoch 124
+[20250224 15:50:48 INFO    ] Epoch:124 ===== loss:0.004624 ===== SRCC:0.9295 ===== PLCC:0.9342
+[20250224 15:50:48 INFO    ] Eval done...
+[20250224 15:50:48 INFO    ] Epoch 124 done. Time: 3.1min
+[20250224 15:50:48 INFO    ] Running training epoch 125
+[20250224 15:53:36 INFO    ] train epoch:125 / loss:0.001128 / SRCC:0.9768 / PLCC:0.9824
+[20250224 15:53:36 INFO    ] Starting eval...
+[20250224 15:53:36 INFO    ] Running testing in epoch 125
+[20250224 15:53:54 INFO    ] Epoch:125 ===== loss:0.004363 ===== SRCC:0.9343 ===== PLCC:0.9417
+[20250224 15:53:54 INFO    ] Eval done...
+[20250224 15:53:54 INFO    ] Epoch 125 done. Time: 3.1min
+[20250224 15:53:54 INFO    ] Running training epoch 126
+[20250224 15:56:42 INFO    ] train epoch:126 / loss:0.00119 / SRCC:0.9747 / PLCC:0.9814
+[20250224 15:56:42 INFO    ] Starting eval...
+[20250224 15:56:42 INFO    ] Running testing in epoch 126
+[20250224 15:57:00 INFO    ] Epoch:126 ===== loss:0.004237 ===== SRCC:0.9353 ===== PLCC:0.9447
+[20250224 15:57:00 INFO    ] Eval done...
+[20250224 15:57:00 INFO    ] Epoch 126 done. Time: 3.1min
+[20250224 15:57:00 INFO    ] Running training epoch 127
+[20250224 15:59:47 INFO    ] train epoch:127 / loss:0.001114 / SRCC:0.976 / PLCC:0.9826
+[20250224 15:59:47 INFO    ] Starting eval...
+[20250224 15:59:47 INFO    ] Running testing in epoch 127
+[20250224 16:00:05 INFO    ] Epoch:127 ===== loss:0.003956 ===== SRCC:0.9436 ===== PLCC:0.95
+[20250224 16:00:05 INFO    ] Eval done...
+[20250224 16:00:05 INFO    ] Epoch 127 done. Time: 3.1min
+[20250224 16:00:05 INFO    ] Running training epoch 128
+[20250224 16:02:53 INFO    ] train epoch:128 / loss:0.001078 / SRCC:0.9766 / PLCC:0.9831
+[20250224 16:02:53 INFO    ] Starting eval...
+[20250224 16:02:53 INFO    ] Running testing in epoch 128
+[20250224 16:03:12 INFO    ] Epoch:128 ===== loss:0.004242 ===== SRCC:0.9291 ===== PLCC:0.9385
+[20250224 16:03:12 INFO    ] Eval done...
+[20250224 16:03:12 INFO    ] Epoch 128 done. Time: 3.1min
+[20250224 16:03:12 INFO    ] Running training epoch 129
+[20250224 16:05:59 INFO    ] train epoch:129 / loss:0.000866 / SRCC:0.9811 / PLCC:0.9865
+[20250224 16:05:59 INFO    ] Starting eval...
+[20250224 16:05:59 INFO    ] Running testing in epoch 129
+[20250224 16:06:17 INFO    ] Epoch:129 ===== loss:0.004091 ===== SRCC:0.9438 ===== PLCC:0.9485
+[20250224 16:06:17 INFO    ] Eval done...
+[20250224 16:06:17 INFO    ] Epoch 129 done. Time: 3.1min
+[20250224 16:06:17 INFO    ] Running training epoch 130
+[20250224 16:09:05 INFO    ] train epoch:130 / loss:0.00112 / SRCC:0.9762 / PLCC:0.9825
+[20250224 16:09:05 INFO    ] Starting eval...
+[20250224 16:09:05 INFO    ] Running testing in epoch 130
+[20250224 16:09:23 INFO    ] Epoch:130 ===== loss:0.003393 ===== SRCC:0.9447 ===== PLCC:0.951
+[20250224 16:09:23 INFO    ] Eval done...
+[20250224 16:09:23 INFO    ] Epoch 130 done. Time: 3.1min
+[20250224 16:09:23 INFO    ] Running training epoch 131
+[20250224 16:12:12 INFO    ] train epoch:131 / loss:0.001313 / SRCC:0.9711 / PLCC:0.9794
+[20250224 16:12:12 INFO    ] Starting eval...
+[20250224 16:12:12 INFO    ] Running testing in epoch 131
+[20250224 16:12:30 INFO    ] Epoch:131 ===== loss:0.004228 ===== SRCC:0.9314 ===== PLCC:0.9412
+[20250224 16:12:30 INFO    ] Eval done...
+[20250224 16:12:30 INFO    ] Epoch 131 done. Time: 3.1min
+[20250224 16:12:30 INFO    ] Running training epoch 132
+[20250224 16:15:19 INFO    ] train epoch:132 / loss:0.001058 / SRCC:0.9772 / PLCC:0.9834
+[20250224 16:15:19 INFO    ] Starting eval...
+[20250224 16:15:19 INFO    ] Running testing in epoch 132
+[20250224 16:15:36 INFO    ] Epoch:132 ===== loss:0.005 ===== SRCC:0.9399 ===== PLCC:0.947
+[20250224 16:15:36 INFO    ] Eval done...
+[20250224 16:15:36 INFO    ] Epoch 132 done. Time: 3.1min
+[20250224 16:15:36 INFO    ] Running training epoch 133
+[20250224 16:18:24 INFO    ] train epoch:133 / loss:0.001017 / SRCC:0.9782 / PLCC:0.9841
+[20250224 16:18:24 INFO    ] Starting eval...
+[20250224 16:18:24 INFO    ] Running testing in epoch 133
+[20250224 16:18:42 INFO    ] Epoch:133 ===== loss:0.005917 ===== SRCC:0.9246 ===== PLCC:0.9342
+[20250224 16:18:42 INFO    ] Eval done...
+[20250224 16:18:42 INFO    ] Epoch 133 done. Time: 3.1min
+[20250224 16:18:42 INFO    ] Running training epoch 134
+[20250224 16:21:30 INFO    ] train epoch:134 / loss:0.001463 / SRCC:0.9696 / PLCC:0.977
+[20250224 16:21:30 INFO    ] Starting eval...
+[20250224 16:21:30 INFO    ] Running testing in epoch 134
+[20250224 16:21:48 INFO    ] Epoch:134 ===== loss:0.004731 ===== SRCC:0.9189 ===== PLCC:0.9305
+[20250224 16:21:48 INFO    ] Eval done...
+[20250224 16:21:48 INFO    ] Epoch 134 done. Time: 3.1min
+[20250224 16:21:48 INFO    ] Running training epoch 135
+[20250224 16:24:35 INFO    ] train epoch:135 / loss:0.001086 / SRCC:0.9768 / PLCC:0.983
+[20250224 16:24:35 INFO    ] Starting eval...
+[20250224 16:24:35 INFO    ] Running testing in epoch 135
+[20250224 16:24:54 INFO    ] Epoch:135 ===== loss:0.003943 ===== SRCC:0.9368 ===== PLCC:0.9444
+[20250224 16:24:54 INFO    ] Eval done...
+[20250224 16:24:54 INFO    ] Epoch 135 done. Time: 3.1min
+[20250224 16:24:54 INFO    ] Running training epoch 136
+[20250224 16:27:43 INFO    ] train epoch:136 / loss:0.0009918 / SRCC:0.9791 / PLCC:0.9845
+[20250224 16:27:43 INFO    ] Starting eval...
+[20250224 16:27:43 INFO    ] Running testing in epoch 136
+[20250224 16:28:01 INFO    ] Epoch:136 ===== loss:0.004704 ===== SRCC:0.9282 ===== PLCC:0.937
+[20250224 16:28:01 INFO    ] Eval done...
+[20250224 16:28:01 INFO    ] Epoch 136 done. Time: 3.1min
+[20250224 16:28:01 INFO    ] Running training epoch 137
+[20250224 16:30:50 INFO    ] train epoch:137 / loss:0.001125 / SRCC:0.9757 / PLCC:0.9824
+[20250224 16:30:50 INFO    ] Starting eval...
+[20250224 16:30:50 INFO    ] Running testing in epoch 137
+[20250224 16:31:08 INFO    ] Epoch:137 ===== loss:0.004449 ===== SRCC:0.9216 ===== PLCC:0.9338
+[20250224 16:31:08 INFO    ] Eval done...
+[20250224 16:31:08 INFO    ] Epoch 137 done. Time: 3.1min
+[20250224 16:31:08 INFO    ] Running training epoch 138
+[20250224 16:33:55 INFO    ] train epoch:138 / loss:0.001212 / SRCC:0.9741 / PLCC:0.981
+[20250224 16:33:55 INFO    ] Starting eval...
+[20250224 16:33:55 INFO    ] Running testing in epoch 138
+[20250224 16:34:13 INFO    ] Epoch:138 ===== loss:0.004693 ===== SRCC:0.9317 ===== PLCC:0.9409
+[20250224 16:34:13 INFO    ] Eval done...
+[20250224 16:34:13 INFO    ] Epoch 138 done. Time: 3.1min
+[20250224 16:34:13 INFO    ] Running training epoch 139
+[20250224 16:37:01 INFO    ] train epoch:139 / loss:0.0012 / SRCC:0.9752 / PLCC:0.9813
+[20250224 16:37:01 INFO    ] Starting eval...
+[20250224 16:37:01 INFO    ] Running testing in epoch 139
+[20250224 16:37:19 INFO    ] Epoch:139 ===== loss:0.004601 ===== SRCC:0.9342 ===== PLCC:0.9444
+[20250224 16:37:19 INFO    ] Eval done...
+[20250224 16:37:19 INFO    ] Epoch 139 done. Time: 3.1min
+[20250224 16:37:19 INFO    ] Running training epoch 140
+[20250224 16:40:08 INFO    ] train epoch:140 / loss:0.001348 / SRCC:0.9712 / PLCC:0.9789
+[20250224 16:40:08 INFO    ] Starting eval...
+[20250224 16:40:08 INFO    ] Running testing in epoch 140
+[20250224 16:40:26 INFO    ] Epoch:140 ===== loss:0.003823 ===== SRCC:0.9428 ===== PLCC:0.9471
+[20250224 16:40:26 INFO    ] Eval done...
+[20250224 16:40:26 INFO    ] Epoch 140 done. Time: 3.1min
+[20250224 16:40:26 INFO    ] Running training epoch 141
+[20250224 16:43:13 INFO    ] train epoch:141 / loss:0.001179 / SRCC:0.9753 / PLCC:0.9816
+[20250224 16:43:13 INFO    ] Starting eval...
+[20250224 16:43:13 INFO    ] Running testing in epoch 141
+[20250224 16:43:31 INFO    ] Epoch:141 ===== loss:0.005076 ===== SRCC:0.9231 ===== PLCC:0.933
+[20250224 16:43:31 INFO    ] Eval done...
+[20250224 16:43:31 INFO    ] Epoch 141 done. Time: 3.1min
+[20250224 16:43:31 INFO    ] Running training epoch 142
+[20250224 16:46:18 INFO    ] train epoch:142 / loss:0.0009748 / SRCC:0.979 / PLCC:0.9848
+[20250224 16:46:18 INFO    ] Starting eval...
+[20250224 16:46:18 INFO    ] Running testing in epoch 142
+[20250224 16:46:35 INFO    ] Epoch:142 ===== loss:0.003866 ===== SRCC:0.942 ===== PLCC:0.9473
+[20250224 16:46:35 INFO    ] Eval done...
+[20250224 16:46:35 INFO    ] Epoch 142 done. Time: 3.1min
+[20250224 16:46:35 INFO    ] Running training epoch 143
+[20250224 16:49:22 INFO    ] train epoch:143 / loss:0.0009343 / SRCC:0.9803 / PLCC:0.9854
+[20250224 16:49:22 INFO    ] Starting eval...
+[20250224 16:49:22 INFO    ] Running testing in epoch 143
+[20250224 16:49:40 INFO    ] Epoch:143 ===== loss:0.00411 ===== SRCC:0.9318 ===== PLCC:0.9406
+[20250224 16:49:40 INFO    ] Eval done...
+[20250224 16:49:40 INFO    ] Epoch 143 done. Time: 3.1min
+[20250224 16:49:40 INFO    ] Running training epoch 144
+[20250224 16:52:26 INFO    ] train epoch:144 / loss:0.001054 / SRCC:0.9784 / PLCC:0.9835
+[20250224 16:52:26 INFO    ] Starting eval...
+[20250224 16:52:26 INFO    ] Running testing in epoch 144
+[20250224 16:52:44 INFO    ] Epoch:144 ===== loss:0.004976 ===== SRCC:0.9346 ===== PLCC:0.9407
+[20250224 16:52:44 INFO    ] Eval done...
+[20250224 16:52:44 INFO    ] Epoch 144 done. Time: 3.1min
+[20250224 16:52:44 INFO    ] Running training epoch 145
+[20250224 16:55:31 INFO    ] train epoch:145 / loss:0.001271 / SRCC:0.9732 / PLCC:0.9801
+[20250224 16:55:31 INFO    ] Starting eval...
+[20250224 16:55:31 INFO    ] Running testing in epoch 145
+[20250224 16:55:49 INFO    ] Epoch:145 ===== loss:0.005052 ===== SRCC:0.9285 ===== PLCC:0.9392
+[20250224 16:55:49 INFO    ] Eval done...
+[20250224 16:55:49 INFO    ] Epoch 145 done. Time: 3.1min
+[20250224 16:55:49 INFO    ] Running training epoch 146
+[20250224 16:58:35 INFO    ] train epoch:146 / loss:0.001064 / SRCC:0.9776 / PLCC:0.9834
+[20250224 16:58:35 INFO    ] Starting eval...
+[20250224 16:58:35 INFO    ] Running testing in epoch 146
+[20250224 16:58:53 INFO    ] Epoch:146 ===== loss:0.00395 ===== SRCC:0.9347 ===== PLCC:0.9413
+[20250224 16:58:53 INFO    ] Eval done...
+[20250224 16:58:53 INFO    ] Epoch 146 done. Time: 3.1min
+[20250224 16:58:53 INFO    ] Running training epoch 147
+[20250224 17:01:39 INFO    ] train epoch:147 / loss:0.001159 / SRCC:0.9752 / PLCC:0.9819
+[20250224 17:01:39 INFO    ] Starting eval...
+[20250224 17:01:39 INFO    ] Running testing in epoch 147
+[20250224 17:01:57 INFO    ] Epoch:147 ===== loss:0.004928 ===== SRCC:0.9215 ===== PLCC:0.9339
+[20250224 17:01:57 INFO    ] Eval done...
+[20250224 17:01:57 INFO    ] Epoch 147 done. Time: 3.1min
+[20250224 17:01:57 INFO    ] Running training epoch 148
+[20250224 17:04:44 INFO    ] train epoch:148 / loss:0.0009553 / SRCC:0.9795 / PLCC:0.9851
+[20250224 17:04:44 INFO    ] Starting eval...
+[20250224 17:04:44 INFO    ] Running testing in epoch 148
+[20250224 17:05:02 INFO    ] Epoch:148 ===== loss:0.003836 ===== SRCC:0.9399 ===== PLCC:0.9455
+[20250224 17:05:02 INFO    ] Eval done...
+[20250224 17:05:02 INFO    ] Epoch 148 done. Time: 3.1min
+[20250224 17:05:02 INFO    ] Running training epoch 149
+[20250224 17:07:49 INFO    ] train epoch:149 / loss:0.001239 / SRCC:0.9739 / PLCC:0.9806
+[20250224 17:07:49 INFO    ] Starting eval...
+[20250224 17:07:49 INFO    ] Running testing in epoch 149
+[20250224 17:08:07 INFO    ] Epoch:149 ===== loss:0.004553 ===== SRCC:0.9407 ===== PLCC:0.9469
+[20250224 17:08:07 INFO    ] Eval done...
+[20250224 17:08:07 INFO    ] Epoch 149 done. Time: 3.1min
+[20250224 17:08:07 INFO    ] Running training epoch 150
+[20250224 17:10:54 INFO    ] train epoch:150 / loss:0.0009566 / SRCC:0.9794 / PLCC:0.985
+[20250224 17:10:54 INFO    ] Starting eval...
+[20250224 17:10:54 INFO    ] Running testing in epoch 150
+[20250224 17:11:12 INFO    ] Epoch:150 ===== loss:0.004222 ===== SRCC:0.9434 ===== PLCC:0.9483
+[20250224 17:11:12 INFO    ] Eval done...
+[20250224 17:11:12 INFO    ] Epoch 150 done. Time: 3.1min
+[20250224 17:11:12 INFO    ] Running training epoch 151
+[20250224 17:13:58 INFO    ] train epoch:151 / loss:0.0009957 / SRCC:0.9788 / PLCC:0.9844
+[20250224 17:13:58 INFO    ] Starting eval...
+[20250224 17:13:58 INFO    ] Running testing in epoch 151
+[20250224 17:14:16 INFO    ] Epoch:151 ===== loss:0.004405 ===== SRCC:0.9306 ===== PLCC:0.9402
+[20250224 17:14:16 INFO    ] Eval done...
+[20250224 17:14:16 INFO    ] Epoch 151 done. Time: 3.1min
+[20250224 17:14:16 INFO    ] Running training epoch 152
+[20250224 17:17:02 INFO    ] train epoch:152 / loss:0.001047 / SRCC:0.9781 / PLCC:0.9836
+[20250224 17:17:02 INFO    ] Starting eval...
+[20250224 17:17:02 INFO    ] Running testing in epoch 152
+[20250224 17:17:20 INFO    ] Epoch:152 ===== loss:0.004133 ===== SRCC:0.9315 ===== PLCC:0.94
+[20250224 17:17:20 INFO    ] Eval done...
+[20250224 17:17:20 INFO    ] Epoch 152 done. Time: 3.1min
+[20250224 17:17:20 INFO    ] Running training epoch 153
+[20250224 17:20:06 INFO    ] train epoch:153 / loss:0.001023 / SRCC:0.9785 / PLCC:0.984
+[20250224 17:20:06 INFO    ] Starting eval...
+[20250224 17:20:06 INFO    ] Running testing in epoch 153
+[20250224 17:20:24 INFO    ] Epoch:153 ===== loss:0.004294 ===== SRCC:0.9327 ===== PLCC:0.941
+[20250224 17:20:24 INFO    ] Eval done...
+[20250224 17:20:24 INFO    ] Epoch 153 done. Time: 3.1min
+[20250224 17:20:24 INFO    ] Running training epoch 154
+[20250224 17:23:11 INFO    ] train epoch:154 / loss:0.0009613 / SRCC:0.9793 / PLCC:0.985
+[20250224 17:23:11 INFO    ] Starting eval...
+[20250224 17:23:11 INFO    ] Running testing in epoch 154
+[20250224 17:23:29 INFO    ] Epoch:154 ===== loss:0.005037 ===== SRCC:0.9378 ===== PLCC:0.9455
+[20250224 17:23:29 INFO    ] Eval done...
+[20250224 17:23:29 INFO    ] Epoch 154 done. Time: 3.1min
+[20250224 17:23:29 INFO    ] Running training epoch 155
+[20250224 17:26:15 INFO    ] train epoch:155 / loss:0.001096 / SRCC:0.9768 / PLCC:0.9829
+[20250224 17:26:15 INFO    ] Starting eval...
+[20250224 17:26:15 INFO    ] Running testing in epoch 155
+[20250224 17:26:33 INFO    ] Epoch:155 ===== loss:0.004258 ===== SRCC:0.9285 ===== PLCC:0.9377
+[20250224 17:26:33 INFO    ] Eval done...
+[20250224 17:26:33 INFO    ] Epoch 155 done. Time: 3.1min
+[20250224 17:26:33 INFO    ] Running training epoch 156
+[20250224 17:29:19 INFO    ] train epoch:156 / loss:0.001185 / SRCC:0.975 / PLCC:0.9815
+[20250224 17:29:19 INFO    ] Starting eval...
+[20250224 17:29:19 INFO    ] Running testing in epoch 156
+[20250224 17:29:37 INFO    ] Epoch:156 ===== loss:0.003626 ===== SRCC:0.9416 ===== PLCC:0.9487
+[20250224 17:29:37 INFO    ] Eval done...
+[20250224 17:29:37 INFO    ] Epoch 156 done. Time: 3.1min
+[20250224 17:29:37 INFO    ] Running training epoch 157
+[20250224 17:32:23 INFO    ] train epoch:157 / loss:0.001129 / SRCC:0.9753 / PLCC:0.9823
+[20250224 17:32:23 INFO    ] Starting eval...
+[20250224 17:32:23 INFO    ] Running testing in epoch 157
+[20250224 17:32:41 INFO    ] Epoch:157 ===== loss:0.004289 ===== SRCC:0.9337 ===== PLCC:0.9432
+[20250224 17:32:41 INFO    ] Eval done...
+[20250224 17:32:41 INFO    ] Epoch 157 done. Time: 3.1min
+[20250224 17:32:41 INFO    ] Running training epoch 158
+[20250224 17:35:27 INFO    ] train epoch:158 / loss:0.001206 / SRCC:0.9746 / PLCC:0.9811
+[20250224 17:35:27 INFO    ] Starting eval...
+[20250224 17:35:27 INFO    ] Running testing in epoch 158
+[20250224 17:35:45 INFO    ] Epoch:158 ===== loss:0.004333 ===== SRCC:0.9288 ===== PLCC:0.9371
+[20250224 17:35:45 INFO    ] Eval done...
+[20250224 17:35:45 INFO    ] Epoch 158 done. Time: 3.1min
+[20250224 17:35:45 INFO    ] Running training epoch 159
+[20250224 17:38:32 INFO    ] train epoch:159 / loss:0.001145 / SRCC:0.9752 / PLCC:0.9821
+[20250224 17:38:32 INFO    ] Starting eval...
+[20250224 17:38:32 INFO    ] Running testing in epoch 159
+[20250224 17:38:50 INFO    ] Epoch:159 ===== loss:0.004356 ===== SRCC:0.9353 ===== PLCC:0.9413
+[20250224 17:38:50 INFO    ] Eval done...
+[20250224 17:38:50 INFO    ] Epoch 159 done. Time: 3.1min
+[20250224 17:38:50 INFO    ] Running training epoch 160
+[20250224 17:41:37 INFO    ] train epoch:160 / loss:0.001146 / SRCC:0.9759 / PLCC:0.9821
+[20250224 17:41:37 INFO    ] Starting eval...
+[20250224 17:41:37 INFO    ] Running testing in epoch 160
+[20250224 17:41:55 INFO    ] Epoch:160 ===== loss:0.004243 ===== SRCC:0.9305 ===== PLCC:0.9386
+[20250224 17:41:55 INFO    ] Eval done...
+[20250224 17:41:55 INFO    ] Epoch 160 done. Time: 3.1min
+[20250224 17:41:55 INFO    ] Running training epoch 161
+[20250224 17:44:41 INFO    ] train epoch:161 / loss:0.001071 / SRCC:0.9778 / PLCC:0.9832
+[20250224 17:44:41 INFO    ] Starting eval...
+[20250224 17:44:41 INFO    ] Running testing in epoch 161
+[20250224 17:44:59 INFO    ] Epoch:161 ===== loss:0.003498 ===== SRCC:0.9446 ===== PLCC:0.9516
+[20250224 17:44:59 INFO    ] Eval done...
+[20250224 17:44:59 INFO    ] Epoch 161 done. Time: 3.1min
+[20250224 17:44:59 INFO    ] Running training epoch 162
+[20250224 17:47:45 INFO    ] train epoch:162 / loss:0.001048 / SRCC:0.9776 / PLCC:0.9836
+[20250224 17:47:45 INFO    ] Starting eval...
+[20250224 17:47:45 INFO    ] Running testing in epoch 162
+[20250224 17:48:03 INFO    ] Epoch:162 ===== loss:0.003683 ===== SRCC:0.9422 ===== PLCC:0.9481
+[20250224 17:48:03 INFO    ] Eval done...
+[20250224 17:48:03 INFO    ] Epoch 162 done. Time: 3.1min
+[20250224 17:48:03 INFO    ] Running training epoch 163
+[20250224 17:50:49 INFO    ] train epoch:163 / loss:0.001051 / SRCC:0.9778 / PLCC:0.9836
+[20250224 17:50:49 INFO    ] Starting eval...
+[20250224 17:50:49 INFO    ] Running testing in epoch 163
+[20250224 17:51:07 INFO    ] Epoch:163 ===== loss:0.004627 ===== SRCC:0.9175 ===== PLCC:0.9325
+[20250224 17:51:07 INFO    ] Eval done...
+[20250224 17:51:07 INFO    ] Epoch 163 done. Time: 3.1min
+[20250224 17:51:07 INFO    ] Running training epoch 164
+[20250224 17:53:53 INFO    ] train epoch:164 / loss:0.001281 / SRCC:0.9734 / PLCC:0.9799
+[20250224 17:53:53 INFO    ] Starting eval...
+[20250224 17:53:53 INFO    ] Running testing in epoch 164
+[20250224 17:54:11 INFO    ] Epoch:164 ===== loss:0.004845 ===== SRCC:0.9274 ===== PLCC:0.9368
+[20250224 17:54:11 INFO    ] Eval done...
+[20250224 17:54:11 INFO    ] Epoch 164 done. Time: 3.1min
+[20250224 17:54:11 INFO    ] Running training epoch 165
+[20250224 17:56:56 INFO    ] train epoch:165 / loss:0.001091 / SRCC:0.976 / PLCC:0.9829
+[20250224 17:56:56 INFO    ] Starting eval...
+[20250224 17:56:56 INFO    ] Running testing in epoch 165
+[20250224 17:57:14 INFO    ] Epoch:165 ===== loss:0.004805 ===== SRCC:0.9229 ===== PLCC:0.933
+[20250224 17:57:14 INFO    ] Eval done...
+[20250224 17:57:14 INFO    ] Epoch 165 done. Time: 3.1min
+[20250224 17:57:14 INFO    ] Running training epoch 166
+[20250224 18:00:01 INFO    ] train epoch:166 / loss:0.0009101 / SRCC:0.9807 / PLCC:0.9858
+[20250224 18:00:01 INFO    ] Starting eval...
+[20250224 18:00:01 INFO    ] Running testing in epoch 166
+[20250224 18:00:19 INFO    ] Epoch:166 ===== loss:0.004587 ===== SRCC:0.9282 ===== PLCC:0.9404
+[20250224 18:00:19 INFO    ] Eval done...
+[20250224 18:00:19 INFO    ] Epoch 166 done. Time: 3.1min
+[20250224 18:00:19 INFO    ] Running training epoch 167
+[20250224 18:03:05 INFO    ] train epoch:167 / loss:0.001296 / SRCC:0.9729 / PLCC:0.9797
+[20250224 18:03:05 INFO    ] Starting eval...
+[20250224 18:03:05 INFO    ] Running testing in epoch 167
+[20250224 18:03:23 INFO    ] Epoch:167 ===== loss:0.005808 ===== SRCC:0.9278 ===== PLCC:0.9368
+[20250224 18:03:23 INFO    ] Eval done...
+[20250224 18:03:23 INFO    ] Epoch 167 done. Time: 3.1min
+[20250224 18:03:23 INFO    ] Running training epoch 168
+[20250224 18:06:09 INFO    ] train epoch:168 / loss:0.001075 / SRCC:0.9773 / PLCC:0.9832
+[20250224 18:06:09 INFO    ] Starting eval...
+[20250224 18:06:09 INFO    ] Running testing in epoch 168
+[20250224 18:06:27 INFO    ] Epoch:168 ===== loss:0.005152 ===== SRCC:0.929 ===== PLCC:0.9389
+[20250224 18:06:27 INFO    ] Eval done...
+[20250224 18:06:27 INFO    ] Epoch 168 done. Time: 3.1min
+[20250224 18:06:27 INFO    ] Running training epoch 169
+[20250224 18:09:14 INFO    ] train epoch:169 / loss:0.001087 / SRCC:0.9764 / PLCC:0.983
+[20250224 18:09:14 INFO    ] Starting eval...
+[20250224 18:09:14 INFO    ] Running testing in epoch 169
+[20250224 18:09:32 INFO    ] Epoch:169 ===== loss:0.003913 ===== SRCC:0.9367 ===== PLCC:0.9443
+[20250224 18:09:32 INFO    ] Eval done...
+[20250224 18:09:32 INFO    ] Epoch 169 done. Time: 3.1min
+[20250224 18:09:32 INFO    ] Running training epoch 170
+[20250224 18:12:18 INFO    ] train epoch:170 / loss:0.0009003 / SRCC:0.981 / PLCC:0.9859
+[20250224 18:12:18 INFO    ] Starting eval...
+[20250224 18:12:18 INFO    ] Running testing in epoch 170
+[20250224 18:12:36 INFO    ] Epoch:170 ===== loss:0.004311 ===== SRCC:0.9361 ===== PLCC:0.9433
+[20250224 18:12:36 INFO    ] Eval done...
+[20250224 18:12:36 INFO    ] Epoch 170 done. Time: 3.1min
+[20250224 18:12:36 INFO    ] Running training epoch 171
+[20250224 18:15:22 INFO    ] train epoch:171 / loss:0.001126 / SRCC:0.9765 / PLCC:0.9824
+[20250224 18:15:22 INFO    ] Starting eval...
+[20250224 18:15:22 INFO    ] Running testing in epoch 171
+[20250224 18:15:39 INFO    ] Epoch:171 ===== loss:0.005909 ===== SRCC:0.926 ===== PLCC:0.9339
+[20250224 18:15:39 INFO    ] Eval done...
+[20250224 18:15:39 INFO    ] Epoch 171 done. Time: 3.1min
+[20250224 18:15:39 INFO    ] Running training epoch 172
+[20250224 18:18:25 INFO    ] train epoch:172 / loss:0.0008047 / SRCC:0.983 / PLCC:0.9874
+[20250224 18:18:25 INFO    ] Starting eval...
+[20250224 18:18:25 INFO    ] Running testing in epoch 172
+[20250224 18:18:43 INFO    ] Epoch:172 ===== loss:0.003903 ===== SRCC:0.9386 ===== PLCC:0.9452
+[20250224 18:18:43 INFO    ] Eval done...
+[20250224 18:18:43 INFO    ] Epoch 172 done. Time: 3.1min
+[20250224 18:18:43 INFO    ] Running training epoch 173
+[20250224 18:21:29 INFO    ] train epoch:173 / loss:0.001029 / SRCC:0.9784 / PLCC:0.9839
+[20250224 18:21:29 INFO    ] Starting eval...
+[20250224 18:21:29 INFO    ] Running testing in epoch 173
+[20250224 18:21:47 INFO    ] Epoch:173 ===== loss:0.004307 ===== SRCC:0.9313 ===== PLCC:0.9399
+[20250224 18:21:47 INFO    ] Eval done...
+[20250224 18:21:47 INFO    ] Epoch 173 done. Time: 3.1min
+[20250224 18:21:47 INFO    ] Running training epoch 174
+[20250224 18:24:32 INFO    ] train epoch:174 / loss:0.001464 / SRCC:0.9711 / PLCC:0.9771
+[20250224 18:24:32 INFO    ] Starting eval...
+[20250224 18:24:32 INFO    ] Running testing in epoch 174
+[20250224 18:24:50 INFO    ] Epoch:174 ===== loss:0.007037 ===== SRCC:0.9315 ===== PLCC:0.937
+[20250224 18:24:50 INFO    ] Eval done...
+[20250224 18:24:50 INFO    ] Epoch 174 done. Time: 3.1min
+[20250224 18:24:50 INFO    ] Running training epoch 175
+[20250224 18:27:36 INFO    ] train epoch:175 / loss:0.001294 / SRCC:0.9727 / PLCC:0.9797
+[20250224 18:27:36 INFO    ] Starting eval...
+[20250224 18:27:36 INFO    ] Running testing in epoch 175
+[20250224 18:27:54 INFO    ] Epoch:175 ===== loss:0.004332 ===== SRCC:0.933 ===== PLCC:0.9393
+[20250224 18:27:54 INFO    ] Eval done...
+[20250224 18:27:54 INFO    ] Epoch 175 done. Time: 3.1min
+[20250224 18:27:54 INFO    ] Running training epoch 176
+[20250224 18:30:40 INFO    ] train epoch:176 / loss:0.001255 / SRCC:0.9741 / PLCC:0.9804
+[20250224 18:30:40 INFO    ] Starting eval...
+[20250224 18:30:40 INFO    ] Running testing in epoch 176
+[20250224 18:30:58 INFO    ] Epoch:176 ===== loss:0.0049 ===== SRCC:0.9375 ===== PLCC:0.9421
+[20250224 18:30:58 INFO    ] Eval done...
+[20250224 18:30:58 INFO    ] Epoch 176 done. Time: 3.1min
+[20250224 18:30:58 INFO    ] Running training epoch 177
+[20250224 18:33:44 INFO    ] train epoch:177 / loss:0.001182 / SRCC:0.9756 / PLCC:0.9815
+[20250224 18:33:44 INFO    ] Starting eval...
+[20250224 18:33:44 INFO    ] Running testing in epoch 177
+[20250224 18:34:02 INFO    ] Epoch:177 ===== loss:0.005064 ===== SRCC:0.9314 ===== PLCC:0.942
+[20250224 18:34:02 INFO    ] Eval done...
+[20250224 18:34:02 INFO    ] Epoch 177 done. Time: 3.1min
+[20250224 18:34:02 INFO    ] Running training epoch 178
+[20250224 18:36:48 INFO    ] train epoch:178 / loss:0.001159 / SRCC:0.9764 / PLCC:0.9819
+[20250224 18:36:48 INFO    ] Starting eval...
+[20250224 18:36:48 INFO    ] Running testing in epoch 178
+[20250224 18:37:06 INFO    ] Epoch:178 ===== loss:0.004875 ===== SRCC:0.9342 ===== PLCC:0.9421
+[20250224 18:37:06 INFO    ] Eval done...
+[20250224 18:37:06 INFO    ] Epoch 178 done. Time: 3.1min
+[20250224 18:37:06 INFO    ] Running training epoch 179
+[20250224 18:39:53 INFO    ] train epoch:179 / loss:0.001004 / SRCC:0.9787 / PLCC:0.9843
+[20250224 18:39:53 INFO    ] Starting eval...
+[20250224 18:39:53 INFO    ] Running testing in epoch 179
+[20250224 18:40:11 INFO    ] Epoch:179 ===== loss:0.005239 ===== SRCC:0.9275 ===== PLCC:0.9367
+[20250224 18:40:11 INFO    ] Eval done...
+[20250224 18:40:11 INFO    ] Epoch 179 done. Time: 3.1min
+[20250224 18:40:11 INFO    ] Running training epoch 180
+[20250224 18:42:58 INFO    ] train epoch:180 / loss:0.00165 / SRCC:0.967 / PLCC:0.9741
+[20250224 18:42:58 INFO    ] Starting eval...
+[20250224 18:42:58 INFO    ] Running testing in epoch 180
+[20250224 18:43:16 INFO    ] Epoch:180 ===== loss:0.006263 ===== SRCC:0.9266 ===== PLCC:0.9328
+[20250224 18:43:16 INFO    ] Eval done...
+[20250224 18:43:16 INFO    ] Epoch 180 done. Time: 3.1min
+[20250224 18:43:16 INFO    ] Running training epoch 181
+[20250224 18:46:02 INFO    ] train epoch:181 / loss:0.001187 / SRCC:0.9763 / PLCC:0.9814
+[20250224 18:46:02 INFO    ] Starting eval...
+[20250224 18:46:02 INFO    ] Running testing in epoch 181
+[20250224 18:46:20 INFO    ] Epoch:181 ===== loss:0.005388 ===== SRCC:0.9327 ===== PLCC:0.9392
+[20250224 18:46:20 INFO    ] Eval done...
+[20250224 18:46:20 INFO    ] Epoch 181 done. Time: 3.1min
+[20250224 18:46:20 INFO    ] Running training epoch 182
+[20250224 18:49:06 INFO    ] train epoch:182 / loss:0.0008431 / SRCC:0.9829 / PLCC:0.9868
+[20250224 18:49:06 INFO    ] Starting eval...
+[20250224 18:49:06 INFO    ] Running testing in epoch 182
+[20250224 18:49:24 INFO    ] Epoch:182 ===== loss:0.00342 ===== SRCC:0.9433 ===== PLCC:0.9501
+[20250224 18:49:24 INFO    ] Eval done...
+[20250224 18:49:24 INFO    ] Epoch 182 done. Time: 3.1min
+[20250224 18:49:24 INFO    ] Running training epoch 183
+[20250224 18:52:10 INFO    ] train epoch:183 / loss:0.001238 / SRCC:0.9735 / PLCC:0.9806
+[20250224 18:52:10 INFO    ] Starting eval...
+[20250224 18:52:10 INFO    ] Running testing in epoch 183
+[20250224 18:52:28 INFO    ] Epoch:183 ===== loss:0.004563 ===== SRCC:0.923 ===== PLCC:0.9339
+[20250224 18:52:28 INFO    ] Eval done...
+[20250224 18:52:28 INFO    ] Epoch 183 done. Time: 3.1min
+[20250224 18:52:28 INFO    ] Running training epoch 184
+[20250224 18:55:14 INFO    ] train epoch:184 / loss:0.0009714 / SRCC:0.9793 / PLCC:0.9848
+[20250224 18:55:14 INFO    ] Starting eval...
+[20250224 18:55:14 INFO    ] Running testing in epoch 184
+[20250224 18:55:32 INFO    ] Epoch:184 ===== loss:0.003765 ===== SRCC:0.9391 ===== PLCC:0.9467
+[20250224 18:55:32 INFO    ] Eval done...
+[20250224 18:55:32 INFO    ] Epoch 184 done. Time: 3.1min
+[20250224 18:55:32 INFO    ] Running training epoch 185
+[20250224 18:58:18 INFO    ] train epoch:185 / loss:0.0009802 / SRCC:0.9786 / PLCC:0.9847
+[20250224 18:58:18 INFO    ] Starting eval...
+[20250224 18:58:18 INFO    ] Running testing in epoch 185
+[20250224 18:58:35 INFO    ] Epoch:185 ===== loss:0.004494 ===== SRCC:0.9334 ===== PLCC:0.9421
+[20250224 18:58:35 INFO    ] Eval done...
+[20250224 18:58:35 INFO    ] Epoch 185 done. Time: 3.1min
+[20250224 18:58:35 INFO    ] Running training epoch 186
+[20250224 19:01:21 INFO    ] train epoch:186 / loss:0.0009056 / SRCC:0.9808 / PLCC:0.9859
+[20250224 19:01:21 INFO    ] Starting eval...
+[20250224 19:01:21 INFO    ] Running testing in epoch 186
+[20250224 19:01:39 INFO    ] Epoch:186 ===== loss:0.004929 ===== SRCC:0.9277 ===== PLCC:0.9368
+[20250224 19:01:39 INFO    ] Eval done...
+[20250224 19:01:39 INFO    ] Epoch 186 done. Time: 3.1min
+[20250224 19:01:39 INFO    ] Running training epoch 187
+[20250224 19:04:26 INFO    ] train epoch:187 / loss:0.000929 / SRCC:0.98 / PLCC:0.9855
+[20250224 19:04:26 INFO    ] Starting eval...
+[20250224 19:04:26 INFO    ] Running testing in epoch 187
+[20250224 19:04:44 INFO    ] Epoch:187 ===== loss:0.004342 ===== SRCC:0.9312 ===== PLCC:0.9377
+[20250224 19:04:44 INFO    ] Eval done...
+[20250224 19:04:44 INFO    ] Epoch 187 done. Time: 3.1min
+[20250224 19:04:44 INFO    ] Running training epoch 188
+[20250224 19:07:30 INFO    ] train epoch:188 / loss:0.0009598 / SRCC:0.98 / PLCC:0.985
+[20250224 19:07:30 INFO    ] Starting eval...
+[20250224 19:07:30 INFO    ] Running testing in epoch 188
+[20250224 19:07:48 INFO    ] Epoch:188 ===== loss:0.004443 ===== SRCC:0.9317 ===== PLCC:0.9406
+[20250224 19:07:48 INFO    ] Eval done...
+[20250224 19:07:48 INFO    ] Epoch 188 done. Time: 3.1min
+[20250224 19:07:48 INFO    ] Running training epoch 189
+[20250224 19:10:34 INFO    ] train epoch:189 / loss:0.001281 / SRCC:0.9724 / PLCC:0.9799
+[20250224 19:10:34 INFO    ] Starting eval...
+[20250224 19:10:34 INFO    ] Running testing in epoch 189
+[20250224 19:10:52 INFO    ] Epoch:189 ===== loss:0.004583 ===== SRCC:0.9287 ===== PLCC:0.939
+[20250224 19:10:52 INFO    ] Eval done...
+[20250224 19:10:52 INFO    ] Epoch 189 done. Time: 3.1min
+[20250224 19:10:52 INFO    ] Running training epoch 190
+[20250224 19:13:38 INFO    ] train epoch:190 / loss:0.001051 / SRCC:0.9779 / PLCC:0.9836
+[20250224 19:13:38 INFO    ] Starting eval...
+[20250224 19:13:38 INFO    ] Running testing in epoch 190
+[20250224 19:13:56 INFO    ] Epoch:190 ===== loss:0.005049 ===== SRCC:0.9301 ===== PLCC:0.9378
+[20250224 19:13:56 INFO    ] Eval done...
+[20250224 19:13:56 INFO    ] Epoch 190 done. Time: 3.1min
+[20250224 19:13:56 INFO    ] Running training epoch 191
+[20250224 19:16:42 INFO    ] train epoch:191 / loss:0.001029 / SRCC:0.9779 / PLCC:0.9839
+[20250224 19:16:42 INFO    ] Starting eval...
+[20250224 19:16:42 INFO    ] Running testing in epoch 191
+[20250224 19:17:00 INFO    ] Epoch:191 ===== loss:0.005861 ===== SRCC:0.9193 ===== PLCC:0.9293
+[20250224 19:17:00 INFO    ] Eval done...
+[20250224 19:17:00 INFO    ] Epoch 191 done. Time: 3.1min
+[20250224 19:17:00 INFO    ] Running training epoch 192
+[20250224 19:19:47 INFO    ] train epoch:192 / loss:0.001405 / SRCC:0.9691 / PLCC:0.978
+[20250224 19:19:47 INFO    ] Starting eval...
+[20250224 19:19:47 INFO    ] Running testing in epoch 192
+[20250224 19:20:05 INFO    ] Epoch:192 ===== loss:0.004957 ===== SRCC:0.9359 ===== PLCC:0.9411
+[20250224 19:20:05 INFO    ] Eval done...
+[20250224 19:20:05 INFO    ] Epoch 192 done. Time: 3.1min
+[20250224 19:20:05 INFO    ] Running training epoch 193
+[20250224 19:22:51 INFO    ] train epoch:193 / loss:0.000945 / SRCC:0.9799 / PLCC:0.9852
+[20250224 19:22:51 INFO    ] Starting eval...
+[20250224 19:22:51 INFO    ] Running testing in epoch 193
+[20250224 19:23:09 INFO    ] Epoch:193 ===== loss:0.005037 ===== SRCC:0.9336 ===== PLCC:0.9424
+[20250224 19:23:09 INFO    ] Eval done...
+[20250224 19:23:09 INFO    ] Epoch 193 done. Time: 3.1min
+[20250224 19:23:09 INFO    ] Running training epoch 194
+[20250224 19:25:55 INFO    ] train epoch:194 / loss:0.0009568 / SRCC:0.9796 / PLCC:0.985
+[20250224 19:25:55 INFO    ] Starting eval...
+[20250224 19:25:55 INFO    ] Running testing in epoch 194
+[20250224 19:26:13 INFO    ] Epoch:194 ===== loss:0.004262 ===== SRCC:0.9295 ===== PLCC:0.9391
+[20250224 19:26:13 INFO    ] Eval done...
+[20250224 19:26:13 INFO    ] Epoch 194 done. Time: 3.1min
+[20250224 19:26:13 INFO    ] Running training epoch 195
+[20250224 19:28:59 INFO    ] train epoch:195 / loss:0.0009458 / SRCC:0.98 / PLCC:0.9852
+[20250224 19:28:59 INFO    ] Starting eval...
+[20250224 19:28:59 INFO    ] Running testing in epoch 195
+[20250224 19:29:17 INFO    ] Epoch:195 ===== loss:0.004505 ===== SRCC:0.9234 ===== PLCC:0.9371
+[20250224 19:29:17 INFO    ] Eval done...
+[20250224 19:29:17 INFO    ] Epoch 195 done. Time: 3.1min
+[20250224 19:29:17 INFO    ] Running training epoch 196
+[20250224 19:32:03 INFO    ] train epoch:196 / loss:0.001055 / SRCC:0.9786 / PLCC:0.9835
+[20250224 19:32:03 INFO    ] Starting eval...
+[20250224 19:32:03 INFO    ] Running testing in epoch 196
+[20250224 19:32:21 INFO    ] Epoch:196 ===== loss:0.004924 ===== SRCC:0.9244 ===== PLCC:0.9349
+[20250224 19:32:21 INFO    ] Eval done...
+[20250224 19:32:21 INFO    ] Epoch 196 done. Time: 3.1min
+[20250224 19:32:21 INFO    ] Running training epoch 197
+[20250224 19:35:07 INFO    ] train epoch:197 / loss:0.001096 / SRCC:0.9767 / PLCC:0.9829
+[20250224 19:35:07 INFO    ] Starting eval...
+[20250224 19:35:07 INFO    ] Running testing in epoch 197
+[20250224 19:35:25 INFO    ] Epoch:197 ===== loss:0.003911 ===== SRCC:0.9357 ===== PLCC:0.9426
+[20250224 19:35:25 INFO    ] Eval done...
+[20250224 19:35:25 INFO    ] Epoch 197 done. Time: 3.1min
+[20250224 19:35:25 INFO    ] Running training epoch 198
+[20250224 19:38:11 INFO    ] train epoch:198 / loss:0.00128 / SRCC:0.9732 / PLCC:0.9799
+[20250224 19:38:11 INFO    ] Starting eval...
+[20250224 19:38:11 INFO    ] Running testing in epoch 198
+[20250224 19:38:29 INFO    ] Epoch:198 ===== loss:0.004405 ===== SRCC:0.9319 ===== PLCC:0.9393
+[20250224 19:38:29 INFO    ] Eval done...
+[20250224 19:38:29 INFO    ] Epoch 198 done. Time: 3.1min
+[20250224 19:38:29 INFO    ] Running training epoch 199
+[20250224 19:41:15 INFO    ] train epoch:199 / loss:0.001115 / SRCC:0.9757 / PLCC:0.9826
+[20250224 19:41:15 INFO    ] Starting eval...
+[20250224 19:41:15 INFO    ] Running testing in epoch 199
+[20250224 19:41:33 INFO    ] Epoch:199 ===== loss:0.004859 ===== SRCC:0.9276 ===== PLCC:0.9367
+[20250224 19:41:33 INFO    ] Eval done...
+[20250224 19:41:33 INFO    ] Epoch 199 done. Time: 3.1min
+[20250224 19:41:33 INFO    ] Running training epoch 200
+[20250224 19:44:19 INFO    ] train epoch:200 / loss:0.00107 / SRCC:0.9776 / PLCC:0.9833
+[20250224 19:44:19 INFO    ] Starting eval...
+[20250224 19:44:19 INFO    ] Running testing in epoch 200
+[20250224 19:44:37 INFO    ] Epoch:200 ===== loss:0.005152 ===== SRCC:0.9295 ===== PLCC:0.9382
+[20250224 19:44:37 INFO    ] Eval done...
+[20250224 19:44:37 INFO    ] Epoch 200 done. Time: 3.1min

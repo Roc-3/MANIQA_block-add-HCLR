@@ -3,6 +3,7 @@ import torch
 import numpy as np
 import cv2
 from utils.slic.slic_func import SLIC
+from utils.process import RandCrop
 
 class Kadid10k(torch.utils.data.Dataset):
     def __init__(self, dis_path, txt_file_name, list_name, transform, normalize, keep_ratio):
@@ -29,17 +30,25 @@ class Kadid10k(torch.utils.data.Dataset):
         
         self.data_dict = {'d_img_list': dis_files_data, 'score_list': score_data}
 
-        # # sythetic data setting
-        # self.crop_size = 224
-        # self.rand_crop = RandCrop(self.crop_size)
+        # sythetic data setting
+        self.crop_size = 224
+        self.rand_crop = RandCrop(self.crop_size)
+
         # slic setting
         self.slic_args = {
-            'image_n_nodes': 140,
+            'image_n_nodes': 99,
             'patch_n_nodes': 600,
-            'region_size': 40,
+            'region_size': 45,
             'ruler': 10.0,
             'iterate': 10
         }
+        # self.slic_args = {
+        #     'image_n_nodes': 150,
+        #     'patch_n_nodes': 400,
+        #     'region_size': 35,
+        #     'ruler': 10.0,
+        #     'iterate': 10
+        # } # 设置更多效果反而不好
 
     def normalization(self, data):
         range = np.max(data) - np.min(data)
@@ -52,14 +61,27 @@ class Kadid10k(torch.utils.data.Dataset):
         d_img_name = self.data_dict['d_img_list'][idx]
         d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
     
+        # slic img
+        d_img_slic = np.array(d_img).astype('uint8') # hwc
+        # slic superpixel
+        ############################################
+        save_dir = 'slic_kadid10k'
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, f'{os.path.splitext(d_img_name)[0]}_seg.npy')
+
+        slic_class = SLIC(img=d_img_slic, args=self.slic_args)
+        d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path') 
+        d_img_slic = d_img_slic.astype('float32') / 255 # (image_n_nodes, patch_n_nodes, 3)
+        ############################################
+
         if self.transform:  # random flip
-            d_img = self.transform(d_img)
+            d_img, flipped = self.transform(d_img)
         
-        # # for sythetic dataset
-        # if self.rand_crop:
-        #     d_img = np.transpose(d_img, (2, 0, 1))
-        #     d_img = self.rand_crop(d_img)
-        #     d_img = np.transpose(d_img, (1, 2, 0))
+        # for sythetic dataset
+        if self.rand_crop:
+            d_img = np.transpose(d_img, (2, 0, 1))
+            d_img = self.rand_crop(d_img)
+            d_img = np.transpose(d_img, (1, 2, 0))
 
         # vit img 
         d_img_vit = cv2.resize(d_img, (224, 224), interpolation=cv2.INTER_CUBIC)
@@ -81,19 +103,6 @@ class Kadid10k(torch.utils.data.Dataset):
         d_img_texture = np.transpose(d_img_texture, (2, 0, 1)) # (3, 500, 500)
         # visualize_and_save(d_img_vit, d_img_texture, d_img_name)        
         
-        # slic img
-        d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
-        d_img_slic = np.array(d_img).astype('uint8') # hwc
-        # slic superpixel
-        ############################################
-        save_dir = 'slic_kadid10k'
-        save_path = os.path.join(save_dir, f'{os.path.splitext(d_img_name)[0]}_seg.npy')
-
-        slic_class = SLIC(img=d_img_slic, args=self.slic_args)
-        d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path') 
-        d_img_slic = d_img_slic.astype('float32') / 255 # (image_n_nodes, patch_n_nodes, 3)
-        ############################################
-
         score = self.data_dict['score_list'][idx]
         score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)
     
