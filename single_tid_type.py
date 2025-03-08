@@ -17,7 +17,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from models.maniqa import MANIQA
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 
 def setup_seed(seed):
@@ -136,7 +136,7 @@ if __name__ == '__main__':
     # config file
     config = Config({
         # dataset path
-        "dataset_name": "koniq10k", # kadid10k, koniq10k, livec, tid2013, spaq, csiq
+        "dataset_name": "tid2013", # kadid10k, koniq10k, livec, tid2013, spaq, csiq
 
         # KONIQ-10K
         "koniq10k_path": "../all_dataset/KonIQ-10K/1024x768",
@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
         # tid2013
         "tid2013_path": "../all_dataset/tid2013/distorted_images/",
-        "tid2013_label": "data/tid2013/tid2013_label.txt",
+        "tid2013_label": "data/tid2013/type/type_1.txt",
        
         # KADID-10K
         "kadid10k_path": "../all_dataset/KADID-10K/images/",
@@ -193,10 +193,10 @@ if __name__ == '__main__':
         "scale": 0.8,
         
         # load & save checkpoint
-        "ckpt_path": "./output_koniq10k/models/",               # directory for saving checkpoint
-        "log_path": "./output_koniq10k/log/",
+        "ckpt_path": "./output_tid_type1/models/",               # directory for saving checkpoint
+        "log_path": "./output_tid_type1/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output_koniq10k/"
+        "tensorboard_path": "./output_tid_type1/"
     })
     
     config.log_file = config.dataset_name + ".log"
@@ -217,58 +217,7 @@ if __name__ == '__main__':
 
     writer = SummaryWriter(config.tensorboard_path)
 
-    if config.dataset_name == 'kadid10k':
-        from data.kadid10k.kadid10k import Kadid10k
-        train_name, val_name = split_dataset_kadid10k(
-            txt_file_name=config.kadid10k_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.kadid10k_path
-        dis_val_path = config.kadid10k_path
-        label_train_path = config.kadid10k_label
-        label_val_path = config.kadid10k_label
-        Dataset = Kadid10k
-    elif config.dataset_name == 'pipal':
-        from data.PIPAL22.pipal import PIPAL
-        dis_train_path = config.train_dis_path
-        dis_val_path = config.val_dis_path
-        label_train_path = config.pipal22_train_label
-        label_val_path = config.pipal22_val_txt_label
-        Dataset = PIPAL
-    elif config.dataset_name == 'koniq10k':
-        from data.koniq10k.koniq10k import Koniq10k
-        train_name, val_name = split_dataset_koniq10k(
-            txt_file_name=config.koniq10k_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.koniq10k_path
-        dis_val_path = config.koniq10k_path
-        label_train_path = config.koniq10k_label
-        label_val_path = config.koniq10k_label
-        Dataset = Koniq10k
-    elif config.dataset_name == 'livec':
-        from data.livec.livec import LIVEC
-        train_name, val_name = split_dataset_livec(
-            txt_file_name=config.livec_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.livec_path
-        dis_val_path = config.livec_path
-        label_train_path = config.livec_label
-        label_val_path = config.livec_label
-        Dataset = LIVEC
-    elif config.dataset_name == 'spaq':
-        from data.spaq.spaq import SPAQ
-        train_name, val_name = split_dataset_spaq(
-            txt_file_name=config.spaq_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.spaq_path
-        dis_val_path = config.spaq_path
-        label_train_path = config.spaq_label
-        label_val_path = config.spaq_label
-        Dataset = SPAQ
-    elif config.dataset_name == 'tid2013':
+    if config.dataset_name == 'tid2013':
         from data.tid2013.tid2013 import TID2013
         train_name, val_name = split_dataset_tid2013(
             txt_file_name=config.tid2013_label,
@@ -279,17 +228,6 @@ if __name__ == '__main__':
         label_train_path = config.tid2013_label
         label_val_path = config.tid2013_label
         Dataset = TID2013
-    elif config.dataset_name == 'csiq':
-        from data.CSIQ.csiq import CSIQ
-        train_name, val_name = split_dataset_csiq(
-            txt_file_name=config.csiq_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.csiq_path
-        dis_val_path = config.csiq_path
-        label_train_path = config.csiq_label
-        label_val_path = config.csiq_label
-        Dataset = CSIQ
     else:
         pass
     

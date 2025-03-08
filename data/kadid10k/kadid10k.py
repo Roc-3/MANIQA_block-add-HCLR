@@ -42,13 +42,6 @@ class Kadid10k(torch.utils.data.Dataset):
             'ruler': 10.0,
             'iterate': 10
         }
-        # self.slic_args = {
-        #     'image_n_nodes': 150,
-        #     'patch_n_nodes': 400,
-        #     'region_size': 35,
-        #     'ruler': 10.0,
-        #     'iterate': 10
-        # } # 设置更多效果反而不好
 
     def normalization(self, data):
         range = np.max(data) - np.min(data)

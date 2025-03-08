@@ -37,7 +37,6 @@ class LIVEC(torch.utils.data.Dataset):
         d_img = cv2.imread(os.path.join(self.dis_path, d_img_name), cv2.IMREAD_COLOR)
         if d_img is None:
             raise ValueError("图像加载失败: ", d_img_name)
-
         
         # slic
         d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)

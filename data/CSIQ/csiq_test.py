@@ -1,44 +1,25 @@
 import os
 import torch
 import numpy as np
-import cv2
+import cv2 
+
+from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
+
 from utils.slic.slic_func import SLIC
 
-from utils.process import RandCrop
-
 class CSIQ(torch.utils.data.Dataset):
-    def __init__(self, dis_path, txt_file_name, list_name, transform, normalize, keep_ratio):
+    def __init__(self, dis_path):
         super(CSIQ, self).__init__()
         self.dis_path = dis_path
-        self.txt_file_name = txt_file_name
-        self.transform = transform
-        self.normalize = normalize
+        self.normalize =Normalize(0.5, 0.5)
 
-        dis_files_data, score_data = [], []
-        with open(self.txt_file_name, 'r') as listFile:
-            for line in listFile:
-                dis, score = line.split()
-                dis_name, dis_type, idx_img, _ = dis.split(".")
-                
-                dis_type = dis_type.lower()
+        dis_files_data = []
+        for root, _, files in os.walk(dis_path):
+            for file in files:
+                if file.lower().endswith(('.jpg', '.jpeg', '.bmp', '.png')):
+                    dis_files_data.append(file)
+        self.data_dict = {'d_img_list': dis_files_data}
 
-                if dis_name in list_name:
-                    score = float(score)
-                    d_img_path = os.path.join(self.dis_path, dis_type, dis)
-                    dis_files_data.append(d_img_path)
-                    score_data.append(score)
-
-        # reshape score_list (1xn -> nx1)
-        score_data = np.array(score_data)
-        # score_data = self.normalization(score_data)
-        score_data = list(score_data.astype('float').reshape(-1, 1))
-
-        self.data_dict = {'d_img_list': dis_files_data, 'score_list': score_data}
-        
-        # sythetic data setting
-        self.crop_size = 224
-        self.rand_crop = RandCrop(self.crop_size)
-        
         # slic setting
         self.slic_args = {
             'image_n_nodes': 140,
@@ -48,35 +29,29 @@ class CSIQ(torch.utils.data.Dataset):
             'iterate': 10
         }
 
-    def normalization(self, data):
-        # mean = np.mean(data)
-        # std = np.std(data)
-        # if std == 0:
-        #     print('std=0')
-        #     return np.zeros_like(data)  # 或者返回原数据，视具体需求而定
-        # return (data - mean) / std
-    
-        range = np.max(data) - np.min(data)
-        return (data - np.min(data)) / range
-
     def __len__(self):
         return len(self.data_dict['d_img_list'])
     
     def __getitem__(self, idx):
         d_img_name = self.data_dict['d_img_list'][idx]
         d_img_name = d_img_name.encode('utf-8').decode('utf-8-sig')
+        
+        parts = d_img_name.split('.')
+        distortion_type = parts[1].lower()
 
-        d_img_path = d_img_name
+        d_img_path = os.path.join(self.dis_path, distortion_type, d_img_name)
         d_img = cv2.imread(d_img_path, cv2.IMREAD_COLOR)
-
-        # slic img  
+        if d_img is None:
+            raise ValueError("图像加载失败: ", d_img_name)
+        
+        # slic
         d_img_slic = cv2.resize(d_img, (500, 500), interpolation=cv2.INTER_CUBIC)
         d_img_slic = np.array(d_img_slic).astype('uint8') # hwc
         # slic superpixel
         ############################################
-        save_dir = 'slic_csiq_500'
+        save_dir = 'slic_csiq'
         os.makedirs(save_dir, exist_ok=True)
-
+        
         base_name = os.path.basename(d_img_name)
         file_name = os.path.splitext(base_name)[0]
         save_path = os.path.join(save_dir, f'{file_name}_seg.npy')
@@ -85,16 +60,6 @@ class CSIQ(torch.utils.data.Dataset):
         d_img_slic = slic_class.slic_function(save_path=save_path, visualize_path='visual_path') 
         d_img_slic = d_img_slic.astype('float32') / 255 # (image_n_nodes, patch_n_nodes, 3)
         ############################################
-
-        flipped = False
-        if self.transform:  # random flip
-            d_img, flipped = self.transform(d_img)
-        
-        # for sythetic dataset
-        if self.rand_crop:
-            d_img = np.transpose(d_img, (2, 0, 1))
-            d_img = self.rand_crop(d_img)
-            d_img = np.transpose(d_img, (1, 2, 0))
 
         # vit img 
         d_img_vit = cv2.resize(d_img, (224, 224), interpolation=cv2.INTER_CUBIC)
@@ -115,14 +80,11 @@ class CSIQ(torch.utils.data.Dataset):
         d_img_texture = torch.tensor(d_img_texture, dtype=torch.float32)
         d_img_texture = np.transpose(d_img_texture, (2, 0, 1))
 
-        score = self.data_dict['score_list'][idx]
-        score = torch.from_numpy(np.array(score)).type(torch.FloatTensor)
-    
         sample = {
             'd_img_org': d_img_vit,
             'd_img_texture': d_img_texture,
             'd_img_slic': d_img_slic,
-            'score': score
+            'd_name': d_img_name
         }
 
         return sample

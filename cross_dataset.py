@@ -10,7 +10,6 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 from config import Config
 from utils.process import RandCrop, ToTensor, Normalize, five_point_crop
-from utils.process import split_dataset_kadid10k, split_dataset_koniq10k, split_dataset_livec, split_dataset_tid2013, split_dataset_spaq, split_dataset_csiq
 from utils.process import RandRotation, RandHorizontalFlip
 from scipy.stats import spearmanr, pearsonr
 from torch.utils.tensorboard import SummaryWriter 
@@ -136,7 +135,8 @@ if __name__ == '__main__':
     # config file
     config = Config({
         # dataset path
-        "dataset_name": "koniq10k", # kadid10k, koniq10k, livec, tid2013, spaq, csiq
+        "train_dataset": "livec", # kadid10k, koniq10k, livec, tid2013, spaq, csiq
+        "test_dataset" : "tid2013",
 
         # KONIQ-10K
         "koniq10k_path": "../all_dataset/KonIQ-10K/1024x768",
@@ -193,18 +193,18 @@ if __name__ == '__main__':
         "scale": 0.8,
         
         # load & save checkpoint
-        "ckpt_path": "./output_koniq10k/models/",               # directory for saving checkpoint
-        "log_path": "./output_koniq10k/log/",
+        "ckpt_path": "./output_livec2tid2013/models/",               # directory for saving checkpoint
+        "log_path": "./output_livec2tid2013/log/",
         "log_file": ".log",
-        "tensorboard_path": "./output_koniq10k/"
+        "tensorboard_path": "./output_livec2tid2013/"
     })
     
-    config.log_file = config.dataset_name + ".log"
-    config.tensorboard_path = os.path.join(config.tensorboard_path, config.dataset_name)
+    config.log_file = "cross.log"
+    config.tensorboard_path = os.path.join(config.tensorboard_path, 'cross')
 
-    config.ckpt_path = os.path.join(config.ckpt_path, config.dataset_name)
+    config.ckpt_path = os.path.join(config.ckpt_path, 'cross')
 
-    config.log_path = os.path.join(config.log_path, config.dataset_name)
+    config.log_path = os.path.join(config.log_path, 'cross')
 
     if not os.path.exists(config.ckpt_path):
         os.makedirs(config.ckpt_path)
@@ -217,84 +217,76 @@ if __name__ == '__main__':
 
     writer = SummaryWriter(config.tensorboard_path)
 
-    if config.dataset_name == 'kadid10k':
-        from data.kadid10k.kadid10k import Kadid10k
-        train_name, val_name = split_dataset_kadid10k(
-            txt_file_name=config.kadid10k_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.kadid10k_path
-        dis_val_path = config.kadid10k_path
-        label_train_path = config.kadid10k_label
-        label_val_path = config.kadid10k_label
-        Dataset = Kadid10k
-    elif config.dataset_name == 'pipal':
-        from data.PIPAL22.pipal import PIPAL
-        dis_train_path = config.train_dis_path
-        dis_val_path = config.val_dis_path
-        label_train_path = config.pipal22_train_label
-        label_val_path = config.pipal22_val_txt_label
-        Dataset = PIPAL
-    elif config.dataset_name == 'koniq10k':
-        from data.koniq10k.koniq10k import Koniq10k
-        train_name, val_name = split_dataset_koniq10k(
-            txt_file_name=config.koniq10k_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.koniq10k_path
-        dis_val_path = config.koniq10k_path
-        label_train_path = config.koniq10k_label
-        label_val_path = config.koniq10k_label
-        Dataset = Koniq10k
-    elif config.dataset_name == 'livec':
+    train_name = []
+    val_name = []
+    if config.train_dataset == 'livec':
         from data.livec.livec import LIVEC
-        train_name, val_name = split_dataset_livec(
-            txt_file_name=config.livec_label,
-            split_seed=config.split_seed
-        )
         dis_train_path = config.livec_path
-        dis_val_path = config.livec_path
         label_train_path = config.livec_label
-        label_val_path = config.livec_label
-        Dataset = LIVEC
-    elif config.dataset_name == 'spaq':
-        from data.spaq.spaq import SPAQ
-        train_name, val_name = split_dataset_spaq(
-            txt_file_name=config.spaq_label,
-            split_seed=config.split_seed
-        )
-        dis_train_path = config.spaq_path
-        dis_val_path = config.spaq_path
-        label_train_path = config.spaq_label
-        label_val_path = config.spaq_label
-        Dataset = SPAQ
-    elif config.dataset_name == 'tid2013':
+        with open(label_train_path, 'r') as listFile:
+            for line in listFile:
+                dis, score= line.split()
+                if dis not in train_name:
+                    train_name.append(dis)
+        TrainDataset = LIVEC
+    elif config.train_dataset == 'tid2013':
         from data.tid2013.tid2013 import TID2013
-        train_name, val_name = split_dataset_tid2013(
-            txt_file_name=config.tid2013_label,
-            split_seed=config.split_seed
-        )
         dis_train_path = config.tid2013_path
-        dis_val_path = config.tid2013_path
         label_train_path = config.tid2013_label
-        label_val_path = config.tid2013_label
-        Dataset = TID2013
-    elif config.dataset_name == 'csiq':
+        with open(label_train_path, 'r') as listFile:
+            for line in listFile:
+                score, dis = line.split()
+                if dis[1:3] not in train_name:
+                    train_name.append(dis[1:3])
+        TrainDataset = TID2013
+    elif config.train_dataset == 'csiq':
         from data.CSIQ.csiq import CSIQ
-        train_name, val_name = split_dataset_csiq(
-            txt_file_name=config.csiq_label,
-            split_seed=config.split_seed
-        )
         dis_train_path = config.csiq_path
-        dis_val_path = config.csiq_path
         label_train_path = config.csiq_label
-        label_val_path = config.csiq_label
-        Dataset = CSIQ
+        with open(label_train_path, 'r') as listFile:
+            for line in listFile:
+                dis, score = line.split()
+                if dis not in train_name:
+                    train_name.append(dis)
+        TrainDataset = CSIQ
     else:
-        pass
+        raise ValueError("train error")
+    
+    if config.test_dataset == 'livec':
+        from data.livec.livec import LIVEC
+        dis_val_path = config.livec_path
+        label_val_path = config.livec_label
+        with open(label_val_path, 'r') as listFile:
+            for line in listFile:
+                dis, score = line.split()
+                if dis not in val_name:
+                    val_name.append(dis)
+        TestDataset = LIVEC 
+    elif config.test_dataset == 'tid2013':
+        from data.tid2013.tid2013 import TID2013
+        dis_val_path = config.tid2013_path
+        label_val_path = config.tid2013_label
+        with open(label_val_path, 'r') as listFile:
+            for line in listFile:
+                score, dis = line.split()
+                if dis[1:3] not in val_name:
+                    val_name.append(dis[1:3])
+        TestDataset = TID2013
+    elif config.test_dataset == 'csiq': 
+        from data.CSIQ.csiq import CSIQ
+        dis_val_path = config.csiq_path
+        label_val_path = config.csiq_label
+        with open(label_val_path, 'r') as listFile:
+            for line in listFile:
+                dis, score = line.split()
+                if dis not in val_name:
+                    val_name.append(dis)
+        TestDataset = CSIQ
+    else:
+        raise ValueError("test error")
     
     # data load
-    train_dataset = Dataset(
+    train_dataset = TrainDataset(
         dis_path=dis_train_path,
         txt_file_name=label_train_path,
         list_name=train_name,
@@ -305,25 +297,25 @@ if __name__ == '__main__':
         normalize=Normalize(0.5, 0.5),  # vit
         keep_ratio=config.train_keep_ratio
     )
-    val_dataset = Dataset(
+    val_dataset = TestDataset(
         dis_path=dis_val_path,
         txt_file_name=label_val_path,
         list_name=val_name,
         # transform=transforms.Compose([
         #     RandCrop(patch_size=config.crop_size), 
         # ]),
-        transform = None,
+        transform=None,
         normalize=Normalize(0.5, 0.5),  # vit
         keep_ratio=config.val_keep_ratio
     )
-
+    
     logging.info('number of train scenes: {}'.format(len(train_dataset)))
     logging.info('number of val scenes: {}'.format(len(val_dataset)))
-
+    
     # load the data
     train_loader = DataLoader(dataset=train_dataset, batch_size=config.batch_size,
         num_workers=config.num_workers, drop_last=True, shuffle=True)
-
+    
     val_loader = DataLoader(dataset=val_dataset, batch_size=config.batch_size,
         num_workers=config.num_workers, drop_last=True, shuffle=False)
 
